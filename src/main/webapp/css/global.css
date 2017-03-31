@@ -1,0 +1,246 @@
+#content{min-height: 89%;}
+#trs tr{height: 33px;}
+.controls-row>input,select,a{margin-bottom: 0px;}
+#querytype,#querystadate,#queryenddate,#query,#add,#batch,#upload,#download,#queryname{margin-left:0px;}
+#msg{position: absolute;margin-top: 5px;}
+#msg2{position: absolute;margin-top: 5px;}
+
+.table {table-layout: fixed;font-size: 14px;}
+.table td {text-align: center;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.odd {background-color: #eeeeee;}
+
+#user-nav > ul ul > li > a {
+    text-align: left;
+    width: 180px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.bt {
+	font-weight: 300;
+	margin: 0px 4px 0px 4px;
+	transition: all 0.15s ease 0s;
+	-moz-user-select: none;
+	cursor: pointer;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	font-family: inherit;
+	text-transform: none;
+}
+
+.btlarge {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.428571429;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none
+}
+
+.bt-xs {
+	padding: 1px 5px;
+	border-radius: 3px;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.bt-info {
+	border: 1px solid #5bc0de;
+	color: #5bc0de;
+	background: transparent none repeat scroll 0 0;
+}
+
+.bt-info:hover {
+	background: #5bc0de none repeat scroll 0 0;
+	color: white;
+}
+
+.bt-default {
+	border: 1px solid #bbbbbb;
+	color: #999999;
+	background: transparent none repeat scroll 0 0;
+}
+
+.bt-default:hover {
+	background: #bbbbbb none repeat scroll 0 0;
+	color: white;
+}
+
+.bt-primary {
+	border: 1px solid #007aff;
+	color: #007aff;
+	background: transparent none repeat scroll 0 0;
+}
+
+.bt-primary:hover {
+	background: #007aff none repeat scroll 0 0;
+	color: white;
+}
+
+.bt-success {
+	border: 1px solid #60c560;
+	color: #60c560;
+	background: transparent none repeat scroll 0 0;
+}
+
+.bt-success:hover {
+	background: #60c560 none repeat scroll 0 0;
+	color: white;
+}
+
+.bt-caution {
+	border: 1px solid #f0ad4e;
+	color: #f0ad4e;
+}
+
+.bt-caution:hover {
+	background: #f0ad4e none repeat scroll 0 0;
+	color: white;
+}
+
+.bt-danger {
+	border: 1px solid #d9534f;
+	color: #d9534f;
+}
+
+.bt-danger:hover {
+	background: #d9534f none repeat scroll 0 0;
+	color: white;
+}
+
+.bt-default-bg {
+	border: 1px solid #003366;
+	color: white;
+	background: #003366 none repeat scroll 0 0;
+}
+
+.bt-default-bg:hover {
+	border-color: #003366;
+	background: transparent none repeat scroll 0 0;
+	color: #003366;
+}
+
+.bt-success-bg {
+	border: 1px solid #60c560;
+	color: white;
+	background: #60c560 none repeat scroll 0 0;
+}
+
+.bt-success-bg:hover {
+	background: transparent none repeat scroll 0 0;
+	border-color: #60c560;
+	color: #60c560;
+}
+
+.bt-info-bg {
+	border: 1px solid #46b8da;
+	color: white;
+	background: #5bc0de none repeat scroll 0 0;
+}
+
+.bt-info-bg:hover {
+	background: transparent none repeat scroll 0 0;
+	border-color: #46b8da;
+	color: #46b8da;
+}
+
+.bt-primary-bg {
+	border: 1px solid #007aff;
+	color: white;
+	background: #007aff none repeat scroll 0 0;
+	margin:0 5px;
+}
+
+.bt-primary-bg:hover {
+	background: transparent none repeat scroll 0 0;
+	border-color: #007aff;
+	color: #007aff;
+}
+
+.bt-caution-bg {
+	border: 1px solid #eea236;
+	color: white;
+	background: #f0ad4e none repeat scroll 0 0;
+}
+
+.bt-caution-bg:hover {
+	background: transparent none repeat scroll 0 0;
+	border-color: #f0ad4e;
+	color: #f0ad4e;
+}
+
+.bt-danger-bg {
+	border: 1px solid #d43f3a;
+	color: white;
+	background: #d9534f none repeat scroll 0 0;
+}
+
+.bt-danger-bg:hover {
+	background: transparent none repeat scroll 0 0;
+	border-color: #d9534f;
+	color: #d9534f;
+}
+
+.portlet.box {
+	padding: 0px !important;
+}
+.portlet.blue {
+	background-color: #4b8df8 !important;
+}
+.portlet.red {
+	background-color: #FF2F2F !important;
+}
+.portlet {
+	clear: both;
+	margin-bottom: 25px;
+	margin-top: 25px;
+	padding: 0px;
+}
+.portlet.box.blue {
+	border: 1px solid #b4cef8;
+	border-top: 0;
+}
+.portlet.box.blue > .portlet-title {
+	background-color: #4b8df8;
+}
+.portlet.box > .portlet-title {
+	margin-bottom: 0px;
+}
+.portlet.box > .portlet-title {
+	padding: 8px 10px 2px 10px;
+	color: #fff !important;
+}
+.portlet > .portlet-title > .caption {
+	float: left;
+	display: inline-block;
+	font-size: 18px;
+	line-height: 18px;
+	font-weight: 400;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 8px;
+}
+.portlet > .portlet-title > .caption > i{
+	color: #fff;
+}
+.portlet.box > .portlet-body {
+	background-color: #fff;
+	padding: 10px;
+}
+.portlet > .portlet-body {
+	clear: both;
+	padding: 0;
+}

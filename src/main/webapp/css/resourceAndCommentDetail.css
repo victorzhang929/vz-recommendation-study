@@ -1,0 +1,124 @@
+.portlet {
+    clear: both;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    padding: 0px;
+}
+.portlet > .portlet-title {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.portlet > .portlet-title > .caption {
+    float: left;
+    display: inline-block;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 400;
+    padding: 0;
+    margin: 20px;
+}
+.portlet > .portlet-title > .caption > i {
+    float: left;
+    margin-top: 4px;
+    display: inline-block !important;
+    font-size: 13px;
+    margin-right: 5px;
+    color: #666;
+}
+.portlet > .portlet-body {
+    clear: both;
+    padding: 0;
+}
+.scroller {
+    padding: 0px;
+    margin: 0px;
+    padding-right: 12px;
+    overflow: hidden;
+}
+.chats {
+    margin: 0;
+    padding: 0;
+    margin-top: -15px;
+}
+.chats li {
+    list-style: none;
+    padding: 5px 0;
+    margin: 10px auto;
+    font-size: 12px;
+}
+.chats li.in .message {
+    text-align: left;
+    border-left: 2px solid #35aa47;
+    margin-left: 65px;
+    background: #fafafa;
+}
+.chats li .message {
+    display: block;
+    padding: 5px;
+    position: relative;
+}
+.chats li.in .message .arrow {
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #35aa47;
+}
+.chats li .datetime {
+    color: #333;
+    font-size: 13px;
+    font-weight: 400;
+}
+.chats li .name {
+    color: #3590c1;
+    font-size: 13px;
+    font-weight: 400;
+}
+.chat-form {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e9eff3;
+    overflow: hidden;
+    clear: both;
+}
+.chats li .message .body {
+    display: block;
+}
+.chats li.out .message {
+    border-right: 2px solid #da4a38;
+    margin-right: 65px;
+    background: #fafafa;
+    text-align: right;
+}
+.chat-form .input-cont {
+    margin-right: 40px;
+}
+.chat-form .input-cont .form-control {
+    width: 100% !important;
+    margin-bottom: 0px;
+}
+.chat-form .input-cont input {
+    background-color: #fff !important;
+}
+.chat-form .input-cont input {
+    border: 1px solid #ddd;
+    width: 100% !important;
+    margin-top: 0;
+}
+.chat-form .btn-cont {
+    margin-top: -38px;
+    position: relative;
+    float: right;
+    width: 67px;
+}
+.chat-form .btn-cont .btn {
+    margin-top: 8px;
+}
+.btn.blue {
+    color: white;
+    background-color: #4d90fe;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.victorzhang.cfs.mapper.UserMapper">
+
+    <resultMap id="user" type="com.victorzhang.cfs.domain.User">
+        <id column="id" property="id"/>
+        <result column="role_id" property="role_id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="realname" property="realname"/>
+        <result column="user_idcard" property="user_idcard"/>
+        <result column="user_mobile" property="user_mobile"/>
+        <result column="user_email" property="user_email"/>
+        <result column="random_code" property="random_code"/>
+        <result column="gender" property="gender"/>
+        <result column="tag" property="tag"/>
+        <result column="gmt_create" property="gmt_create"/>
+        <result column="gmt_modify" property="gmt_modify"/>
+    </resultMap>
+
+    <select id="get" resultMap="user" parameterMap="java.util.Map">
+        SELECT id, role_id, realname FROM user
+        WHERE username = #{ username } AND password = #{ password }
+    </select>
+
+</mapper>
