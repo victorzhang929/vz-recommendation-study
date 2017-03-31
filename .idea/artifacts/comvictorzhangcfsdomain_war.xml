@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="comvictorzhangcfsdomain:war">
+    <output-path>$PROJECT_DIR$/comvictorzhangcfsdomain/target</output-path>
+    <root id="archive" name="com.victorzhang.cfs.domain.war">
+      <element id="artifact" artifact-name="comvictorzhangcfsdomain:war exploded" />
+    </root>
+  </artifact>
+</component>
