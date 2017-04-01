@@ -18,7 +18,7 @@
         <result column="gmt_modify" property="gmt_modify"/>
     </resultMap>
 
-    <select id="get" resultMap="user" parameterMap="java.util.Map">
+    <select id="getUserByUsernameAndPassword" resultMap="user" parameterType="java.util.Map">
         SELECT id, role_id, realname FROM user
         WHERE username = #{ username } AND password = #{ password }
     </select>

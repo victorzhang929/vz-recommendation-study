@@ -10,7 +10,7 @@
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring/spring-*.xml</param-value>
+    <param-value>classpath*:spring/spring-*.xml</param-value>
   </context-param>
   <context-param>
     <param-name>log4jConfigLocation</param-name>
@@ -86,6 +86,6 @@
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

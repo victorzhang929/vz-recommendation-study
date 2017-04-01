@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.victorzhang.cfs.mapper.LogMapper">
+
+    <insert id="save" parameterType="com.victorzhang.cfs.domain.Log">
+        INSERT INTO log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                id,
+            </if>
+            <if test="log_type != null and log_type != ''">
+                log_type,
+            </if>
+            <if test="log_content != null and log_content != ''">
+                log_content,
+            </if>
+            <if test="user_id != null and user_id != ''">
+                user_id,
+            </if>
+            <if test="user_date != null and user_date != ''">
+                user_date,
+            </if>
+            <if test="user_ip != null and user_ip != ''">
+                user_ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id},
+            </if>
+            <if test="log_type != null and log_type != ''">
+                #{log_type},
+            </if>
+            <if test="log_content != null and log_content != ''">
+                #{log_content},
+            </if>
+            <if test="user_id != null and user_id != ''">
+                #{user_id},
+            </if>
+            <if test="user_date != null and user_date != ''">
+                #{user_date},
+            </if>
+            <if test="user_ip != null and user_ip != ''">
+                #{user_ip},
+            </if>
+        </trim>
+    </insert>
+    
+</mapper>

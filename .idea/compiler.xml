@@ -10,9 +10,8 @@
         <module name="comvictorzhangcfsdomain" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel target="1.7">
       <module name="cfs" target="1.7" />
-      <module name="comvictorzhangcfsdomain" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

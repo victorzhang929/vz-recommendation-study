@@ -1,10 +1,12 @@
 package com.victorzhang.cfs.controller;
 
-import com.victorzhang.cfs.service.IndexService;
+import com.victorzhang.cfs.domain.User;
+import com.victorzhang.cfs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("index")
 public class IndexController {
     @Autowired
-    @Qualifier("indexService")
-    private IndexService indexService;
+    @Qualifier("userService")
+    private UserService userService;
 
     @Autowired
     private HttpServletRequest request;
+
+    @RequestMapping("login.index")
+    @ResponseBody
+    public User login(String username, String password) {
+        return userService.getUserByUsernameAndPassword(username, password, request);
+    }
 }

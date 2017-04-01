@@ -1,23 +1,22 @@
 package com.victorzhang.cfs.mapper;
 
+import org.springframework.stereotype.Repository;
+
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Definite BaseMapper Class
  * Created by victorzhang on 2017/3/31.
  */
+@Repository
 public interface BaseMapper<T, ID extends Serializable> {
-    void save(T entity);
+    int save(T entity);
 
-    void remove(ID id);
+    int remove(ID id);
 
-    void update(T entity);
+    int removeAll(String... ids);
 
-    List<T> list(Map<String, Object> map);
+    int update(T entity);
 
-    T get(Map<String, Object> map, String... args);
-
-    int count(Map<String, Object> map);
+    T getById(ID id);
 }
