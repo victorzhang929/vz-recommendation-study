@@ -39,7 +39,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public User getUserByUsernameAndPassword(String username, String password, HttpServletRequest request) {
+    public User doLoginByUsernameAndPassword(String username, String password, HttpServletRequest request) throws Exception {
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
             Map<String, Object> map = new HashMap<>();
             map.put("username", username);
@@ -50,7 +50,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             if (user != null) {
                 request.getSession().setAttribute("userId", user.getId());
                 request.getSession().setAttribute("roleId", user.getRole_id());
-                saveLoginOutLog(request, LOGIN_SYSTEM);
+                saveLoginOutLog(request, user.getId(), LOGIN_SYSTEM);
                 logger.info(username + LOGIN_SUCCESS);
                 return user;
             }
@@ -59,15 +59,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         return null;
     }
 
-    private void saveLoginOutLog(HttpServletRequest request, String loginOutMsg) {
-        String userId = CommonUtils.sesAttr(request, "userId");
+    private void saveLoginOutLog(HttpServletRequest request, String userId, String loginOutMsg) throws Exception {
         if (StringUtils.isNotEmpty(userId)) {
-            String agentInfo = request.getHeader("user-agent");
             Log log = new Log();
             log.setId(CommonUtils.newUuid());
             log.setLog_type(loginOutMsg);
-            log.setLog_content(agentInfo);
-            log.setUser_id((String) CommonUtils.getSession(false).getAttribute("userId"));
+            log.setLog_content(request.getHeader("user-agent"));
+            log.setUser_id(userId);
             log.setUser_date(CommonUtils.getDateTime());
             log.setUser_ip(CommonUtils.getIpAddr());
             logService.save(log);

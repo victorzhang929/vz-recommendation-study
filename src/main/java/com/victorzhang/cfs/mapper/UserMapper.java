@@ -7,5 +7,6 @@ import java.util.Map;
 
 @Repository
 public interface UserMapper extends BaseMapper<User, String> {
+
     User getUserByUsernameAndPassword(Map<String, Object> map);
 }

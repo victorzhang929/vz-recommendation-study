@@ -18,7 +18,7 @@ function login(){
         error: function() {
             tipDialog("登录失败，连接错误。请刷新页面重试。");
         },success: function(request){
-            if(request != null && request.userid != undefined){
+            if(request != null && request.id != undefined){
                 $.cookie('realname', request.realname);
                 location.href = path +"/index/forwardMainPage.do";
             }else{

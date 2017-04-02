@@ -10,13 +10,13 @@ import java.io.Serializable;
  */
 @Repository
 public interface BaseMapper<T, ID extends Serializable> {
-    int save(T entity);
+    int save(T entity) throws Exception;
 
-    int remove(ID id);
+    int remove(ID id) throws Exception;
 
-    int removeAll(String... ids);
+    int removeAll(String... ids) throws Exception;
 
-    int update(T entity);
+    int update(T entity) throws Exception;
 
-    T getById(ID id);
+    T getById(ID id) throws Exception;
 }

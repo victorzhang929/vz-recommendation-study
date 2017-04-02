@@ -14,8 +14,7 @@
         <result column="random_code" property="random_code"/>
         <result column="gender" property="gender"/>
         <result column="tag" property="tag"/>
-        <result column="gmt_create" property="gmt_create"/>
-        <result column="gmt_modify" property="gmt_modify"/>
+
     </resultMap>
 
     <select id="getUserByUsernameAndPassword" resultMap="user" parameterType="java.util.Map">

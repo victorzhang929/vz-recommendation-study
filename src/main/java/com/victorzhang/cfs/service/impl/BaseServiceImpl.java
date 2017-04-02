@@ -10,7 +10,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     protected abstract BaseMapper<T, ID> getMapper();
 
     @Override
-    public boolean save(T entity) {
+    public boolean save(T entity) throws Exception {
         boolean flag = false;
         int i = getMapper().save(entity);
         if (i > 0) {
@@ -20,7 +20,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public boolean remove(ID id) {
+    public boolean remove(ID id) throws Exception {
         boolean flag = false;
         int i = getMapper().remove(id);
         if (i > 0) {
@@ -30,7 +30,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public boolean removeAll(String... ids) {
+    public boolean removeAll(String... ids) throws Exception {
         boolean flag = false;
         int i = getMapper().removeAll(ids);
         if (i > 0) {
@@ -40,7 +40,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public boolean update(T entity) {
+    public boolean update(T entity) throws Exception {
         boolean flag = false;
         int i = getMapper().update(entity);
         if (i > 0) {
@@ -50,7 +50,7 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public T getByID(ID id){
+    public T getByID(ID id) throws Exception{
         return getMapper().getById(id);
     }
 

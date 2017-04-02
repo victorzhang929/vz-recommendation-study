@@ -77,6 +77,4 @@
 
     <task:annotation-driven />
 
-    <bean id="exceptionResolver" class="com.victorzhang.cfs.interceptors.ExceptionFilter"/>
-
 </beans>

@@ -24,9 +24,14 @@ public class IndexController {
     @Autowired
     private HttpServletRequest request;
 
-    @RequestMapping("login.index")
+    @RequestMapping("/login.index")
     @ResponseBody
-    public User login(String username, String password) {
-        return userService.getUserByUsernameAndPassword(username, password, request);
+    public User login(String username, String password) throws Exception {
+        return  userService.doLoginByUsernameAndPassword(username, password, request);
+    }
+
+    @RequestMapping("/forwardMainPage.do")
+    public String forwardMainPage(){
+        return "main";
     }
 }

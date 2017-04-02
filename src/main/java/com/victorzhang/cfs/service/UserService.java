@@ -5,5 +5,5 @@ import com.victorzhang.cfs.domain.User;
 import javax.servlet.http.HttpServletRequest;
 
 public interface UserService extends BaseService<User, String>{
-    User getUserByUsernameAndPassword(String username, String password, HttpServletRequest request);
+    User doLoginByUsernameAndPassword(String username, String password, HttpServletRequest request) throws Exception;
 }

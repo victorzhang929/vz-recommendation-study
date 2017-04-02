@@ -1,6 +1,7 @@
 package com.victorzhang.cfs.util;
 
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -8,11 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.victorzhang.cfs.util.Constants.LOGIN_FAILE;
+import static com.victorzhang.cfs.util.Constants.LOGIN_SUCCESS;
+
 /**
  * UserFilter filter userId and roleId
  * Created by victorzhang on 2017/3/31.
  */
 public class UserFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -24,9 +29,9 @@ public class UserFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession(true);
-        if(session.getAttribute("userId") == null || session.getAttribute("roleId") == null){
+        if (session.getAttribute("userId") == null || session.getAttribute("roleId") == null) {
             response.sendRedirect("/cfs/");
-        }else{
+        } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

@@ -13,4 +13,6 @@ public final class Constants {
     public static final String LOGIN_SUCCESS = " 登录成功 ";
     public static final String LOGIN_FAILE = " 登录失败 ";
 
+    public static final String FILE_NOT_FOUND = " 文件不存在 ";
+
 }

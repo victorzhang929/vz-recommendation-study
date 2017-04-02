@@ -1,6 +1,7 @@
 package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.service.UserService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class UserTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
+    @Before
     public void before() {
         request = new MockHttpServletRequest();
         request.setCharacterEncoding("UTF-8");
@@ -31,7 +33,7 @@ public class UserTest {
     }
 
     @Test
-    public void testGetUserByUsernameAndPassword() {
-        userService.getUserByUsernameAndPassword("admin", "1", request);
+    public void testGetUserByUsernameAndPassword() throws Exception {
+        userService.doLoginByUsernameAndPassword("admin", "1", request);
     }
 }
