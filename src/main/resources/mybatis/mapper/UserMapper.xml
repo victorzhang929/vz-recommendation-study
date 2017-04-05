@@ -4,16 +4,18 @@
 
     <resultMap id="user" type="com.victorzhang.cfs.domain.User">
         <id column="id" property="id"/>
-        <result column="role_id" property="role_id"/>
+        <result column="role_id" property="roleId"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="realname" property="realname"/>
-        <result column="user_idcard" property="user_idcard"/>
-        <result column="user_mobile" property="user_mobile"/>
-        <result column="user_email" property="user_email"/>
-        <result column="random_code" property="random_code"/>
+        <result column="user_idcard" property="userIdcard"/>
+        <result column="user_mobile" property="userMobile"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="random_code" property="randomCode"/>
         <result column="gender" property="gender"/>
         <result column="tag" property="tag"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modify" property="gmtModify"/>
 
     </resultMap>
 
@@ -21,5 +23,57 @@
         SELECT id, role_id, realname FROM user
         WHERE username = #{ username } AND password = #{ password }
     </select>
+
+    <select id="getUserByEmail" resultMap="user" parameterType="java.lang.String">
+        SELECT id,username,user_email,random_code FROM user
+        WHERE user_email=#{email}
+    </select>
+
+    <select id="getUserByUsername" resultMap="user" parameterType="java.lang.String">
+        SELECT id,random_code FROM user
+        WHERE username=#{username}
+    </select>
+
+    <update id="update" parameterType="com.victorzhang.cfs.domain.User">
+        UPDATE user SET
+        <trim suffixOverrides=",">
+            <if test="roleId != null and roleId != ''">
+                role_id=#{roleId},
+            </if>
+            <if test="username != null and username != ''">
+                username=#{username}
+            </if>
+            <if test="password != null and password != ''">
+                password=#{password},
+            </if>
+            <if test="realname != null and realname != ''">
+                realname=#{realname},
+            </if>
+            <if test="userIdcard != null and userIdcard != ''">
+                user_idcard=#{userIdcard},
+            </if>
+            <if test="userMobile != null and userMobile != ''">
+                user_mobile=#{userMobile},
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                user_email=#{userEmail},
+            </if>
+            <if test="randomCode != null and randomCode != ''">
+                random_code=#{userIdcard},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender=#{gender},
+            </if>
+            <if test="tag != null and tag != ''">
+                tag=#{tag},
+            </if>
+            <if test="gmtModify != null and gmtModify != ''">
+                gmt_modify=#{gmtModify},
+            </if>
+        </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 
 </mapper>

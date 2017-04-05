@@ -12,4 +12,5 @@ public interface BaseService<T, ID extends Serializable> {
     boolean update(T entity) throws Exception;
 
     T getByID(ID id) throws Exception;
+
 }

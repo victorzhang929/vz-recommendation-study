@@ -8,9 +8,9 @@ import java.io.Serializable;
 public class Log implements Serializable {
 
     private String id;
-    private String log_type;
-    private String log_content;
-    private String user_id;
-    private String user_date;
-    private String user_ip;
+    private String logType;
+    private String logContent;
+    private String userId;
+    private String userDate;
+    private String userIp;
 }

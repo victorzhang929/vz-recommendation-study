@@ -1,8 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-%>
+<%@ include file="homeUrlParam.jsp"%>
 <link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css"/>
 <link rel="stylesheet" href="<%=basePath%>css/bootstrap-responsive.min.css"/>
 <link rel="stylesheet" href="<%=basePath%>css/uniform.css"/>
@@ -31,8 +28,3 @@
 
 <script type="text/javascript" src="<%=basePath%>js/table.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/global.js"></script>
-
-<script type="text/javascript">
-    var basePath = "<%=basePath%>";
-    var path = "<%=path%>";
-</script>

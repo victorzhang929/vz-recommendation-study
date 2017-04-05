@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Index Page Controller
- * Created by victorzhang on 2017/3/31.
- */
 @Controller
 @RequestMapping("index")
 public class IndexController {
@@ -27,11 +23,33 @@ public class IndexController {
     @RequestMapping("/login.index")
     @ResponseBody
     public User login(String username, String password) throws Exception {
-        return  userService.doLoginByUsernameAndPassword(username, password, request);
+        return userService.doLoginByUsernameAndPassword(username, password, request);
     }
 
-    @RequestMapping("/forwardMainPage.do")
-    public String forwardMainPage(){
+    @RequestMapping("/forwardMainUI.do")
+    public String forwardMainUI() throws Exception {
         return "main";
+    }
+
+    @RequestMapping(value = "/sendEmail.index", produces = {"text/javascript;charset=UTF-8"})
+    @ResponseBody
+    public String sendEmail(String email) throws Exception {
+        return userService.doGetUserByEmail(email);
+    }
+
+    @RequestMapping("/forwardGraphicLinkUI.do")
+    public String forwardMainPage() throws Exception {
+        return "graphicLink";
+    }
+
+    @RequestMapping("/forwardResetPasswordUI.index")
+    public String forwardResetPasswordUI() throws Exception {
+        return "resetPassword";
+    }
+
+    @RequestMapping(value = "/doResetPassword.index", produces = {"text/javascript;charset=UTF-8"})
+    @ResponseBody
+    public String doResetPassword(String username, String checkCode, String password, String rePassword) throws Exception{
+        return userService.doResetPassword(username,checkCode,password,rePassword);
     }
 }

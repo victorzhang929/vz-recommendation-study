@@ -12,17 +12,17 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private String id;
-    private String role_id;
+    private String roleId;
     private String username;
     private String password;
     private String realname;
-    private String user_idcard;
-    private String user_mobile;
-    private String user_email;
-    private String random_code;
+    private String userIdcard;
+    private String userMobile;
+    private String userEmail;
+    private String randomCode;
     //false--male and true--female
     private Boolean gender;
     private String tag;
-    private String gmt_create;
-    private String gmt_modify;
+    private String gmtCreate;
+    private String gmtModify;
 }

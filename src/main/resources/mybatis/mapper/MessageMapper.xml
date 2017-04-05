@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.victorzhang.cfs.mapper.MessageMapper">
+
+    <select id="countById" resultType="int" parameterType="java.lang.String">
+        SELECT COUNT(*) FROM message
+        WHERE receive_user_id = #{receiveUserId} AND is_read='0'
+    </select>
+
+    <select id="listById" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT msg_content,id FROM message
+        WHERE receive_user_id = #{receiveUserId} AND is_read='0'
+        ORDER BY send_time DESC LIMIT 0,5
+    </select>
+
+    <update id="doReadMsg" parameterType="java.util.Map">
+        UPDATE message SET
+        is_read = "1", read_time=#{readTime},read_ip=#{readIp}
+        where id = #{id}
+    </update>
+
+</mapper>

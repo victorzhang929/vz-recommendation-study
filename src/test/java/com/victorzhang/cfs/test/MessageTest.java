@@ -1,6 +1,6 @@
 package com.victorzhang.cfs.test;
 
-import com.victorzhang.cfs.service.UserService;
+import com.victorzhang.cfs.service.MessageService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,14 +13,16 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.util.Map;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 @ContextConfiguration(locations = {"classpath:spring/spring-common.xml"})
-public class UserTest {
+public class MessageTest {
 
     @Autowired
-    @Qualifier("userService")
-    private UserService userService;
+    @Qualifier("messageService")
+    private MessageService messageService;
 
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -33,13 +35,11 @@ public class UserTest {
     }
 
     @Test
-    public void testGetUserByUsernameAndPassword() throws Exception {
-        userService.doLoginByUsernameAndPassword("admin", "1", request);
-    }
-
-    @Test
-    public void testDoGetUserByEmail() throws Exception {
-        String email = "victorzhang0929@hotmail.com";
-        userService.doGetUserByEmail(email);
+    public void listUnreadMsg() throws Exception {
+        Map<String, Object> map = messageService.listUnreadMsg(request);
+        for(Map.Entry<String, Object> entry : map.entrySet()){
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+        }
     }
 }

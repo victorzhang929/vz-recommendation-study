@@ -20,7 +20,7 @@ function login(){
         },success: function(request){
             if(request != null && request.id != undefined){
                 $.cookie('realname', request.realname);
-                location.href = path +"/index/forwardMainPage.do";
+                location.href = path +"/index/forwardMainUI.do";
             }else{
                 tipDialog("登录失败，用户名或密码错误");
             }
@@ -28,18 +28,18 @@ function login(){
     });
 }
 
-function sendMail(){
+function sendEmail(){
     tipDialog("正在发送……");
     $.ajax({
         type: "POST",
-        url: path+"/index/sendMail.index",
+        url: path+"/index/sendEmail.index",
         data: {email:$("#email").val()},
-        dataType: "json",
+        dataType: "text",
         error: function() {
             tipDialog("发送邮件失败，请刷新页面重试。");
-        },success: function(request){
-            if(request != null && request.sendMailMsg != undefined){
-                confirmDialog(request.sendMailMsg,basePath);
+        },success: function(sendEmailMsg){
+            if(sendEmailMsg != "" && sendEmailMsg != undefined){
+                confirmDialog(sendEmailMsg,basePath);
             }else{
                 tipDialog("您填写的邮箱地址不存在");
             }

@@ -68,7 +68,7 @@
 
         <div class="form-actions">
             <span class="pull-left"><a class="flip-link btn btn-success" id="to-login"><i class=" icon-chevron-left"></i> 返回登陆页面</a></span>
-            <span class="pull-right"><a class="btn btn-info" onclick="sendMail()">发送邮件</a></span>
+            <span class="pull-right"><a class="btn btn-info" onclick="sendEmail()">发送邮件</a></span>
         </div>
     </form>
 </div>

@@ -18,7 +18,7 @@
         <!-- 给予被嵌套的resultMap以字段-属性的映射支持 -->
         <setting name="autoMappingBehavior" value="FULL" />
         <!-- 对于批量更新操作缓存SQL以提高性能 -->
-         <setting name="defaultExecutorType" value="BATCH" />
+        <!-- <setting name="defaultExecutorType" value="BATCH" />-->
         <!-- 数据库超过25000秒仍未响应则超时 -->
         <setting name="defaultStatementTimeout" value="25000" />
         <setting name="callSettersOnNulls" value="true" />
