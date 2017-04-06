@@ -4,6 +4,8 @@ import com.victorzhang.cfs.mapper.BaseMapper;
 import com.victorzhang.cfs.service.BaseService;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 public abstract class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID> {
 
@@ -50,8 +52,12 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public T getByID(ID id) throws Exception{
+    public T getById(ID id) throws Exception{
         return getMapper().getById(id);
     }
 
+    @Override
+    public Map<String, Object> list() throws Exception {
+        return null;
+    }
 }

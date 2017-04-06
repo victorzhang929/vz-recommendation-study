@@ -10,4 +10,8 @@ public interface UserService extends BaseService<User, String> {
     String doGetUserByEmail(String email) throws Exception;
 
     String doResetPassword(String username, String checkCode, String password, String rePassword) throws Exception;
+
+    String doResetPassword(String oldPassword, String password, String rePassword, HttpServletRequest request) throws Exception;
+
+    void doExit(HttpServletRequest request) throws Exception;
 }

@@ -15,6 +15,9 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.util.List;
+import java.util.Map;
+
 import static com.victorzhang.cfs.util.Constants.FIND_PASSWORD;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,6 +37,8 @@ public class LogTest {
         request = new MockHttpServletRequest();
         request.setCharacterEncoding("UTF-8");
         response = new MockHttpServletResponse();
+        request.getSession().setAttribute("userId","C4CA4238A0B923820DCC509A6F75849B");
+        request.getSession().setAttribute("roleId","DEDD7D0EDED9445083518A35EC5940AB");
     }
 
     @Test
@@ -49,8 +54,18 @@ public class LogTest {
     }
 
     @Test
-    public void testSaveLogByLogTypeAndLogContent() throws Exception{
-        request.getSession().setAttribute("userId","C4CA4238A0B923820DCC509A6F75849B");
+    public void testSaveLogByLogTypeAndLogContent() throws Exception {
         logService.saveLogByLogTypeAndLogContent(FIND_PASSWORD, "victorzhang0929@hotmail.com");
+    }
+
+    @Test
+    public void testListLogType() throws Exception {
+        List<Map<String, Object>> list = logService.listLogType(request);
+        for(Map<String, Object> map : list){
+            for (Map.Entry entry : map.entrySet()){
+                System.out.println(entry.getKey());
+                System.out.println(entry.getValue());
+            }
+        }
     }
 }

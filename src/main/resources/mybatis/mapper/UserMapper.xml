@@ -21,17 +21,30 @@
 
     <select id="getUserByUsernameAndPassword" resultMap="user" parameterType="java.util.Map">
         SELECT id, role_id, realname FROM user
-        WHERE username = #{ username } AND password = #{ password }
+        <where>
+            username = #{username} AND password = #{password}
+        </where>
     </select>
 
     <select id="getUserByEmail" resultMap="user" parameterType="java.lang.String">
         SELECT id,username,user_email,random_code FROM user
-        WHERE user_email=#{email}
+        <where>
+            user_email = #{email}
+        </where>
     </select>
 
     <select id="getUserByUsername" resultMap="user" parameterType="java.lang.String">
         SELECT id,random_code FROM user
-        WHERE username=#{username}
+        <where>
+            username = #{username}
+        </where>
+    </select>
+
+    <select id="getById" resultMap="user" parameterType="java.lang.String">
+        SELECT username FROM user
+        <where>
+            id = #{id}
+        </where>
     </select>
 
     <update id="update" parameterType="com.victorzhang.cfs.domain.User">
@@ -75,5 +88,11 @@
             id = #{id}
         </where>
     </update>
+
+    <select id="doJudgePasswordIsRight" resultType="boolean" parameterType="java.util.Map">
+        SELECT count(*) FROM user
+        WHERE id = #{id}
+        AND password = #{password}
+    </select>
 
 </mapper>

@@ -1,6 +1,8 @@
 package com.victorzhang.cfs.service;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 public interface BaseService<T, ID extends Serializable> {
     boolean save(T entity) throws Exception;
@@ -11,6 +13,8 @@ public interface BaseService<T, ID extends Serializable> {
 
     boolean update(T entity) throws Exception;
 
-    T getByID(ID id) throws Exception;
+    T getById(ID id) throws Exception;
+
+    Map<String, Object> list(Map<String, Object> param) throws Exception;
 
 }

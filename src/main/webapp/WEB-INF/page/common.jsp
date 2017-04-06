@@ -28,3 +28,6 @@
 
 <script type="text/javascript" src="<%=basePath%>js/table.js"></script>
 <script type="text/javascript" src="<%=basePath%>js/global.js"></script>
+
+<script src="<%=basePath%>js/jCookie.js"></script>
+<script src="<%=basePath%>js/page/main.js"></script>

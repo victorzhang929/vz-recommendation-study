@@ -1,5 +1,6 @@
 package com.victorzhang.cfs.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.victorzhang.cfs.domain.Log;
 import com.victorzhang.cfs.mapper.BaseMapper;
 import com.victorzhang.cfs.mapper.LogMapper;
@@ -8,6 +9,10 @@ import com.victorzhang.cfs.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @Service("logService")
 public class LogServiceImpl extends BaseServiceImpl<Log, String> implements LogService {
@@ -38,6 +43,16 @@ public class LogServiceImpl extends BaseServiceImpl<Log, String> implements LogS
     public boolean saveLogByLogTypeAndLogContent(String logType, String logContent) throws Exception {
         String userId = (String) CommonUtils.getSession(false).getAttribute("userId");
         return saveLogByLogTypeAndLogContent(logType, logContent, userId);
+    }
+
+    @Override
+    public List<Map<String, Object>> listLogType(HttpServletRequest request) throws Exception {
+        String userId = null;
+        //if user's role is admin, search all log type
+        if (!StringUtils.equals(CommonUtils.sesAttr(request, "roleId"), "DEDD7D0EDED9445083518A35EC5940AB")) {
+            userId = CommonUtils.sesAttr(request, "userId");
+        }
+        return logMapper.listLogType(userId);
     }
 
 }

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%@ include file="homeUrlParam.jsp"%>
+<%--admin roleId : DEDD7D0EDED9445083518A35EC5940AB --%>
+<%@ include file="homeUrlParam.jsp" %>
 
 <div id="content">
     <div id="box">
@@ -15,64 +15,40 @@
                 <div class="span9">
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
-                            <li class="bg_ly span3"><a href="javascript:void(0);" id="1_g_userInfoUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardUserInfoUI.do')">
-                                <i class="icon-user"></i> 用户信息 </a></li>
-                            <c:if test="${ sessionScope.roleid =='0'}">
-                                <li class="bg_ly span3"><a href="javascript:void(0);" id="1_g_publishNoticeUI"
-                                                           onclick="clickNavMenu(this.id,'<%=basePath%>message/forwardPublishNoticeUI.do')">
-                                    <i class="icon-pencil"></i> 发布公告 </a></li>
+                            <li class="bg_ly span3"> <a href="clickNavMenu(this.id,'<%=basePath%>user/forwardUserInfoUI.do"> <i class="icon-user"></i> 用户信息 </a> </li>
+                            <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                                <li class="bg_ly span3"> <a href="<%=basePath%>message/forwardPublishNoticeUI.do"> <i class="icon-pencil"></i> 发布公告 </a> </li>
                             </c:if>
-                            <li class="bg_ly span3"><a href="javascript:void(0);" id="1_g_noticeBoardUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>message/forwardNoticeBoardUI.do')">
-                                <i class="icon-table"></i> 公告栏</a></li>
+                            <li class="bg_ly span3"> <a href="<%=basePath%>message/forwardNoticeBoardUI.do"> <i class="icon-table"></i> 公告栏 </a> </li>
                         </ul>
                     </div>
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
-                            <li class="bg_ls span3"><a href="javascript:void(0);" id="2_g_userResourceUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardUserResourceUI.do')">
-                                <i class="icon-bar-chart"></i>用户资源</a></li>
-                            <li class="bg_ls span3"><a href="javascript:void(0);" id="2_g_uploadResourceUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardSysResourceUI.do')">
-                                <i class="icon-upload"></i>系统资源</a></li>
-                            <li class="bg_ls span3"><a href="javascript:void(0);" id="2_g_recommendedResourceUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardRecommendedResourceUI.do')">
-                                <i class="icon-magic"></i>个性化推荐</a></li>
+                            <li class="bg_ls span3"> <a href="<%=basePath%>user/forwardUserResourceUI.do"> <i class="icon-bar-chart"></i> 用户资源 </a> </li>
+                            <li class="bg_ls span3"> <a href="<%=basePath%>user/forwardSysResourceUI.do"> <i class="icon-upload"></i> 系统资源 </a> </li>
+                            <li class="bg_ls span3"> <a href="<%=basePath%>user/forwardRecommendedResourceUI.do"> <i class="icon-magic"></i> 个性化推荐 </a> </li>
                         </ul>
                     </div>
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
-                            <li class="bg_ls span3"><a href="javascript:void(0);" id="2_g_commentResourceUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardCommentResourceUI.do')">
-                                <i class="icon-comments"></i>我的评论</a></li>
-                            <c:if test="${ sessionScope.roleid =='0'}">
-                                <li class="bg_ls span3"><a href="javascript:void(0);" id="2_g_verigyResourceUI"
-                                                           onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardVerifyResourceUI.do')">
-                                    <i class="icon-eye-open"></i>资源审核</a></li>
+                            <li class="bg_ls span3"> <a href="<%=basePath%>user/forwardCommentResourceUI.do"> <i class="icon-comments"></i> 我的评论 </a> </li>
+                            <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                                <li class="bg_ls span3"> <a href="<%=basePath%>user/forwardVerifyResourceUI.do"> <i class="icon-eye-open"></i> 资源审核 </a> </li>
                             </c:if>
                         </ul>
                     </div>
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
-                            <li class="bg_lo span3"><a href="javascript:void(0);" id="3_g_userLogUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>log/forwardUserLogUI.do')">
-                                <i class="icon-book"></i>用户日志</a></li>
-                            <c:if test="${ sessionScope.roleid =='0'}">
-                                <li class="bg_lo span3"><a href="javascript:void(0);" id="3_g_syslogUI"
-                                                           onclick="clickNavMenu(this.id,'<%=basePath%>log/forwardSysLogUI.do')"><i
-                                        class="icon-wrench"></i> 系统日志 </a></li>
+                            <li class="bg_lo span3"> <a href="<%=basePath%>log/forwardUserLogUI.do"> <i class="icon-book"></i> 用户日志 </a> </li>
+                            <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                                <li class="bg_lo span3"> <a href="<%=basePath%>log/forwardSystemLogUI.do"> <i class="icon-wrench"></i> 系统日志 </a> </li>
                             </c:if>
                         </ul>
                     </div>
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
-                            <li class="bg_lg span3"><a href="javascript:void(0);" id="4_g_userManagementUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardUserManagementUI.do')">
-                                <i class="icon-bar-chart"></i>用户管理</a></li>
-                            <li class="bg_lg span3"><a href="javascript:void(0);" id="4_g_resourceManagementUI"
-                                                       onclick="clickNavMenu(this.id,'<%=basePath%>user/forwardResourceManagementUI.do')">
-                                <i class="icon-upload"></i>资源管理</a></li>
+                            <li class="bg_lg span3"> <a href="<%=basePath%>user/forwardUserManagementUI.do"> <i class="icon-bar-chart"></i> 用户管理 </a> </li>
+                            <li class="bg_lg span3"> <a href="<%=basePath%>user/forwardResourceManagementUI.do"> <i class="icon-upload"></i> 资源管理 </a> </li>
                         </ul>
                     </div>
                 </div>

@@ -52,4 +52,16 @@ public class IndexController {
     public String doResetPassword(String username, String checkCode, String password, String rePassword) throws Exception{
         return userService.doResetPassword(username,checkCode,password,rePassword);
     }
+
+    @RequestMapping(value = "/doResetPassword.do", produces = {"text/javascript;charset=UTF-8"})
+    @ResponseBody
+    public String doResetPassword(String oldPassword, String password, String rePassword) throws Exception {
+        return userService.doResetPassword(oldPassword, password, rePassword, request);
+    }
+
+    @RequestMapping("redirectExit.do")
+    public String redirectExit() throws Exception{
+        userService.doExit(request);
+        return "../../index";
+    }
 }

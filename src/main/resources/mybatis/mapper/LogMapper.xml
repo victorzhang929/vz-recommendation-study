@@ -7,4 +7,13 @@
         VALUES (#{id},#{logType},#{logContent},#{userId},#{userDate},#{userIp})
     </insert>
 
+    <select id="listLogType" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT DISTINCT(log_type) FROM log
+        <where>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

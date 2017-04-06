@@ -46,7 +46,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             map.put("username", username);
             map.put("password", new MD5Utils().getMD5ofStr(password));
             logger.info(username + TRY_LOGIN);
-
             User user = userMapper.getUserByUsernameAndPassword(map);
             if (user != null) {
                 request.getSession().setAttribute("userId", user.getId());
@@ -55,7 +54,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
                 logger.info(username + LOGIN_SUCCESS);
                 return user;
             }
-            logger.error(user + LOGIN_FAILE);
+            logger.error(user + LOGIN_FAIL);
         }
         return null;
     }
@@ -85,23 +84,65 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         User user = userMapper.getUserByUsername(username);
         String result = CHECK_URL;
         String _checkCode = new MD5Utils().getMD5ofStr(username + ":" + user.getRandomCode());
-
         if (StringUtils.equals(_checkCode, checkCode)) {
-            if (StringUtils.equals(password, rePassword)) {
-                user.setPassword(new MD5Utils().getMD5ofStr(password));
-                user.setGmtModify(CommonUtils.getDateTime());
-                boolean flag = super.update(user);
-                if (!flag) {
-                    throw new SQLException(USER_INFO_UPDATE_ERROR);
-                }
+            result = updateUser(user, password, rePassword);
+        }
+        return result;
+    }
 
-                logger.info(username + DO_RESET_PASSWORD_SUCCESS);
-                result = DO_RESET_PASSWORD_SUCCESS;
+    @Override
+    public String doResetPassword(String oldPassword, String password, String rePassword, HttpServletRequest request) throws Exception {
+         String result ;
+        if (StringUtils.isEmpty(oldPassword)) {
+            result = OLD_PASSWORD_CAN_NOT_EMPTY;
+        } else {
+            String userId = CommonUtils.sesAttr(request, "userId");
+            User user = new User();
+            user.setId(userId);
+            user.setPassword(new MD5Utils().getMD5ofStr(oldPassword));
+            //judge oldPassword is exist
+           if (!doJudgePasswordIsRight(user)) {
+                result = OLD_PASSWORD_IS_NOT_RIGHT;
+                logger.error(OLD_PASSWORD_IS_NOT_RIGHT);
             } else {
-                result = CHECK_TWICE_PASSWORD_IS_SAME;
+                result = updateUser(user, password, rePassword);
             }
         }
         return result;
+    }
+
+    @Override
+    public void doExit(HttpServletRequest request) throws Exception {
+        String userId = CommonUtils.sesAttr(request, "userId");
+        User user = super.getById(userId);
+        logger.info(user.getUsername() + LOGIN_OUT);
+        logService.saveLogByLogTypeAndLogContent(LOGIN_OUT, request.getHeader("user-agent"));
+        request.getSession().removeAttribute("userId");
+        request.getSession().removeAttribute("roleId");
+    }
+
+    private String updateUser(User user, String password, String rePassword) throws Exception {
+        String result;
+        if (StringUtils.isEmpty(password)) {
+            result = NEW_PASSWORD_CAN_NOT_EMPTY;
+        } else if (StringUtils.isEmpty(rePassword)) {
+            result = REPEAT_PASSWORD_CAN_NOT_EMPTY;
+        } else if (!StringUtils.equals(password, rePassword)) {
+            result = CHECK_TWICE_PASSWORD_IS_SAME;
+        } else {
+            user.setPassword(new MD5Utils().getMD5ofStr(password));
+            user.setGmtModify(CommonUtils.getDateTime());
+            if (!super.update(user)) {
+                throw new SQLException(USER_INFO_UPDATE_ERROR);
+            }
+            logService.saveLogByLogTypeAndLogContent(UPDATE, DO_RESET_PASSWORD_SUCCESS, user.getId());
+            result = DO_RESET_PASSWORD_SUCCESS;
+        }
+        return result;
+    }
+
+    private boolean doJudgePasswordIsRight(User user) {
+        return userMapper.doJudgePasswordIsRight(user);
     }
 
 }

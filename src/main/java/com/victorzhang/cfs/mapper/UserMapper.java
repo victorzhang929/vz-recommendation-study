@@ -13,4 +13,6 @@ public interface UserMapper extends BaseMapper<User, String> {
     User getUserByEmail(String email) throws Exception;
 
     User getUserByUsername(String username) throws Exception;
+
+    boolean doJudgePasswordIsRight(User user);
 }
