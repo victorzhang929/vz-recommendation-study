@@ -1,13 +1,14 @@
 $(function () {
     navicatActiveProccess('userLog');
     tableDivPage();
-    p_pageSelect();
     listLogType('queryType');
     load();
 });
 
-function load(pge){
-    if(isNaN(pge)){pge=1;}
+function load(pge) {
+    if (isNaN(pge)) {
+        pge = 1;
+    }
 
     var param = {};
     param._page = pge;
@@ -17,11 +18,11 @@ function load(pge){
     param.endDate = $("#queryEndDate").val();
 
     $.ajax({
-        url: path+"/log/list.do",
-        type : "POST",
-        data : param,
-        dataType : "json",
-        success : function(res) {
+        url: path + "/log/listPaging.do",
+        type: "POST",
+        data: param,
+        dataType: "json",
+        success: function (res) {
             var mainTable = "<table class='table table-bordered table-striped' >"
                 + "<thead><tr>"
                 + "<th style='width:5%'>编号</th>"
@@ -33,14 +34,14 @@ function load(pge){
 
             var datas = res.data;
             if (datas.length > 0) {
-                for ( var i = 0; i < datas.length; i++) {
+                for (var i = 0; i < datas.length; i++) {
                     var data = datas[i];
                     mainTable += "<tr>"
-                        + "<td>"+index(res.page,res.pageSize,i)+"</td>"
-                        + "<td title='"+data.log_type+"'>" + data.log_type + "</td>"
-                        + "<td title='"+data.log_content+"'>" + data.log_content + "</td>"
-                        + "<td title='"+data.user_date+"'>" + data.user_date + "</td>"
-                        + "<td title='"+data.user_ip+"'>" + data.user_ip + "</td>"
+                        + "<td>" + index(res.page, res.pageSize, i) + "</td>"
+                        + "<td title='" + data.log_type + "'>" + data.log_type + "</td>"
+                        + "<td title='" + data.log_content + "'>" + data.log_content + "</td>"
+                        + "<td title='" + data.user_date + "'>" + data.user_date + "</td>"
+                        + "<td title='" + data.user_ip + "'>" + data.user_ip + "</td>"
                         + "</tr>";
                 }
             } else {
@@ -48,12 +49,13 @@ function load(pge){
             }
             mainTable += "</tbody></table>";
             p_countMsg(res.count);
-            p_page(res.page, res.pageSum,res.count);
+            p_page(res.page, res.pageSum, res.count);
             $("#tableDiv").html(mainTable);
+            p_pageSelect();
             t_bs("trs");
-        },beforeSend : function(){
+        }, beforeSend: function () {
             beforeSend();
-        },error : function() {
+        }, error: function () {
             tipDialog("读取失败");
         }
     });

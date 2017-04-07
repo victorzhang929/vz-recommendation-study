@@ -8,7 +8,4 @@ import java.util.Map;
 
 public interface MessageService extends BaseService<Message, String> {
 
-    Map<String,Object> listUnreadMsg(HttpServletRequest request) throws Exception;
-
-    void doReadMsg(String id) throws Exception;
 }

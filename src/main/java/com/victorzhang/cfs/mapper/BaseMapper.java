@@ -1,5 +1,6 @@
 package com.victorzhang.cfs.mapper;
 
+import com.victorzhang.cfs.util.query.GenericQueryParam;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -16,13 +17,16 @@ public interface BaseMapper<T, ID extends Serializable> {
 
     int remove(ID id) throws Exception;
 
-    int removeAll(String... ids) throws Exception;
+    int removeAll(List<String> ids) throws Exception;
 
     int update(T entity) throws Exception;
 
     T getById(ID id) throws Exception;
 
-    int countById(ID id) throws Exception;
+    List<T> list(GenericQueryParam param) throws Exception;
 
-    List<Map<String, Object>> listById(ID id) throws Exception;
+    List<Map<String, Object>> listPaging(GenericQueryParam param) throws Exception;
+
+    int count(GenericQueryParam param) throws Exception;
+
 }

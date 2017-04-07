@@ -16,7 +16,6 @@
         <result column="tag" property="tag"/>
         <result column="gmt_create" property="gmtCreate"/>
         <result column="gmt_modify" property="gmtModify"/>
-
     </resultMap>
 
     <select id="getUserByUsernameAndPassword" resultMap="user" parameterType="java.util.Map">

@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
+import static com.victorzhang.cfs.util.Constants.ADMIN_ROLE_ID;
+import static com.victorzhang.cfs.util.Constants.ROLE_ID;
+import static com.victorzhang.cfs.util.Constants.USER_ID;
+
 @Service("logService")
 public class LogServiceImpl extends BaseServiceImpl<Log, String> implements LogService {
 
@@ -26,6 +30,7 @@ public class LogServiceImpl extends BaseServiceImpl<Log, String> implements LogS
         return logMapper;
     }
 
+    @Override
     public boolean saveLogByLogTypeAndLogContent(String logType, String logContent, String userId) throws Exception {
         Log log = new Log();
 
@@ -41,7 +46,7 @@ public class LogServiceImpl extends BaseServiceImpl<Log, String> implements LogS
 
     @Override
     public boolean saveLogByLogTypeAndLogContent(String logType, String logContent) throws Exception {
-        String userId = (String) CommonUtils.getSession(false).getAttribute("userId");
+        String userId = (String) CommonUtils.getSession(false).getAttribute(USER_ID);
         return saveLogByLogTypeAndLogContent(logType, logContent, userId);
     }
 
@@ -49,8 +54,8 @@ public class LogServiceImpl extends BaseServiceImpl<Log, String> implements LogS
     public List<Map<String, Object>> listLogType(HttpServletRequest request) throws Exception {
         String userId = null;
         //if user's role is admin, search all log type
-        if (!StringUtils.equals(CommonUtils.sesAttr(request, "roleId"), "DEDD7D0EDED9445083518A35EC5940AB")) {
-            userId = CommonUtils.sesAttr(request, "userId");
+        if (!StringUtils.equals(CommonUtils.sesAttr(request, ROLE_ID), ADMIN_ROLE_ID)) {
+            userId = CommonUtils.sesAttr(request, USER_ID);
         }
         return logMapper.listLogType(userId);
     }

@@ -2,21 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.victorzhang.cfs.mapper.MessageMapper">
 
-    <select id="countById" resultType="int" parameterType="java.lang.String">
+    <resultMap id="message" type="com.victorzhang.cfs.domain.Message">
+        <id column="id" property="id"/>
+        <result column="msg_content" property="msgContent"/>
+        <result column="receive_user_id" property="receiveUserId"/>
+        <result column="send_user_id" property="sendUserId"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="send_user_ip" property="sendUserIp"/>
+        <result column="is_read" property="isRead"/>
+        <result column="read_time" property="readTime"/>
+        <result column="read_ip" property="readIp"/>
+    </resultMap>
+
+    <select id="count" resultType="int" parameterType="java.lang.String">
         SELECT COUNT(*) FROM message
-        WHERE receive_user_id = #{receiveUserId} AND is_read='0'
+        WHERE receive_user_id = #{receiveUserId} AND is_read=#{isRead}
     </select>
 
-    <select id="listById" resultType="java.util.Map" parameterType="java.lang.String">
+    <select id="list" resultMap="message" parameterType="java.lang.String">
         SELECT msg_content,id FROM message
-        WHERE receive_user_id = #{receiveUserId} AND is_read='0'
+        <where>
+            receive_user_id = #{receiveUserId} AND is_read=#{isRead}
+        </where>
         ORDER BY send_time DESC LIMIT 0,5
     </select>
 
-    <update id="doReadMsg" parameterType="java.util.Map">
+    <update id="update" parameterType="com.victorzhang.cfs.domain.Message">
         UPDATE message SET
-        is_read = "1", read_time=#{readTime},read_ip=#{readIp}
-        where id = #{id}
+        is_read = #{isRead}, read_time=#{readTime},read_ip=#{readIp}
+        <where>
+            id = #{id}
+        </where>
     </update>
 
 </mapper>

@@ -15,12 +15,12 @@ function initUnreadMsg(msgId, msgNum) {
             var datas = re.data;
             if (datas.length > 0) {
                 for (var i = 0; i < datas.length; i++) {
-                    msg += "<li><a href='javascript:void(0);' title='' onclick=showNews('" + datas[i].id + "','" + datas[i].msg_content + "') ><i class='icon-envelope-alt'></i>" + datas[i].msg_content + "</a></li>";
+                    msg += "<li><a href='javascript:void(0);' title='' onclick=showNews('" + datas[i].id + "','" + datas[i].msgContent + "') ><i class='icon-envelope-alt'></i>" + datas[i].msgContent + "</a></li>";
                 }
             }
             msg += "<li><a href='javascript:void(0);' title='全部消息' onclick=clickNavMenu('this.id','" + path + "/message/forwardAllMsgUI.do') ><i class='icon-bell'></i> 全部消息 >></a></li>";
             $("#" + msgId).html(msg);
-            $("#" + msgNum).html(re.unreadNum);
+            $("#" + msgNum).html(re.count);
         }
     });
 }

@@ -8,19 +8,25 @@ public final class Constants {
 
     private Constants(){}
 
-    public static final String TRY_LOGIN = " 尝试登录 ";
-    public static final String LOGIN_SYSTEM = " 登录系统 ";
-    public static final String LOGIN_SUCCESS = " 登录成功 ";
-    public static final String LOGIN_FAIL = " 登录失败 ";
-    public static final String LOGIN_OUT = " 退出系统 ";
+    public static final String EMPTY_STRING = "";
+    public static final String ROLE_ID = "roleId";
+    public static final String USER_ID = "userId";
+    public static final String ADMIN_ROLE_ID = "DEDD7D0EDED9445083518A35EC5940AB";
+    public static final String UTF_8 = "UTF-8";
 
-    public static final String FILE_NOT_FOUND = " 文件不存在 ";
+    public static final String TRY_LOGIN = "尝试登录";
+    public static final String LOGIN_SYSTEM = "登录系统";
+    public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGIN_FAIL = "登录失败";
+    public static final String LOGIN_OUT = "退出系统";
 
-    public static final String TRY_RESET_PASSWORD = " 尝试修改密码 ";
-    public static final String SEND_EMAIL_MSG = " 您的申请已提交，请查收您的邮箱 ";
-    public static final String SEND_PASSWORD_URL_TO_EMAIL = " 重设密码链接已发送至邮箱 ";
-    public static final String FIND_PASSWORD = " 找回密码 ";
-    public static final String EMAIL_URL_NOT_FIND = " 邮箱不存在 ";
+    public static final String FILE_NOT_FOUND = "文件不存在";
+
+    public static final String TRY_RESET_PASSWORD = "尝试修改密码";
+    public static final String SEND_EMAIL_MSG = "您的申请已提交，请查收您的邮箱";
+    public static final String SEND_PASSWORD_URL_TO_EMAIL = "重设密码链接已发送至邮箱";
+    public static final String FIND_PASSWORD = "找回密码";
+    public static final String EMAIL_URL_NOT_FIND = "邮箱不存在";
     public static final String CHECK_URL = "请确认是否为合法的URL";
     public static final String DO_RESET_PASSWORD_SUCCESS = "修改密码成功";
     public static final String USER_INFO_UPDATE_ERROR = "用户信息更新失败";
@@ -31,6 +37,16 @@ public final class Constants {
     public static final String NEW_PASSWORD_CAN_NOT_EMPTY = "新密码不能为空";
     public static final String REPEAT_PASSWORD_CAN_NOT_EMPTY = "重复密码不能为空";
 
-    public static final String LOG_INSERT_ERROR = " 日志插入错误 ";
+    public static final String LOG_INSERT_ERROR = "日志插入错误";
+
+    public static final String BEGIN = "begin";
+    public static final String PAGE_SIZE = "pageSize";
+    public static final String DATA = "data";
+    public static final String END_DATE = "endDate";
+    public static final String START_DATE = "startDate";
+    public static final String START_DATE_FORMAT = " 00:00:00";
+    public static final String END_DATE_FORMAT = " 23:59:59";
+    public static final String OPERATION_TYPE = "操作类型";
+    public static final String COUNT = "count";
 
 }

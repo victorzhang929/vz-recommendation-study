@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.victorzhang.cfs.util.Constants.COUNT;
+import static com.victorzhang.cfs.util.Constants.DATA;
+import static com.victorzhang.cfs.util.Constants.USER_ID;
+
 @Service("messageService")
 public class MessageServiceImpl extends BaseServiceImpl<Message, String> implements MessageService {
 
@@ -25,21 +29,4 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, String> impleme
         return messageMapper;
     }
 
-    @Override
-    public Map<String, Object> listUnreadMsg(HttpServletRequest request) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        String receiveUserId = CommonUtils.sesAttr(request, "userId");
-        map.put("unreadNum", messageMapper.countById(receiveUserId));
-        map.put("data", CommonUtils.dataNull(messageMapper.listById(receiveUserId)));
-        return map;
-    }
-
-    @Override
-    public void doReadMsg(String id) throws Exception {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
-        map.put("readTime", CommonUtils.getDateTime());
-        map.put("readIp", CommonUtils.getIpAddr());
-        messageMapper.doReadMsg(map);
-    }
 }

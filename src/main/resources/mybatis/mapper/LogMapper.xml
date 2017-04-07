@@ -16,4 +16,45 @@
         </where>
     </select>
 
+    <select id="count" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM log
+        LEFT JOIN user
+        ON log.user_id = user.id
+        <where>
+            <if test="logType != null and logType != ''">
+                AND log.log_type = #{logType}
+            </if>
+            <if test="userId != null and userId != ''">
+                AND log.user_id = #{userId}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND log.user_date >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= log.user_date
+            </if>
+        </where>
+    </select>
+
+    <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT DATE_FORMAT(log.user_date,'%Y-%m-%d %H:%h:%s') AS user_date,log.log_type,log.log_content,log.user_ip,user.username,user.realname
+        FROM log
+        LEFT JOIN user ON
+        log.user_id = user.id
+        <where>
+            <if test="logType != null and logType != ''">
+                AND log.log_type = #{logType}
+            </if>
+            <if test="userId != null and userId != ''">
+                AND log.user_id = #{userId}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND log.user_date >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= log.user_date
+            </if>
+        </where>
+        ORDER BY log.user_date DESC LIMIT ${begin},${pageSize}
+    </select>
 </mapper>

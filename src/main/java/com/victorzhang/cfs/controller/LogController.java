@@ -1,6 +1,9 @@
 package com.victorzhang.cfs.controller;
 
+import com.victorzhang.cfs.domain.Log;
 import com.victorzhang.cfs.service.LogService;
+import com.victorzhang.cfs.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+
+import static com.victorzhang.cfs.util.Constants.*;
 
 @Controller
 @RequestMapping("log")
@@ -38,9 +43,15 @@ public class LogController {
         return logService.listLogType(request);
     }
 
-    @RequestMapping("list.do")
+    @RequestMapping("listPaging.do")
     @ResponseBody
-    public List<Map<String, Object>> list(String _page,String _pageSize,String logType,String startDate,String endDate) throws Exception {
-        return logService.list(request);
+    public Map<String, Object> listPaging(String _page, String _pageSize, String logType, String startDate, String endDate) throws Exception {
+        Log log = new Log();
+        if (StringUtils.equals(OPERATION_TYPE, logType)) {
+            logType = EMPTY_STRING;
+        }
+        log.setLogType(logType);
+        log.setUserId(CommonUtils.sesAttr(request, USER_ID));
+        return logService.listPaging(log, _page, _pageSize, startDate, endDate);
     }
 }

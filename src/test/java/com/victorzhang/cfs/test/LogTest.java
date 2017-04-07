@@ -2,7 +2,6 @@ package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.domain.Log;
 import com.victorzhang.cfs.service.LogService;
-import com.victorzhang.cfs.util.CommonUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import java.util.List;
 import java.util.Map;
 
-import static com.victorzhang.cfs.util.Constants.FIND_PASSWORD;
+import static com.victorzhang.cfs.util.Constants.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
@@ -35,10 +34,10 @@ public class LogTest {
     @Before
     public void before() {
         request = new MockHttpServletRequest();
-        request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding(UTF_8);
         response = new MockHttpServletResponse();
-        request.getSession().setAttribute("userId","C4CA4238A0B923820DCC509A6F75849B");
-        request.getSession().setAttribute("roleId","DEDD7D0EDED9445083518A35EC5940AB");
+        request.getSession().setAttribute(USER_ID, "C4CA4238A0B923820DCC509A6F75849B");
+        request.getSession().setAttribute(ROLE_ID, ADMIN_ROLE_ID);
     }
 
     @Test
@@ -61,11 +60,24 @@ public class LogTest {
     @Test
     public void testListLogType() throws Exception {
         List<Map<String, Object>> list = logService.listLogType(request);
-        for(Map<String, Object> map : list){
-            for (Map.Entry entry : map.entrySet()){
+        for (Map<String, Object> map : list) {
+            for (Map.Entry entry : map.entrySet()) {
                 System.out.println(entry.getKey());
                 System.out.println(entry.getValue());
             }
+        }
+    }
+
+    @Test
+    public void testListPaging() throws Exception {
+        Log log = new Log();
+        log.setLogType(LOGIN_SYSTEM);
+        String page = "0";
+        String pageSize = "10";
+        Map<String, Object> map = logService.listPaging(log, page, pageSize, null, null);
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
         }
     }
 }

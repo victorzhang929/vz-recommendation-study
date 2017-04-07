@@ -7,5 +7,4 @@ import java.util.Map;
 
 @Repository
 public interface MessageMapper extends BaseMapper<Message, String> {
-    void doReadMsg(Map<String, Object> map);
 }
