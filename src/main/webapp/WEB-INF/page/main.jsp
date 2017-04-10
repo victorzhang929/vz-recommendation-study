@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--admin roleId : DEDD7D0EDED9445083518A35EC5940AB --%>
 
 <html>
 <head>
@@ -7,46 +8,110 @@
     <title>学习资源个性化推荐系统</title>
     <script>
         $(function () {
-            navicatActiveProccess('graphicLink');
+            navicatActiveProccess('main');
         })
     </script>
 </head>
 
 <c:import url="head.jsp"/>
-<c:import url="/index/forwardGraphicLinkUI.do"/>
-<%@ include file="foot.jsp" %>
+<div id="content">
+    <div id="box">
+        <div id="content-header">
+            <div id="breadcrumb">
+                <a href="#" title="首页" class="tip-bottom"> <i class="icon-th"></i> 快速导航 </a>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span9">
+                    <div class="quick-actions_homepage">
+                        <ul class="quick-actions">
+                            <li class="bg_ly span3"><a href="<%=basePath%>user/forwardUserInfoUI.do"> <i class="icon-user"></i> 用户信息 </a></li>
+                            <li class="bg_ly span3"><a href="<%=basePath%>message/forwardUserMessageUI.do"> <i class="icon-bell"></i> 用户消息 </a></li>
+                        </ul>
+                    </div>
+                    <div class="quick-actions_homepage">
+                        <ul class="quick-actions">
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardUserResourceUI.do"> <i class="icon-bar-chart"></i> 用户资源 </a></li>
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardSystemResourceUI.do"> <i class="icon-barcode"></i> 系统资源 </a></li>
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardBrowseResourceUI.do"> <i class="icon-share"></i> 资源浏览记录 </a></li>
+                        </ul>
+                    </div>
+                    <div class="quick-actions_homepage">
+                        <ul class="quick-actions">
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardDownloadResourceUI.do"> <i class="icon-download-alt"></i> 资源下载记录 </a></li>
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardRecommendedResourceUI.do"> <i class="icon-magic"></i> 个性化推荐 </a></li>
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardCommentResourceUI.do"> <i class="icon-comments"></i> 我的评论 </a></li>
+                        </ul>
+                    </div>
+                    <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                        <div class="quick-actions_homepage">
+                            <ul class="quick-actions">
+                                <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardVerifyResourceUI.do"> <i class="icon-eye-open"></i> 资源审核 </a></li>
+                            </ul>
+                        </div>
+                    </c:if>
+                    <div class="quick-actions_homepage">
+                        <ul class="quick-actions">
+                            <li class="bg_lo span3"><a href="<%=basePath%>log/forwardUserLogUI.do"> <i class="icon-bookmark"></i> 用户日志 </a></li>
+                            <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                                <li class="bg_lo span3"><a href="<%=basePath%>log/forwardSystemLogUI.do"> <i class="icon-book"></i> 系统日志 </a></li>
+                            </c:if>
+                        </ul>
+                    </div>
+                    <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                        <div class="quick-actions_homepage">
+                            <ul class="quick-actions">
+                                <li class="bg_lg span3"><a href="<%=basePath%>manage/forwardUserManagementUI.do"> <i class="icon-group"></i> 用户管理 </a></li>
+                                <li class="bg_lg span3"><a href="<%=basePath%>manage/forwardResourceManagementUI.do"> <i class="icon-globe"></i> 资源管理 </a></li>
+                            </ul>
+                        </div>
+                    </c:if>
+                </div>
+                <div class="span3">
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-reorder"></i>最新学习资源</div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="display: block;">
+                            <ol>
+                                <li>教育技术学导论</li>
+                                <li>计算机网络</li>
+                                <li>数据结构</li>
+                                <li>美国名校励志演讲</li>
+                                <li>2017年英语四级模拟真题</li>
+                                <li>2017年英语六级模拟真题</li>
+                                <li>考研政治肖秀荣四套题</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="portlet box red">
+                        <div class="portlet-title">
+                            <div class="caption"><i class="icon-reorder"></i>热门资源</div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="display: block;">
+                            <ol>
+                                <li>教育技术学导论</li>
+                                <li>2017年英语四级模拟真题</li>
+                                <li>2017年英语六级模拟真题</li>
+                                <li>考研政治肖秀荣四套题</li>
+                                <li>考研英语模拟真题</li>
+                                <li>C语言程序设计</li>
+                                <li>易中天中华史</li>
+                            </ol>
+                        </div>
+                    </div>
 
-<%--update user password dialog--%>
-<div id="modalDiv" class="modal hide">
-    <div class="modal-header">
-        <button data-dismiss="modal" class="close" type="button">×</button>
-        <h3>修改密码</h3>
-    </div>
-    <div class="modal-body">
-        <form class="form-horizontal" method="post" name="basic_validate">
-            <div class="control-group">
-                <label class="control-label">原密码:</label>
-                <div class="controls">
-                    <input id="oldPassword" type="password" name="oldPassword" style="height:28px;"/>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">新密码:</label>
-                <div class="controls">
-                    <input id="password" type="password" name="password" style="height:28px;"/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">重复密码:</label>
-                <div class="controls">
-                    <input id="rePassword" type="password" name="rePassword" style="height:28px;"/>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <div id='msg'></div>
-        <a data-dismiss="modal" class="btn" href="javascript:void(0);"> <i class="icon-remove"></i>取消</a>
-        <a class="btn btn-success" href="javascript:void(0);" onclick="changePassword()"> <i class="icon-ok"></i>确定</a>
+        </div>
     </div>
 </div>
+
+<%@ include file="foot.jsp" %>

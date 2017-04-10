@@ -18,7 +18,7 @@ function initUnreadMsg(msgId, msgNum) {
                     msg += "<li><a href='javascript:void(0);' title='' onclick=showNews('" + datas[i].id + "','" + datas[i].msgContent + "') ><i class='icon-envelope-alt'></i>" + datas[i].msgContent + "</a></li>";
                 }
             }
-            msg += "<li><a href='javascript:void(0);' title='全部消息' onclick=clickNavMenu('this.id','" + path + "/message/forwardAllMsgUI.do') ><i class='icon-bell'></i> 全部消息 >></a></li>";
+            msg += "<li><a href= '" + path + "/message/forwardAllMsgUI.do' title='全部消息'><i class='icon-bell'></i> 全部消息 >></a></li>";
             $("#" + msgId).html(msg);
             $("#" + msgNum).html(re.count);
         }
@@ -46,11 +46,23 @@ function showNews(id, msg_content) {
                 }
             });
         }
-    }).show();
+    }).showModal();
 }
 
 function exit() {
-    confirmCancelDialog("确定退出系统吗？", basePath + "index/redirectExit.do");
+    dialog({
+        title: '提示',
+        content: '确定退出系统吗?',
+        okValue: '确定',
+        ok: function () {
+            this.title('提交中…');
+            $.cookie("realname", null);
+            location.href = basePath + "index/redirectExit.do";
+        },
+        cancelValue: '取消',
+        cancel: function () {
+        }
+    }).showModal();
 }
 
 function changePasswordUI() {
@@ -99,4 +111,31 @@ function changePassword() {
             }
         }
     });
+}
+
+function publishNotice() {
+    dialog({
+        title: '发布公告',
+        width: 320,
+        fixed: true,
+        content: "<textarea id = 'publicNoticeContent'></textarea>",
+        okValue: '确定',
+        ok: function () {
+            this.title('提交中…');
+            $.ajax({
+                type: "POST",
+                url: path + "/message/publicNotice.do",
+                data: {msgContent: $("#publicNoticeContent").val()},
+                error: function () {
+                    tipDialog("提交失败，连接错误。请刷新页面重试。");
+                }, success: function () {
+                    tipDialog("发布成功");
+                    initUnreadMsg('myMsgUnread', 'unreadSum');
+                }
+            });
+        },
+        cancelValue: '取消',
+        cancel: function () {
+        }
+    }).showModal();
 }

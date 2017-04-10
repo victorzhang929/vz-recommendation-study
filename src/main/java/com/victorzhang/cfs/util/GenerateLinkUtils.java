@@ -15,6 +15,6 @@ public class GenerateLinkUtils {
     public static String generateCheckcode(User user) {
         String username = user.getUsername();
         String randomCode = user.getRandomCode();
-        return new MD5Utils().getMD5ofStr(username + ":" + randomCode);
+        return new MD5Utils().getMD5ofStr(username + randomCode);
     }
 }

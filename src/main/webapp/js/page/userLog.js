@@ -2,6 +2,7 @@ $(function () {
     navicatActiveProccess('userLog');
     tableDivPage();
     listLogType('queryType');
+    p_pageSelect();
     load();
 });
 
@@ -51,7 +52,6 @@ function load(pge) {
             p_countMsg(res.count);
             p_page(res.page, res.pageSum, res.count);
             $("#tableDiv").html(mainTable);
-            p_pageSelect();
             t_bs("trs");
         }, beforeSend: function () {
             beforeSend();

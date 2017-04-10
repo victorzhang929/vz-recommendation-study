@@ -18,29 +18,25 @@
         <result column="gmt_modify" property="gmtModify"/>
     </resultMap>
 
-    <select id="getUserByUsernameAndPassword" resultMap="user" parameterType="java.util.Map">
-        SELECT id, role_id, realname FROM user
+    <select id="get" resultMap="user" parameterType="com.victorzhang.cfs.domain.User">
+        SELECT id, role_id, username, realname, user_email, random_code FROM user
         <where>
-            username = #{username} AND password = #{password}
+            <if test="username != null and username != ''">
+                AND username = #{username}
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                AND user_email = #{userEmail}
+            </if>
+            <if test="password != null and password != ''">
+                AND password = #{password}
+            </if>
         </where>
     </select>
 
-    <select id="getUserByEmail" resultMap="user" parameterType="java.lang.String">
-        SELECT id,username,user_email,random_code FROM user
-        <where>
-            user_email = #{email}
-        </where>
-    </select>
-
-    <select id="getUserByUsername" resultMap="user" parameterType="java.lang.String">
-        SELECT id,random_code FROM user
-        <where>
-            username = #{username}
-        </where>
-    </select>
 
     <select id="getById" resultMap="user" parameterType="java.lang.String">
-        SELECT username FROM user
+        SELECT username
+        FROM user
         <where>
             id = #{id}
         </where>
@@ -53,7 +49,7 @@
                 role_id=#{roleId},
             </if>
             <if test="username != null and username != ''">
-                username=#{username}
+                username=#{username},
             </if>
             <if test="password != null and password != ''">
                 password=#{password},
@@ -92,6 +88,65 @@
         SELECT count(*) FROM user
         WHERE id = #{id}
         AND password = #{password}
+    </select>
+
+    <select id="list" resultMap="user">
+        SELECT id FROM user
+    </select>
+
+    <select id="getUserInfo" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT
+        user.username,user.realname,user.user_idcard,user.user_mobile,user.user_email,role.rolename,user.gender,user.tag
+        FROM user
+        LEFT JOIN role
+        ON role.id = user.role_id
+        where user.id = #{userId}
+    </select>
+
+    <select id="listUserType" resultType="java.util.Map">
+        SELECT rolename FROM role
+    </select>
+
+    <select id="count" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM user
+        LEFT JOIN role
+        ON role.id = user.role_id
+        <where>
+            <if test="username != null and username != ''">
+                AND user.username = #{username}
+            </if>
+            <if test="rolename != null and rolename != ''">
+                AND role.rolename = #{rolename}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND user.gmt_create >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= user.gmt_create
+            </if>
+        </where>
+    </select>
+
+    <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT user.id, user.username, user.realname, role.rolename, user.user_mobile
+        FROM user
+        LEFT JOIN role
+        ON role.id = user.role_id
+        <where>
+            <if test="username != null and username != ''">
+                AND user.username = #{username}
+            </if>
+            <if test="rolename != null and rolename != ''">
+                AND role.rolename = #{rolename}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND user.gmt_create >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= user.gmt_create
+            </if>
+        </where>
+        ORDER BY user.gmt_create DESC LIMIT ${begin},${pageSize}
     </select>
 
 </mapper>

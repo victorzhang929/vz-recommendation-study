@@ -30,9 +30,9 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public boolean remove(ID id) throws Exception {
+    public boolean save(List<T> entities) throws Exception {
         boolean flag = false;
-        int i = getMapper().remove(id);
+        int i = getMapper().save(entities);
         if (i > 0) {
             flag = true;
         }
@@ -40,9 +40,9 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
-    public boolean removeAll(List<String> ids) throws Exception {
+    public boolean remove(ID id) throws Exception {
         boolean flag = false;
-        int i = getMapper().removeAll(ids);
+        int i = getMapper().remove(id);
         if (i > 0) {
             flag = true;
         }
@@ -60,6 +60,11 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
+    public T get(T entity) throws Exception {
+        return getMapper().get(entity);
+    }
+
+    @Override
     public T getById(ID id) throws Exception {
         return getMapper().getById(id);
     }
@@ -69,16 +74,27 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
         GenericQueryParam param = new GenericQueryParam();
         BuildQueryParam.buildParam(entity, param);
         List<T> data = getMapper().list(param);
-        if(data.isEmpty() || data.size() == 0){
+        if (data.isEmpty() || data.size() == 0) {
             data = new ArrayList<>();
         }
         return data;
     }
 
     @Override
-    public Map<String, Object> listPaging(T entity, String page, String pageSize, String startDate, String endDate) throws Exception {
+    public List<T> list() throws Exception {
+        List<T> data = getMapper().list();
+        if (data.isEmpty() || data.size() == 0) {
+            data = new ArrayList<>();
+        }
+        return data;
+    }
+
+    @Override
+    public Map<String, Object> listPaging(T entity, String page, String pageSize, String startDate, String endDate, GenericQueryParam param) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        GenericQueryParam param = new GenericQueryParam();
+        if(param == null){
+            param = new GenericQueryParam();
+        }
         BuildQueryParam.buildParam(entity, param);
         if (StringUtils.isNotEmpty(startDate)) {
             startDate += START_DATE_FORMAT;

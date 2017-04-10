@@ -1,3 +1,22 @@
+var activeEl = null;
+function enterProccess(id) {
+    activeEl = document.activeElement;
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && (e.keyCode == 13) && document.activeElement == activeEl) {
+            setTimeout(function () {
+                document.getElementById(id).click();
+            }, 50);
+        }
+    };
+}
+
+function navicatActiveProccess(id) {
+    $("#user-nav li").removeClass("active");
+    $("#sidebar ul li").removeClass("active");
+    $('#'+ id).parent().addClass("active").parent().parent().addClass("open");
+}
+
 function tipDialog(message) {
     var d = dialog({
         content: message
@@ -45,32 +64,13 @@ function confirmCancelDialog(message, url) {
     d.showModal();
 }
 
-var activeEl = null;
-function enterProccess(id) {
-    activeEl = document.activeElement;
-    document.onkeydown = function (event) {
-        var e = event || window.event || arguments.callee.caller.arguments[0];
-        if (e && (e.keyCode == 13) && document.activeElement == activeEl) {
-            setTimeout(function () {
-                document.getElementById(id).click();
-            }, 50);
-        }
-    };
-}
-
-function navicatActiveProccess(id) {
-    $("#user-nav li").removeClass("active");
-    $("#sidebar ul li").removeClass("active");
-    $('#'+ id).parent().addClass("active").parent().parent().addClass("open");
-}
-
 function listLogType(id){
     $.ajax({
         url: path+"/log/listLogType.do",
         type : "POST",
         dataType : "json",
         success : function(res) {
-            var mes = "<option>操作类型</option>";
+            var mes = "<option value=''>操作类型</option>";
             if (res!= null) {
                 for(var i = 0; i < res.length; i++){
                     mes = mes + "<option value="+res[i].log_type+">"+res[i].log_type+"</option>";
@@ -81,4 +81,8 @@ function listLogType(id){
             tipDialog("读取失败");
         }
     });
+}
+
+function getById(id){
+
 }

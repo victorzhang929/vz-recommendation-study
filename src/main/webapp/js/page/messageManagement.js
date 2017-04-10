@@ -1,7 +1,6 @@
 $(function () {
-    navicatActiveProccess('systemLog');
+    navicatActiveProccess('messageManagement');
     tableDivPage();
-    listLogType('queryType');
     p_pageSelect();
     load();
 });
@@ -14,25 +13,23 @@ function load(pge) {
     var param = {};
     param._page = pge;
     param._pageSize = $("#p_pageSelect_id").val();
-    param.logType = $("#queryType").val();
+    param.username = $("#username").val();
+    param.rolename = $("#queryType").val();
     param.startDate = $("#queryStartDate").val();
     param.endDate = $("#queryEndDate").val();
 
     $.ajax({
-        url: path + "/log/listPaging.do",
+        url: path + "/user/listPaging.do",
         type: "POST",
         data: param,
         dataType: "json",
         success: function (res) {
             var mainTable = "<table class='table table-bordered table-striped' >"
                 + "<thead><tr>"
-                + "<th style='width:5%'>编号</th>"
-                + "<th style='width:8%'>操作类型</th>"
-                + "<th style='width:8%'>用户名</th>"
-                + "<th style='width:8%'>真实姓名</th>"
-                + "<th style='width:51%'>操作说明</th>"
-                + "<th style='width:10%'>操作日期</th>"
-                + "<th style='width:10%'>IP地址</th>"
+                + "<th style='width:10%'>编号</th>"
+                + "<th style='width:20%'>用户名</th>"
+                + "<th style='width:20%'>真实姓名</th>"
+                + "<th style='width:50%'>消息内容</th>"
                 + "</tr></thead>" + "<tbody id='trs'>";
 
             var datas = res.data;
@@ -41,16 +38,13 @@ function load(pge) {
                     var data = datas[i];
                     mainTable += "<tr>"
                         + "<td>" + index(res.page, res.pageSize, i) + "</td>"
-                        + "<td title='" + data.log_type + "'>" + data.log_type + "</td>"
                         + "<td title='" + data.username + "'>" + data.username + "</td>"
                         + "<td title='" + data.realname + "'>" + data.realname + "</td>"
-                        + "<td title='" + data.log_content + "'>" + data.log_content + "</td>"
-                        + "<td title='" + data.user_date + "'>" + data.user_date + "</td>"
-                        + "<td title='" + data.user_ip + "'>" + data.user_ip + "</td>"
+                        + "<td title='" + data.rolename + "'>" + data.rolename + "</td>"
                         + "</tr>";
                 }
             } else {
-                mainTable += "<tr><td colspan='7'>暂无数据!</td></tr>";
+                mainTable += "<tr><td colspan='4'>暂无数据!</td></tr>";
             }
             mainTable += "</tbody></table>";
             p_countMsg(res.count);

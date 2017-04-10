@@ -21,8 +21,31 @@ public class User implements Serializable {
     private String userEmail;
     private String randomCode;
     //false--male and true--female
-    private Boolean gender;
+    private String gender;
     private String tag;
     private String gmtCreate;
     private String gmtModify;
+
+    public User(){}
+
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String userEmail){
+        this.userEmail = userEmail;
+    }
+
+    public User(String id, String username, String realname, String userMobile, String userIdCard, String userEmail, String gender, String tag, String  gmtModify) {
+        this.id = id;
+        this.username = username;
+        this.realname = realname;
+        this.userMobile = userMobile;
+        this.userIdcard = userIdCard;
+        this.userEmail = userEmail;
+        this.gender = gender;
+        this.tag = tag;
+        this.gmtModify = gmtModify;
+    }
 }

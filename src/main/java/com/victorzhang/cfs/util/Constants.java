@@ -30,12 +30,18 @@ public final class Constants {
     public static final String CHECK_URL = "请确认是否为合法的URL";
     public static final String DO_RESET_PASSWORD_SUCCESS = "修改密码成功";
     public static final String USER_INFO_UPDATE_ERROR = "用户信息更新失败";
+    public static final String USER_INFO_UPDATE_SUCCESS = "用户信息更新成功";
     public static final String CHECK_TWICE_PASSWORD_IS_SAME = "请确认两次密码是否一致";
     public static final String UPDATE = "更新";
     public static final String OLD_PASSWORD_CAN_NOT_EMPTY = "原密码不能为空";
     public static final String OLD_PASSWORD_IS_NOT_RIGHT = "原密码输入不正确";
     public static final String NEW_PASSWORD_CAN_NOT_EMPTY = "新密码不能为空";
     public static final String REPEAT_PASSWORD_CAN_NOT_EMPTY = "重复密码不能为空";
+    public static final String USERNAME_CAN_NOT_EMPTY = "用户名不能为空";
+    public static final String REAL_NAME_CAN_NOT_EMPTY = "真实姓名不能为空";
+    public static final String PLEASE_INPUT_RIGHT_PHONE_NUMBER = "请输入正确的手机号";
+    public static final String PLEASE_INPUT_RIGHT_ID_CARD = "请输入正确的身份证号";
+    public static final String PLEASE_INPUT_RIGHT_EMAIL = "请输入正确的邮箱地址";
 
     public static final String LOG_INSERT_ERROR = "日志插入错误";
 
@@ -46,7 +52,7 @@ public final class Constants {
     public static final String START_DATE = "startDate";
     public static final String START_DATE_FORMAT = " 00:00:00";
     public static final String END_DATE_FORMAT = " 23:59:59";
-    public static final String OPERATION_TYPE = "操作类型";
     public static final String COUNT = "count";
 
+    public static final String USER_TYPE = "用户类型";
 }

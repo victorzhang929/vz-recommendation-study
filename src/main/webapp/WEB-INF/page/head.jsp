@@ -24,8 +24,10 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a href="#modalDiv" data-toggle='modal' onclick="changePasswordUI()"><i class="icon-pencil"></i>修改密码</a></li>
-                <li class="divider"></li>
-                <li><a title="注销登陆当前账户" href="javascript:void(0);" onclick="exit()"><i class="icon-signout"></i>注销</a></li>
+                <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                    <li class="divider"></li>
+                    <li><a href="javascript:void(0);" onclick="publishNotice()"><i class="icon-bullhorn"></i>发布消息</a></li>
+                </c:if>
             </ul>
         </li>
         <li><a title="退出" href="javascript:void(0);" onclick="exit()"><i class="icon-off"></i> 退出</a></li>
@@ -38,28 +40,27 @@
         <li class="submenu" id='ul0Parent'>
             <a href="javascript:void(0);"><i class="icon-home"></i> <span>快速导航</span><i class="icon-chevron-right"></i></a>
             <ul id="ul0">
-                <li><a href="<%= basePath %>index/forwardMainUI.do" id="graphicLink">快速导航</a></li>
+                <li><a href="<%= basePath %>index/forwardMainUI.do" id="main">快速导航</a></li>
             </ul>
         </li>
         <li class="submenu" id='ul1Parent'>
             <a href="javascript:void(0);"> <i class="icon-cogs"></i> <span>个人中心</span> <i class="icon-chevron-right"></i> </a>
             <ul id="ul1">
                 <li><a href="<%= basePath %>user/forwardUserInfoUI.do" id="userInfo">用户信息</a></li>
-                <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
-                    <li><a href="<%= basePath %>message/forwardPublishNoticeUI.do" id="publishNotice">发布公告</a></li>
-                </c:if>
-                <li><a href="<%= basePath %>message/forwardNoticeBoardUI.do" id="noticeBoard">公告栏</a></li>
+                <li><a href="<%= basePath %>message/forwardUserMessageUI.do" id="userMessage">用户消息</a></li>
             </ul>
         </li>
         <li class="submenu" id='ul2Parent'>
-            <a href="javascript:void(0);"><i class="icon-envelope"></i> <span>资源中心</span><i class="icon-chevron-right"></i></a>
+            <a href="javascript:void(0);"><i class="icon-shopping-cart"></i> <span>资源中心</span><i class="icon-chevron-right"></i></a>
             <ul id="ul2">
-                <li><a href="<%= basePath %>user/forwardUserResourceUI.do" id="userResource">用户资源</a></li>
-                <li><a href="<%= basePath %>user/forwardSysResourceUI.do" id="uploadResource">系统资源</a></li>
-                <li><a href="<%= basePath %>user/forwardRecommendedResourceUI.do" id="recommendedResource">个性化推荐</a></li>
-                <li><a href="<%= basePath %>user/forwardCommentResourceUI.do" id="commentResource">我的评论</a></li>
+                <li><a href="<%= basePath %>resource/forwardUserResourceUI.do" id="userResource">用户资源</a></li>
+                <li><a href="<%= basePath %>resource/forwardSystemResourceUI.do" id="uploadResource">系统资源</a></li>
+                <li><a href="<%= basePath %>resource/forwardBrowseResourceUI.do" id="browseResource">资源浏览记录</a></li>
+                <li><a href="<%= basePath %>resource/forwardDownloadResourceUI.do" id="downloadResource">资源下载记录</a></li>
+                <li><a href="<%= basePath %>resource/forwardRecommendedResourceUI.do" id="recommendedResource">个性化推荐</a></li>
+                <li><a href="<%= basePath %>resource/forwardCommentResourceUI.do" id="commentResource">我的评论</a></li>
                 <c:if test="${ sessionScope.roleId =='DEDDPath7D0EDED9445083518A35EC5940AB'}">
-                    <li><a href="<%= basePath %>user/forwardVerifyResourceUI.do" id="verigyResource">资源审核</a></li>
+                    <li><a href="<%= basePath %>resource/forwardVerifyResourceUI.do" id="verigyResource">资源审核</a></li>
                 </c:if>
             </ul>
         </li>
@@ -74,14 +75,13 @@
         </li>
         <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
             <li class="submenu" id='ul4Parent'>
-                <a href="javascript:void(0);"><i class="icon-list"></i> <span>管理中心</span><i class="icon-chevron-right"></i></a>
+                <a href="javascript:void(0);"><i class="icon-wrench"></i> <span>管理中心</span><i class="icon-chevron-right"></i></a>
                 <ul id="ul4">
-                    <li><a href="<%= basePath %>log/forwardUserManagementUI.do" id="userManagement">用户管理</a></li>
-                    <li><a href="<%= basePath %>log/forwardResourceManagementUI.do" id="resourceManagement">资源管理</a>
+                    <li><a href="<%= basePath %>manage/forwardUserManagementUI.do" id="userManagement">用户管理</a></li>
+                    <li><a href="<%= basePath %>manage/forwardResourceManagementUI.do" id="resourceManagement">资源管理</a>
                     </li>
                 </ul>
             </li>
         </c:if>
     </ul>
 </div>
-

@@ -7,6 +7,21 @@ import java.io.Serializable;
 @Data
 public class Message implements Serializable {
 
+    public Message() {
+    }
+
+    public Message(String receiveUserId, String isRead) {
+        this.receiveUserId = receiveUserId;
+        this.isRead = isRead;
+    }
+
+    public Message(String id, String readTime, String readIp, String isRead) {
+        this.id = id;
+        this.readTime = readTime;
+        this.readIp = readIp;
+        this.isRead = isRead;
+    }
+
     private String id;
     private String msgContent;
     private String receiveUserId;

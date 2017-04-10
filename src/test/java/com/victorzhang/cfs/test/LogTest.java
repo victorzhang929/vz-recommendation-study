@@ -74,7 +74,7 @@ public class LogTest {
         log.setLogType(LOGIN_SYSTEM);
         String page = "0";
         String pageSize = "10";
-        Map<String, Object> map = logService.listPaging(log, page, pageSize, null, null);
+        Map<String, Object> map = logService.listPaging(log, page, pageSize, null, null, null);
         for (Map.Entry entry : map.entrySet()) {
             System.out.println(entry.getKey());
             System.out.println(entry.getValue());

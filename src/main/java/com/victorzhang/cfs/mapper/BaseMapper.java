@@ -15,18 +15,21 @@ import java.util.Map;
 public interface BaseMapper<T, ID extends Serializable> {
     int save(T entity) throws Exception;
 
+    int save(List<T> entities) throws Exception;
+
     int remove(ID id) throws Exception;
 
-    int removeAll(List<String> ids) throws Exception;
-
     int update(T entity) throws Exception;
+
+    T get(T entity) throws Exception;
 
     T getById(ID id) throws Exception;
 
     List<T> list(GenericQueryParam param) throws Exception;
 
+    List<T> list() throws Exception;
+
     List<Map<String, Object>> listPaging(GenericQueryParam param) throws Exception;
 
     int count(GenericQueryParam param) throws Exception;
-
 }

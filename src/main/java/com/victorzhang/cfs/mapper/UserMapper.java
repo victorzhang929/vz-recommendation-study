@@ -3,16 +3,14 @@ package com.victorzhang.cfs.mapper;
 import com.victorzhang.cfs.domain.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
 public interface UserMapper extends BaseMapper<User, String> {
+    boolean doJudgePasswordIsRight(User user) throws Exception;
 
-    User getUserByUsernameAndPassword(Map<String, Object> map) throws Exception;
+    Map<String,Object> getUserInfo(String userId) throws Exception;
 
-    User getUserByEmail(String email) throws Exception;
-
-    User getUserByUsername(String username) throws Exception;
-
-    boolean doJudgePasswordIsRight(User user);
+    List<Map<String,Object>> listUserType() throws Exception;
 }

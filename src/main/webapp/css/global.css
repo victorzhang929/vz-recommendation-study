@@ -1,7 +1,8 @@
 #content{min-height: 92%;}
 #trs tr{height: 33px;}
 .controls-row>input,select,a{margin-bottom: 0px;}
-#queryType,#queryStartDate,#queryEndDate,#query,#add,#batch,#upload,#download,#queryName{margin-left:0px;}
+textarea{width: 100%}
+#queryType,#queryStartDate,#queryEndDate,#query,#add,#addBatch,#removeBatch,#upload,#download,#queryName,#queryVerifyType{margin-left:0px;}
 #msg{position: absolute;margin-top: 5px;}
 #msg2{position: absolute;margin-top: 5px;}
 

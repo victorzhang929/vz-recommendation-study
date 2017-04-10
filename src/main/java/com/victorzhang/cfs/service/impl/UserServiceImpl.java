@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.victorzhang.cfs.util.Constants.*;
@@ -25,6 +25,7 @@ import static com.victorzhang.cfs.util.Constants.*;
 @Service("userService")
 public class UserServiceImpl extends BaseServiceImpl<User, String> implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final String USER_AGENT = "user-agent";
 
     @Autowired
     @Qualifier("userMapper")
@@ -42,15 +43,13 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Override
     public User doLoginByUsernameAndPassword(String username, String password, HttpServletRequest request) throws Exception {
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(password)) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("username", username);
-            map.put("password", new MD5Utils().getMD5ofStr(password));
+            User userObj = new User(username, new MD5Utils().getMD5ofStr(password));
             logger.info(username + TRY_LOGIN);
-            User user = userMapper.getUserByUsernameAndPassword(map);
+            User user = userMapper.get(userObj);
             if (user != null) {
-                request.getSession().setAttribute("userId", user.getId());
-                request.getSession().setAttribute("roleId", user.getRoleId());
-                logService.saveLogByLogTypeAndLogContent(LOGIN_SYSTEM, request.getHeader("user-agent"));
+                request.getSession().setAttribute(USER_ID, user.getId());
+                request.getSession().setAttribute(ROLE_ID, user.getRoleId());
+                logService.saveLogByLogTypeAndLogContent(LOGIN_SYSTEM, request.getHeader(USER_AGENT));
                 logger.info(username + LOGIN_SUCCESS);
                 return user;
             }
@@ -60,30 +59,32 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public String doGetUserByEmail(String email) throws Exception {
-        if (StringUtils.isNotEmpty(email)) {
-            logger.info(email + TRY_RESET_PASSWORD);
-            User user = userMapper.getUserByEmail(email);
+    public String doGetUserByEmail(String userEmail) throws Exception {
+        if (StringUtils.isNotEmpty(userEmail)) {
+            logger.info(userEmail + TRY_RESET_PASSWORD);
+            User user = userMapper.get(new User(userEmail));
             if (user != null) {
                 EmailUtils.sendResetPasswordEmail(user);
-                logger.info(email + SEND_PASSWORD_URL_TO_EMAIL);
-                boolean flag = logService.saveLogByLogTypeAndLogContent(FIND_PASSWORD, email, user.getId());
+                logger.info(userEmail + SEND_PASSWORD_URL_TO_EMAIL);
+                boolean flag = logService.saveLogByLogTypeAndLogContent(FIND_PASSWORD, userEmail, user.getId());
                 if (!flag) {
                     logger.error(LOG_INSERT_ERROR);
                     return null;
                 }
                 return SEND_EMAIL_MSG;
             }
-            logger.warn(email + EMAIL_URL_NOT_FIND);
+            logger.warn(userEmail + EMAIL_URL_NOT_FIND);
         }
         return null;
     }
 
     @Override
     public String doResetPassword(String username, String checkCode, String password, String rePassword) throws Exception {
-        User user = userMapper.getUserByUsername(username);
+        User userObj = new User();
+        userObj.setUsername(username);
+        User user = userMapper.get(userObj);
         String result = CHECK_URL;
-        String _checkCode = new MD5Utils().getMD5ofStr(username + ":" + user.getRandomCode());
+        String _checkCode = new MD5Utils().getMD5ofStr(username + user.getRandomCode());
         if (StringUtils.equals(_checkCode, checkCode)) {
             result = updateUser(user, password, rePassword);
         }
@@ -96,12 +97,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         if (StringUtils.isEmpty(oldPassword)) {
             result = OLD_PASSWORD_CAN_NOT_EMPTY;
         } else {
-            String userId = CommonUtils.sesAttr(request, "userId");
+            String userId = CommonUtils.sesAttr(request, USER_ID);
             User user = new User();
             user.setId(userId);
             user.setPassword(new MD5Utils().getMD5ofStr(oldPassword));
             //judge oldPassword is exist
-           if (!doJudgePasswordIsRight(user)) {
+           if (!userMapper.doJudgePasswordIsRight(user)) {
                 result = OLD_PASSWORD_IS_NOT_RIGHT;
                 logger.error(OLD_PASSWORD_IS_NOT_RIGHT);
             } else {
@@ -113,12 +114,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
 
     @Override
     public void doExit(HttpServletRequest request) throws Exception {
-        String userId = CommonUtils.sesAttr(request, "userId");
+        String userId = CommonUtils.sesAttr(request, USER_ID);
         User user = super.getById(userId);
         logger.info(user.getUsername() + LOGIN_OUT);
-        logService.saveLogByLogTypeAndLogContent(LOGIN_OUT, request.getHeader("user-agent"));
-        request.getSession().removeAttribute("userId");
-        request.getSession().removeAttribute("roleId");
+        logService.saveLogByLogTypeAndLogContent(LOGIN_OUT, request.getHeader(USER_AGENT));
+        request.getSession().removeAttribute(USER_ID);
+        request.getSession().removeAttribute(ROLE_ID);
+    }
+
+    @Override
+    public Map<String, Object> getByUserInfo(String userId) throws Exception {
+        return userMapper.getUserInfo(userId);
+    }
+
+    @Override
+    public List<Map<String, Object>> listUserType() throws Exception {
+        return userMapper.listUserType();
     }
 
     private String updateUser(User user, String password, String rePassword) throws Exception {
@@ -141,8 +152,5 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         return result;
     }
 
-    private boolean doJudgePasswordIsRight(User user) {
-        return userMapper.doJudgePasswordIsRight(user);
-    }
 
 }

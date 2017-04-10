@@ -14,11 +14,6 @@
         <result column="read_ip" property="readIp"/>
     </resultMap>
 
-    <select id="count" resultType="int" parameterType="java.lang.String">
-        SELECT COUNT(*) FROM message
-        WHERE receive_user_id = #{receiveUserId} AND is_read=#{isRead}
-    </select>
-
     <select id="list" resultMap="message" parameterType="java.lang.String">
         SELECT msg_content,id FROM message
         <where>
@@ -35,4 +30,54 @@
         </where>
     </update>
 
+    <insert id="save" parameterType="java.util.List">
+        INSERT INTO message
+        (id, msg_content, receive_user_id, send_user_id, send_time, send_user_ip, is_read)
+        VALUES
+        <foreach collection="list" item="msg" separator=",">
+            (#{msg.id}, #{msg.msgContent}, #{msg.receiveUserId}, #{msg.sendUserId}, #{msg.sendTime}, #{msg.sendUserIp}, #{msg.isRead})
+        </foreach>
+    </insert>
+
+    <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT DATE_FORMAT(msg.send_time,'%Y-%m-%d %H:%h:%s') AS send_time,msg.msg_content,msg.send_user_ip,user.realname
+        FROM message msg
+        LEFT JOIN user ON
+        msg.receive_user_id = user.id
+        <where>
+            <if test="receiveUserId != null and receiveUserId != ''">
+                AND msg.receive_user_id = #{receiveUserId}
+            </if>
+            <if test="isRead != null and isRead != ''">
+                AND msg.is_read = #{isRead}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND msg.send_time >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= msg.send_time
+            </if>
+        </where>
+        ORDER BY msg.send_user_id,msg.read_time DESC LIMIT ${begin},${pageSize}
+    </select>
+
+    <select id="count" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM message msg
+        LEFT JOIN user
+        ON msg.receive_user_id = user.id
+        <where>
+            <if test="receiveUserId != null and receiveUserId != ''">
+                AND msg.receive_user_id = #{receiveUserId}
+            </if>
+            <if test="isRead != null and isRead != ''">
+                AND msg.is_read = #{isRead}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND msg.send_time >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= msg.send_time
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -47,11 +47,8 @@ public class LogController {
     @ResponseBody
     public Map<String, Object> listPaging(String _page, String _pageSize, String logType, String startDate, String endDate) throws Exception {
         Log log = new Log();
-        if (StringUtils.equals(OPERATION_TYPE, logType)) {
-            logType = EMPTY_STRING;
-        }
         log.setLogType(logType);
         log.setUserId(CommonUtils.sesAttr(request, USER_ID));
-        return logService.listPaging(log, _page, _pageSize, startDate, endDate);
+        return logService.listPaging(log, _page, _pageSize, startDate, endDate, null);
     }
 }

@@ -12,7 +12,7 @@
 <div id="content">
     <div id="content-header">
         <div id="breadcrumb">
-            <a href="javascript:void(0);" title="日志中心" class="tip-bottom"> <i class="icon-cogs"></i> 日志中心
+            <a href="javascript:void(0);" title="日志中心" class="tip-bottom"> <i class="icon-list"></i> 日志中心
             </a> <a href="javascript:void(0);" title="系统日志" class="tip-right"> 系统日志 </a>
         </div>
     </div>
