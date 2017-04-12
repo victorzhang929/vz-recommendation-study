@@ -30,4 +30,5 @@
 <script type="text/javascript" src="<%=basePath%>js/global.js"></script>
 
 <script src="<%=basePath%>js/jCookie.js"></script>
+<script src="<%=basePath%>js/jquery.form.js"></script>
 <script src="<%=basePath%>js/page/head.js"></script>

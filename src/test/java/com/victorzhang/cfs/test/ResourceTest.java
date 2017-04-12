@@ -1,8 +1,8 @@
 package com.victorzhang.cfs.test;
 
-import com.victorzhang.cfs.domain.User;
+import com.victorzhang.cfs.domain.Resource;
+import com.victorzhang.cfs.service.ResourceService;
 import com.victorzhang.cfs.service.UserService;
-import com.victorzhang.cfs.util.CommonUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,16 +15,19 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import java.util.List;
+import java.util.Map;
+
+import static com.victorzhang.cfs.util.Constants.USER_ID;
+import static com.victorzhang.cfs.util.Constants.UTF_8;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 @ContextConfiguration(locations = {"classpath:spring/spring-common.xml"})
-public class UserTest {
+public class ResourceTest {
 
     @Autowired
-    @Qualifier("userService")
-    private UserService userService;
+    @Qualifier("resourceService")
+    private ResourceService resourceService;
 
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -32,32 +35,19 @@ public class UserTest {
     @Before
     public void before() {
         request = new MockHttpServletRequest();
-        request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding(UTF_8);
         response = new MockHttpServletResponse();
+        request.getSession().setAttribute(USER_ID, "C4CA4238A0B923820DCC509A6F75849B");
     }
 
     @Test
-    public void testGetUserByUsernameAndPassword() throws Exception {
-        userService.doLoginByUsernameAndPassword("admin", "1", request);
-    }
-
-    @Test
-    public void testDoGetUserByEmail() throws Exception {
-        String email = "victorzhang0929@hotmail.com";
-        userService.doGetUserByEmail(email);
-    }
-
-    @Test
-    public void testList() throws Exception {
-        List<User> users = userService.list();
-        for (User user : users) {
-            System.out.println(user.getId());
+    public void testListPaging() throws Exception{
+        Resource resource = new Resource();
+        Map<String, Object> map = resourceService.listPaging(resource, "1", "1", "", "", null);
+        for(Map.Entry entry: map.entrySet()){
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
         }
-    }
 
-    @Test
-    public void testUUID(){
-        String uuid = CommonUtils.newUuid();
-        System.out.println(uuid);
     }
 }

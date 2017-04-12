@@ -8,7 +8,7 @@
     <script src="<%=basePath%>js/page/userResource.js"></script>
 </head>
 
-<c:import url="head.jsp" />
+<c:import url="head.jsp"/>
 <div id="content">
     <div id="content-header">
         <div id="breadcrumb">
@@ -23,26 +23,27 @@
                 <div class="widget-box">
                     <div class="widget-content nopadding">
                         <div class="controls controls-row">
-                            <input type="text" id="username" class="span2 m-wrap" placeholder="资源名称">
-                            <select id="queryVerifyType" class="span2 m-wrap select2-container select2-container-active select2-dropdown-open">
+                            <input type="text" id="queryName" class="span2 m-wrap" placeholder="资源名称">
+                            <select id="queryType" class="span2 m-wrap select2-container select2-container-active select2-dropdown-open">
                                 <option value="">资源类型</option>
                                 <option value="3">视频</option>
                                 <option value="2">音频</option>
                                 <option value="1">文档</option>
                                 <option value="0">图片</option>
                             </select>
-                            <select id="queryType" class="span2 m-wrap select2-container select2-container-active select2-dropdown-open">
+                            <select id="queryVerifyType" class="span2 m-wrap select2-container select2-container-active select2-dropdown-open">
                                 <option value="">审核状态</option>
-                                <option value="2">正在审核</option>
+                                <option value="2">审核不通过</option>
                                 <option value="1">审核通过</option>
-                                <option value="0">审核不通过</option>
+                                <option value="0">正在审核</option>
                             </select>
                             <input type="text" id="queryStartDate" class="span2 m-wrap" placeholder="开始日期"
                                    onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'queryEndDate\')||\'2099-12-31\'}'})">
                             <input type="text" id="queryEndDate" class="span2 m-wrap" placeholder="结束日期"
                                    onfocus="WdatePicker({minDate:'#F{$dp.$D(\'queryStartDate\')}',maxDate:'2099-12-31'})">
-                            <button type="submit" id="query" class="span1 btn btn-success" onclick="load()"> <i class="icon-search"></i> 查询 </button>
-                            <button id="upload" href="#uploadModal" data-toggle='modal' class="span1 btn btn-primary"><i class="icon-upload"></i>上传</button>
+                            <button type="submit" id="query" class="span1 btn btn-success" onclick="load()"><i class="icon-search"></i> 查询</button>
+                            <button id="upload" href="#uploadModal" data-toggle='modal' class="span1 btn btn-primary" onclick="uploadResourceUI()"><i class="icon-upload"></i>上传
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -65,37 +66,37 @@
         <button data-dismiss="modal" class="close" type="button">×</button>
         <h3>上传资源</h3>
     </div>
-    <div class="modal-body">
-        <form class="form-horizontal" method="post">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data" id="uploadResourceForm" action="<%= basePath%>resource/doUploadResource.do">
+        <div class="modal-body">
             <div class="control-group">
                 <label class="control-label">选择资源:</label>
                 <div class="controls">
-                    <input id="um_chooseResource" type="file" />
+                    <input id="resourceFile" type="file" name="resourceFile"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">资源名称:</label>
                 <div class="controls">
-                    <input id="um_resourcename" type="text" style="height:28px;" />
+                    <input id="resourceName" type="text" name="resourceName"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">资源描述:</label>
                 <div class="controls">
-                    <textarea id="um_resourcedescription" type="text" style="height:28px;" rows="5"></textarea>
+                    <textarea id="resourceDescription" type="text" rows="5" name="resourceDescription"></textarea>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">资源标签（使用“，”分隔）:</label>
+                <label class="control-label">资源标签（“，”分隔）:</label>
                 <div class="controls">
-                    <input id="um_resourcetag" type="text" style="height:28px;" />
+                    <input id="resourceTag" type="text" name="resourceTag"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">资源类型:</label>
                 <div class="controls">
-                    <select id="um_resourcetype" class="span2 m-wrap select2-container select2-container-active select2-dropdown-open">
-                        <option value="">请选择</option>
+                    <select id="resourceType" class="span2 m-wrap select2-container select2-container-active select2-dropdown-open" name="resourceType">
+                        <option value="" selected="selected">请选择</option>
                         <option value="3">视频</option>
                         <option value="2">音频</option>
                         <option value="1">文档</option>
@@ -103,12 +104,67 @@
                     </select>
                 </div>
             </div>
+        </div>
+        <div class="modal-footer">
+            <div id='uploadMsg'></div>
+            <a data-dismiss="modal" class="btn btn-danger" href="javascript:void(0);"> 取消 </a>
+            <input id="btnUploadResource" type="button" class="btn btn-primary" onclick="uploadResource()" value="上传">
+        </div>
+    </form>
+</div>
 
+<div id="getModal" class="modal hide">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button">×</button>
+        <h3>资源详情</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" method="post" name="basic_validate">
+            <div class="control-group">
+                <label class="control-label">资源名称:</label>
+                <div class="controls">
+                    <input id="resourceNameDetail" type="text" name="resourceNameDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">资源描述:</label>
+                <div class="controls">
+                    <textarea id="resourceDescriptionDetail" type="text" rows="2" name="resourceDescriptionDetail" disabled="disabled"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">资源标签:</label>
+                <div class="controls">
+                    <input id="resourceTagDetail" type="text" name="resourceTagDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">资源类型:</label>
+                <div class="controls">
+                    <input id="resourceTypeDetail" type="text" name="resourceTypeDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">审核状态:</label>
+                <div class="controls">
+                    <input id="verifyTypeDetail" type="text" name="verifyTypeDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">创建时间:</label>
+                <div class="controls">
+                    <input id="gmtCreateDetail" type="text" name="gmtCreateDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">修改时间:</label>
+                <div class="controls">
+                    <input id="gmtModifyDetail" type="text" name="gmtModifyDetail" disabled="disabled"/>
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal-footer">
-        <div id='msg2'></div>
-        <a data-dismiss="modal" class="btn" href="javascript:void(0);"> <i class="icon-remove"></i>取消</a>
-        <a class="btn btn-success" href="javascript:void(0);" onclick="uploadResource()"> <i class="icon-ok"></i>上传</a>
+        <a data-dismiss="modal" class="btn btn-success" href="javascript:void(0);"> 确认 </a>
     </div>
 </div>

@@ -1,12 +1,13 @@
 package com.victorzhang.cfs.util;
 
-import com.victorzhang.cfs.domain.Message;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -16,13 +17,16 @@ public class CommonUtils {
 
     private static final String PAGING_EXCEPTION = "分页异常";
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String SPLITTER_STRING = "-";
+    private static final String DATE_FORMAT_TIMESTAMP = "yyyyMMddHHmmss";
+    private static final String SEPARATOR_STRING = "-";
+    private static final String SPLITTER_STRING = "/";
     private static final String UNKNOWN = "unknown";
     private static final String X_FORWARDED_FOR = "x-forwarded-for";
     private static final String PROXY_CLIENT_IP = "Proxy-Client-IP";
     private static final String WL_PROXY_CLIENT_IP = "WL-Proxy-Client-IP";
     private static final String PAGE = "page";
     private static final String PAGE_SUM = "pageSum";
+    private static final String SERVER_FILES_PATH = "files";
 
     public static HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -62,7 +66,7 @@ public class CommonUtils {
     }
 
     public static String newUuid() {
-        return UUID.randomUUID().toString().toUpperCase().replace(SPLITTER_STRING, EMPTY_STRING);
+        return UUID.randomUUID().toString().toUpperCase().replace(SEPARATOR_STRING, EMPTY_STRING);
     }
 
     public static int paraPage(String _page) {
@@ -121,5 +125,22 @@ public class CommonUtils {
             }
         }
         return datas;
+    }
+
+    public static String getUploadPath(HttpServletRequest request) {
+        return request.getServletContext().getRealPath(SPLITTER_STRING) + File.separator + SERVER_FILES_PATH + File.separator;
+    }
+
+    public static String currTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_TIMESTAMP);
+        return sdf.format(new Timestamp(System.currentTimeMillis()));
+    }
+
+    public static String formatDownloadFileName(String fileName) {
+        try {
+            return new String(fileName.getBytes(GBK), ISO_8859_1);
+        } catch (Exception e) {
+            return EMPTY_STRING;
+        }
     }
 }

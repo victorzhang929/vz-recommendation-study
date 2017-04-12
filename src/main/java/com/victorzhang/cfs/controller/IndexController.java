@@ -37,11 +37,6 @@ public class IndexController {
         return userService.doGetUserByEmail(email);
     }
 
-    @RequestMapping("/forwardGraphicLinkUI.do")
-    public String forwardMainPage() throws Exception {
-        return "graphicLink";
-    }
-
     @RequestMapping("/forwardResetPasswordUI.index")
     public String forwardResetPasswordUI() throws Exception {
         return "resetPassword";

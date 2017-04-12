@@ -37,9 +37,7 @@
     <select id="getById" resultMap="user" parameterType="java.lang.String">
         SELECT username
         FROM user
-        <where>
-            id = #{id}
-        </where>
+        WHERE id = #{id}
     </select>
 
     <update id="update" parameterType="com.victorzhang.cfs.domain.User">
@@ -79,9 +77,7 @@
                 gmt_modify=#{gmtModify},
             </if>
         </trim>
-        <where>
-            id = #{id}
-        </where>
+        WHERE id = #{id}
     </update>
 
     <select id="doJudgePasswordIsRight" resultType="boolean" parameterType="java.util.Map">
@@ -100,7 +96,7 @@
         FROM user
         LEFT JOIN role
         ON role.id = user.role_id
-        where user.id = #{userId}
+        WHERE user.id = #{userId}
     </select>
 
     <select id="listUserType" resultType="java.util.Map">

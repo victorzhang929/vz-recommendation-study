@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.victorzhang.cfs.mapper.ResourceMapper">
+
+    <resultMap id="resource" type="com.victorzhang.cfs.domain.Resource">
+        <id column="id" property="id"/>
+        <result column="resource_name" property="resourceName"/>
+        <result column="resource_description" property="resourceDescription"/>
+        <result column="resource_tag" property="resourceTag"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="resource_download_count" property="resourceDownloadCount"/>
+        <result column="resource_browse_count" property="resourceServerPath"/>
+        <result column="resource_server_path" property="resourceServerPath"/>
+        <result column="verify_type" property="verifyType"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modify" property="gmtModify"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.victorzhang.cfs.domain.Resource">
+        INSERT INTO resource (id, resource_name,
+        <if test="resourceDescription != null and resourceDescription != ''">
+            resource_description,
+        </if>
+        <if test="resourceTag != null and resourceTag != ''">
+            resource_tag,
+        </if>
+        resource_type, resource_server_path, user_id, gmt_create, gmt_modify)
+        VALUES (#{id},#{resourceName},
+        <if test="resourceDescription != null and resourceDescription != ''">
+            #{resourceDescription},
+        </if>
+        <if test="resourceTag != null and resourceTag != ''">
+            #{resourceTag},
+        </if>
+        #{resourceType},#{resourceServerPath},#{userId}, #{gmtCreate}, #{gmtCreate})
+    </insert>
+
+    <select id="count" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM resource r
+        LEFT JOIN user
+        ON r.user_id = user.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND r.user_id = #{userId}
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                AND r.resource_name = #{resourceName}
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                AND r.resource_type = #{resourceType}
+            </if>
+            <if test="verifyType != null and verifyType != ''">
+                AND r.verify_type = #{verifyType}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND r.gmt_create >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= r..gmt_create
+            </if>
+        </where>
+    </select>
+
+    <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT r.id, r.resource_name, r.resource_type, r.resource_download_count, r.resource_browse_count,
+        r.verify_type, DATE_FORMAT(r.gmt_create,'%Y-%m-%d %H:%h:%s') AS gmt_create
+        FROM resource r
+        LEFT JOIN user
+        ON user.id = r.user_id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND r.user_id = #{userId}
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                AND r.resource_name = #{resourceName}
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                AND r.resource_type = #{resourceType}
+            </if>
+            <if test="verifyType != null and verifyType != ''">
+                AND r.verify_type = #{verifyType}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND r.gmt_create >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= r..gmt_create
+            </if>
+        </where>
+        ORDER BY r.gmt_create DESC LIMIT ${begin},${pageSize}
+    </select>
+
+    <select id="getById" resultMap="resource" parameterType="java.lang.String">
+        SELECT resource_name, resource_description, resource_tag, resource_type, verify_type,resource_server_path,
+        DATE_FORMAT(gmt_create,'%Y-%m-%d %H:%h:%s') AS gmt_create,DATE_FORMAT(gmt_modify,'%Y-%m-%d %H:%h:%s') AS gmt_modify
+        FROM resource
+        WHERE id = #{id}
+    </select>
+    
+    <delete id="remove" parameterType="java.lang.String">
+        DELETE FROM resource WHERE id = #{id}
+    </delete>
+
+</mapper>

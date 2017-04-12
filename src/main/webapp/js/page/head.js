@@ -66,6 +66,7 @@ function exit() {
 }
 
 function changePasswordUI() {
+    $("#msg").val("");
     $("#oldPassword").val("");
     $("#password").val("");
     $("#rePassword").val("");
@@ -75,19 +76,19 @@ function changePassword() {
     $("#msg").html("");
 
     if ($("#oldPassword").val() === "") {
-        $("#msg").html("<span class='label label-important'>原密码不能为空</span>");
+        showDialogMsg('msg', '原密码不能为空');
         return false;
     }
     if ($("#password").val() === "") {
-        $("#msg").html("<span class='label label-important'>新密码不能为空</span>");
+        showDialogMsg('msg', '新密码不能为空');
         return false;
     }
     if ($("#rePassword").val() === "") {
-        $("#msg").html("<span class='label label-important'>重复密码不能为空</span>");
+        showDialogMsg('msg', '重复密码不能为空');
         return false;
     }
     if ($("#password").val() !== $("#rePassword").val()) {
-        $("#msg").html("<span class='label label-important'>两次密码不一致</span>");
+        showDialogMsg('msg', '两次密码不一致');
         return false;
     }
 

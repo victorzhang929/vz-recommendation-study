@@ -1,16 +1,10 @@
 package com.victorzhang.cfs.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
-import static com.victorzhang.cfs.util.Constants.LOGIN_FAILE;
-import static com.victorzhang.cfs.util.Constants.LOGIN_SUCCESS;
 
 /**
  * UserFilter filter userId and roleId

@@ -9,10 +9,14 @@ public final class Constants {
     private Constants(){}
 
     public static final String EMPTY_STRING = "";
+    public static final String DOT_STRING = ".";
+    public static final String LINE_STRING = "-";
     public static final String ROLE_ID = "roleId";
     public static final String USER_ID = "userId";
     public static final String ADMIN_ROLE_ID = "DEDD7D0EDED9445083518A35EC5940AB";
     public static final String UTF_8 = "UTF-8";
+    public static final String GBK = "GBK";
+    public static final String ISO_8859_1 = "ISO-8859-1";
 
     public static final String TRY_LOGIN = "尝试登录";
     public static final String LOGIN_SYSTEM = "登录系统";
@@ -44,6 +48,8 @@ public final class Constants {
     public static final String PLEASE_INPUT_RIGHT_EMAIL = "请输入正确的邮箱地址";
 
     public static final String LOG_INSERT_ERROR = "日志插入错误";
+    public static final String INSERT_ERROR = "插入失败";
+    public static final String REMOVE_ERROR = "删除失败";
 
     public static final String BEGIN = "begin";
     public static final String PAGE_SIZE = "pageSize";
@@ -55,4 +61,7 @@ public final class Constants {
     public static final String COUNT = "count";
 
     public static final String USER_TYPE = "用户类型";
+
+    public static final String ARGS_ERROR = "参数错误";
+
 }

@@ -2,7 +2,7 @@ $(function () {
     navicatActiveProccess('userResource');
     tableDivPage();
     p_pageSelect();
-    //load();
+    load();
 });
 
 function load(pge) {
@@ -13,14 +13,14 @@ function load(pge) {
     var param = {};
     param._page = pge;
     param._pageSize = $("#p_pageSelect_id").val();
-
-    param.verifyresource = $("#querytype option:selected").val();
-    param.resourcename = $("#resourcename").val();
-    param.stadate = $("#querystadate").val();
-    param.enddate = $("#queryenddate").val();
+    param.resourceName = $("#queryName").val();
+    param.resourceType = $("#queryType option:selected").val();
+    param.verifyType = $("#queryVerifyType option:selected").val();
+    param.startDate = $("#queryStartDate").val();
+    param.endDate = $("#queryEndDate").val();
 
     $.ajax({
-        url: path + "/resource/queryUserResource.do",
+        url: path + "/resource/listPaging.do",
         type: "POST",
         data: param,
         dataType: "json",
@@ -28,14 +28,13 @@ function load(pge) {
             var mainTable = "<table class='table table-bordered table-striped' >"
                 + "<thead><tr>"
                 + "<th style='width:5%'>编号</th>"
-                + "<th style='width:15%'>名称</th>"
-                + "<th style='width:18%'>资源描述</th>"
-                + "<th style='width:15%'>特属标签</th>"
-                + "<th style='width:5%'>类型</th>"
+                + "<th style='width:20%'>名称</th>"
+                + "<th style='width:10%'>类型</th>"
+                + "<th style='width:10%'>下载量</th>"
+                + "<th style='width:10%'>阅读量</th>"
                 + "<th style='width:15%'>上传时间</th>"
-                + "<th style='width:7%'>下载量</th>"
-                + "<th style='width:7%'>阅读量</th>"
-                + "<th style='width:13%'>操作</th>"
+                + "<th style='width:15%'>审核状态</th>"
+                + "<th style='width:15%'>操作</th>"
                 + "</tr></thead>" + "<tbody id='trs'>";
 
             var datas = res.data;
@@ -44,29 +43,23 @@ function load(pge) {
                     var data = datas[i];
                     mainTable += "<tr>"
                         + "<td>" + index(res.page, res.pageSize, i) + "</td>"
-                        + "<td title='" + data.resourcename + "'>" + data.resourcename + "</td>"
-                        + "<td title='" + data.resourcedescription + "'>" + data.resourcedescription + "</td>"
-                        + "<td title='" + data.resourcetag + "'>" + data.resourcetag + "</td>"
-                        + "<td title='" + data.resourcetype + "'>" + data.resourcetype + "</td>"
-                        + "<td title='" + data.uploadtime + "'>" + data.uploadtime + "</td>"
-                        + "<td title='" + data.resourceuploadcount + "'>" + data.resourceuploadcount + "</td>"
-                        + "<td title='" + data.resourcebrowsecount + "'>" + data.resourcebrowsecount + "</td>"
-                        + "<td>" + handle(data.resourceid) + "</td>"
+                        + "<td title='" + data.resource_name + "'>" + data.resource_name + "</td>"
+                        + "<td title='" + judgeResourceType(data.resource_type) + "'>" + judgeResourceType(data.resource_type) + "</td>"
+                        + "<td title='" + data.resource_download_count + "'>" + data.resource_download_count + "</td>"
+                        + "<td title='" + data.resource_browse_count + "'>" + data.resource_browse_count + "</td>"
+                        + "<td title='" + data.gmt_create + "'>" + data.gmt_create + "</td>"
+                        + "<td title='" + judgeResourceVerifyType(data.verify_type) + "'>" + judgeResourceVerifyType(data.verify_type) + "</td>"
+                        + "<td>" + handle(data.id) + "</td>"
                         + "</tr>";
                 }
             } else {
-                mainTable += "<tr><td colspan='9'>暂无数据!</td></tr>";
+                mainTable += "<tr><td colspan='8'>暂无数据!</td></tr>";
             }
-
             mainTable += "</tbody></table>";
-
             p_countMsg(res.count);
             p_page(res.page, res.pageSum, res.count);
-
             $("#tableDiv").html(mainTable);
             t_bs("trs");
-
-            parent.setFrameHeight("box");
         }, beforeSend: function () {
             beforeSend();
         }, error: function () {
@@ -75,8 +68,97 @@ function load(pge) {
     });
 }
 
-function handle(resourceid) {
-    return "<a id='classes" + resourceid + "' class='bt bt-xs bt-info' onclick=downloadReource('" + resourceid + "');>下载</a>" +
-        "<a id='delete" + resourceid + "' class='bt bt-xs bt-success' onclick=getDetailResource('" + resourceid + "');>详情</a>" +
-        "<a id='delete" + resourceid + "' class='bt bt-xs bt-danger' onclick=deleteResource('" + resourceid + "');>删除</a>";
+function handle(id) {
+    return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResource('" + id + "');>详情</a>"
+        + "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>"
+        + "<a id='delete" + id + "' class='bt bt-xs bt-danger' onclick=deleteResource('" + id + "');>删除</a>";
+}
+
+function getResource(id) {
+    $("#resourceNameDetail").val("");
+    $("#resourceDescriptionDetail").val("");
+    $("#resourceTagDetail").val("");
+    $("#resourceTypeDetail").val("");
+    $("#verifyTypeDetail").val("");
+    $("#gmtCreateDetail").val("");
+    $("#gmtModifyDetail").val("");
+    $.ajax({
+        url: path + "/resource/getById.do",
+        type: "POST",
+        data: {"id": id},
+        dataType: "json",
+        success: function (req) {
+            $("#resourceNameDetail").val(req.resourceName);
+            $("#resourceDescriptionDetail").val(req.resourceDescription);
+            $("#resourceTagDetail").val(req.resourceTag);
+            $("#resourceTypeDetail").val(judgeResourceType(parseInt(req.resourceType)));
+            $("#verifyTypeDetail").val(judgeResourceVerifyType(parseInt(req.verifyType)));
+            $("#gmtCreateDetail").val(req.gmtCreate);
+            $("#gmtModifyDetail").val(req.gmtModify);
+            $("#getModal").modal('show');
+        }, error: function () {
+            tipDialog("读取失败");
+        }
+    });
+}
+
+function downloadResource(id) {
+    location.href = path + "/resource/doDownloadResource.do?id=" + id;
+}
+
+function deleteResource(id) {
+    $.ajax({
+        url: path + "/resource/removeResource.do",
+        type: "POST",
+        data: {"id": id},
+        dataType: "json",
+        success: function () {
+            load();
+        }, error: function () {
+            tipDialog("读取失败");
+        }
+    });
+}
+
+function uploadResourceUI() {
+    $("#uploadMsg").html("");
+    $("#resourceFile").val("");
+    $("#resourceName").val("");
+    $("#resourceDescription").val("");
+    $("#resourceTag").val("");
+    $("#resourceType").val("");
+}
+
+function uploadResource() {
+    showDialogMsg("uploadMsg", "正在上传中...");
+    $('#uploadResourceForm').ajaxForm({
+        dataType: "text",
+        beforeSubmit: function () {
+            $("#btnUploadResource").attr("disabled", "disabled");
+            if ($("#resourceFile").val() === null || $("#resourceFile").val() === "") {
+                showDialogMsg('uploadMsg', '请选择文件');
+                return false;
+            }
+            if ($("#resourceName").val() === "") {
+                showDialogMsg('uploadMsg', '资源名称不能为空');
+                return false;
+            }
+            if ($("#resourceTag").val() === "") {
+                showDialogMsg('uploadMsg', '资源标签不能为空');
+                return false;
+            }
+            if ($("#resourceType option:selected").val() === "") {
+                showDialogMsg('uploadMsg', '请选择资源类型');
+                return false;
+            }
+        }, success: function () {
+            showDialogMsg('uploadMsg', "上传成功");
+            load();
+            uploadResourceUI();
+            $("#btnUploadResource").attr("disabled", false);
+        }, error: function () {
+            showDialogMsg('uploadMsg', '请选择正确的资源文件，重新操作');
+            $("#btnUploadResource").attr("disabled", false);
+        }
+    }).submit();
 }

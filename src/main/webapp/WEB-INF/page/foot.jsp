@@ -16,19 +16,19 @@
             <div class="control-group">
                 <label class="control-label">原密码:</label>
                 <div class="controls">
-                    <input id="oldPassword" type="password" name="oldPassword" style="height:28px;"/>
+                    <input id="oldPassword" type="password" name="oldPassword"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">新密码:</label>
                 <div class="controls">
-                    <input id="password" type="password" name="password" style="height:28px;"/>
+                    <input id="password" type="password" name="password"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">重复密码:</label>
                 <div class="controls">
-                    <input id="rePassword" type="password" name="rePassword" style="height:28px;"/>
+                    <input id="rePassword" type="password" name="rePassword"/>
                 </div>
             </div>
         </form>
