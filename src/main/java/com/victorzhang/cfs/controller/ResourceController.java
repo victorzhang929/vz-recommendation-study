@@ -24,7 +24,6 @@ import static com.victorzhang.cfs.util.Constants.*;
 @RequestMapping("resource")
 public class ResourceController {
 
-    private static final String UPLOAD_SUCCESS = "上传成功";
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
     private static final String CONTENT_LENGTH = "Content-Length";
 
@@ -94,10 +93,14 @@ public class ResourceController {
 
     @RequestMapping("/removeResource.do")
     @ResponseBody
-    public void removeResource(String id) throws Exception{
-        if(!resourceService.remove(id)){
-            throw new SQLException(REMOVE_ERROR);
+    public void removeResource(String id) throws Exception {
+        Resource resource = resourceService.getById(id);
+        File file = new File(resource.getResourceServerPath());
+        if (file.isFile() && file.exists()) {
+            file.delete();
+            if (!resourceService.remove(id)) {
+                throw new SQLException(REMOVE_ERROR);
+            }
         }
     }
-
 }

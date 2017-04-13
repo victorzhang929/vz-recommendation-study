@@ -114,6 +114,7 @@ function deleteResource(id) {
         dataType: "json",
         success: function () {
             load();
+            tipDialog("删除成功");
         }, error: function () {
             tipDialog("读取失败");
         }
