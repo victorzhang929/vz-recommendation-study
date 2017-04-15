@@ -53,8 +53,8 @@ public class ResourceController {
     public Map<String, Object> listPaging(String _page, String _pageSize, String resourceName, String resourceType, String verifyType, String startDate, String endDate) throws Exception {
         Resource resource = new Resource();
         resource.setUserId(CommonUtils.sesAttr(request, USER_ID));
-        resource.setResourceName(resourceName);
         resource.setResourceType(resourceType);
+        resource.setResourceName(resourceName);
         resource.setVerifyType(verifyType);
         return resourceService.listPaging(resource, _page, _pageSize, startDate, endDate, null);
     }
@@ -102,5 +102,20 @@ public class ResourceController {
                 throw new SQLException(REMOVE_ERROR);
             }
         }
+    }
+
+    @RequestMapping("/forwardSystemResourceUI")
+    public String forwardSystemResourceUI() {
+        return "systemResource";
+    }
+
+    @RequestMapping("/listSystemResourcePaging.do")
+    @ResponseBody
+    public Map<String, Object> listSystemResourcePaging(String _page, String _pageSize, String resourceName, String resourceType, String startDate, String endDate) throws Exception {
+        Resource resource = new Resource();
+        resource.setResourceType(resourceType);
+        resource.setResourceName(resourceName);
+        resource.setVerifyType(RESOURCE_VERIFY_SUCCESS);
+        return resourceService.listPaging(resource, _page, _pageSize, startDate, endDate, null);
     }
 }

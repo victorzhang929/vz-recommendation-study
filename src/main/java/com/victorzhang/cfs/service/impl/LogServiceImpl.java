@@ -1,11 +1,11 @@
 package com.victorzhang.cfs.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
 import com.victorzhang.cfs.domain.Log;
 import com.victorzhang.cfs.mapper.BaseMapper;
 import com.victorzhang.cfs.mapper.LogMapper;
 import com.victorzhang.cfs.service.LogService;
 import com.victorzhang.cfs.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

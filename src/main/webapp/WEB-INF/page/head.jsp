@@ -54,7 +54,7 @@
             <a href="javascript:void(0);"><i class="icon-shopping-cart"></i> <span>资源中心</span><i class="icon-chevron-right"></i></a>
             <ul id="ul2">
                 <li><a href="<%= basePath %>resource/forwardUserResourceUI.do" id="userResource">用户资源</a></li>
-                <li><a href="<%= basePath %>resource/forwardSystemResourceUI.do" id="uploadResource">系统资源</a></li>
+                <li><a href="<%= basePath %>resource/forwardSystemResourceUI.do" id="systemResource">系统资源</a></li>
                 <li><a href="<%= basePath %>resource/forwardBrowseResourceUI.do" id="browseResource">资源浏览记录</a></li>
                 <li><a href="<%= basePath %>resource/forwardDownloadResourceUI.do" id="downloadResource">资源下载记录</a></li>
                 <li><a href="<%= basePath %>resource/forwardRecommendedResourceUI.do" id="recommendedResource">个性化推荐</a></li>

@@ -10,7 +10,6 @@ public final class Constants {
 
     public static final String EMPTY_STRING = "";
     public static final String DOT_STRING = ".";
-    public static final String LINE_STRING = "-";
     public static final String ROLE_ID = "roleId";
     public static final String USER_ID = "userId";
     public static final String ADMIN_ROLE_ID = "DEDD7D0EDED9445083518A35EC5940AB";
@@ -63,5 +62,7 @@ public final class Constants {
     public static final String USER_TYPE = "用户类型";
 
     public static final String ARGS_ERROR = "参数错误";
+
+    public static final String RESOURCE_VERIFY_SUCCESS = "1";
 
 }
