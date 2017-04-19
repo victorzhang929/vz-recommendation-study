@@ -118,10 +118,10 @@ function deleteResource(id) {
                 data: {"id": id},
                 dataType: "json",
                 success: function () {
-                    load();
                     tipDialog("删除成功");
+                    load();
                 }, error: function () {
-                    tipDialog("读取失败");
+                    tipDialog("删除失败");
                 }
             });
         },

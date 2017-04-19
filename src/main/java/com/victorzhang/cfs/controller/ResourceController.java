@@ -14,7 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -23,9 +24,6 @@ import static com.victorzhang.cfs.util.Constants.*;
 @Controller
 @RequestMapping("resource")
 public class ResourceController {
-
-    private static final String CONTENT_DISPOSITION = "Content-Disposition";
-    private static final String CONTENT_LENGTH = "Content-Length";
 
     @Autowired
     private HttpServletRequest request;
@@ -68,27 +66,7 @@ public class ResourceController {
     @RequestMapping(value = "/doDownloadResource.do", method = RequestMethod.GET)
     @ResponseBody
     public void doDownloadResource(HttpServletResponse response, String id) throws Exception {
-        Resource resource = resourceService.getById(id);
-        try {
-            File file = new File(resource.getResourceServerPath());
-            String fileName = file.getName();
-            String downloadFileName = fileName.substring(0, fileName.lastIndexOf(DOT_STRING)) + CommonUtils.currTimestamp() + fileName.substring(fileName.lastIndexOf(DOT_STRING));
-
-            InputStream fis = new BufferedInputStream(new FileInputStream(resource.getResourceServerPath()));
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
-            fis.close();
-            response.reset();
-            response.setHeader(CONTENT_DISPOSITION, "attachment;filename=" + CommonUtils.formatDownloadFileName(downloadFileName));
-            response.setHeader(CONTENT_LENGTH, String.valueOf(file.length()));
-            OutputStream os = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            os.write(buffer);
-            os.flush();
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        resourceService.doDownloadResource(response, request, id);
     }
 
     @RequestMapping("/removeResource.do")
@@ -101,6 +79,8 @@ public class ResourceController {
             if (!resourceService.remove(id)) {
                 throw new SQLException(REMOVE_ERROR);
             }
+        }else{
+            throw new FileNotFoundException(FILE_NOT_FOUND);
         }
     }
 

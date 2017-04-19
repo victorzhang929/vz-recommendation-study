@@ -91,7 +91,8 @@
     </select>
 
     <select id="getById" resultMap="resource" parameterType="java.lang.String">
-        SELECT resource_name, resource_description, resource_tag, resource_type, verify_type,resource_server_path,
+        SELECT resource_name, resource_description, resource_tag, resource_type, verify_type,
+        resource_server_path, resource_download_count, resource_browse_count,
         DATE_FORMAT(gmt_create,'%Y-%m-%d %H:%h:%s') AS gmt_create,DATE_FORMAT(gmt_modify,'%Y-%m-%d %H:%h:%s') AS gmt_modify
         FROM resource
         WHERE id = #{id}
@@ -100,5 +101,15 @@
     <delete id="remove" parameterType="java.lang.String">
         DELETE FROM resource WHERE id = #{id}
     </delete>
+
+    <insert id="saveResourceDownload" parameterType="com.victorzhang.cfs.domain.ResourceDownload">
+        INSERT INTO resource_download (id, resource_id, download_time, user_id) VALUES (#{id}, #{resourceId}, #{downloadTime}, #{userId})
+    </insert>
+
+    <update id="update" parameterType="com.victorzhang.cfs.domain.Resource">
+        UPDATE resource SET
+        resource_download_count = #{resourceDownloadCount}
+        WHERE id = #{id}
+    </update>
 
 </mapper>
