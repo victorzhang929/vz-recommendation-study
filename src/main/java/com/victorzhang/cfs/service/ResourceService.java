@@ -1,7 +1,6 @@
 package com.victorzhang.cfs.service;
 
 import com.victorzhang.cfs.domain.Resource;
-import com.victorzhang.cfs.domain.ResourceDownload;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

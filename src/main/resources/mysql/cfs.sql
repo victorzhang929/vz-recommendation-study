@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-04-06 11:44:14
+Date: 2017-04-23 17:45:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -57,12 +57,12 @@ CREATE TABLE `resource` (
   `resource_name` varchar(40) NOT NULL,
   `resource_description` text,
   `resource_tag` varchar(200) DEFAULT NULL,
-  `resource_type` tinyint(1) unsigned NOT NULL COMMENT '0-图片；1-文档；2-音频；3-视频',
-  `upload_time` datetime NOT NULL,
-  `resource_download_count` int(11) NOT NULL,
-  `resource_browse_count` int(11) NOT NULL,
+  `resource_type` tinyint(4) unsigned NOT NULL COMMENT '0-图片；1-文档；2-音频；3-视频',
+  `resource_download_count` int(11) unsigned NOT NULL DEFAULT '0',
+  `resource_browse_count` int(11) unsigned NOT NULL DEFAULT '0',
+  `resource_server_path` varchar(200) NOT NULL,
   `user_id` char(32) NOT NULL,
-  `verify_resource` tinyint(4) NOT NULL COMMENT '0-审核不通过，1-审核通过，2待审核',
+  `verify_type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0-正在审核，1-审核通过，2-审核不通过',
   `gmt_create` datetime NOT NULL,
   `gmt_modify` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -97,10 +97,11 @@ CREATE TABLE `resource_comment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `resource_download`;
 CREATE TABLE `resource_download` (
+  `id` char(32) NOT NULL,
   `resource_id` char(32) NOT NULL,
-  `download_time` datetime DEFAULT NULL,
+  `download_time` datetime NOT NULL,
   `user_id` char(32) NOT NULL,
-  PRIMARY KEY (`resource_id`,`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

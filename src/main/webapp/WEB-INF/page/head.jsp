@@ -55,9 +55,9 @@
             <ul id="ul2">
                 <li><a href="<%= basePath %>resource/forwardUserResourceUI.do" id="userResource">用户资源</a></li>
                 <li><a href="<%= basePath %>resource/forwardSystemResourceUI.do" id="systemResource">系统资源</a></li>
-                <li><a href="<%= basePath %>resource/forwardBrowseResourceUI.do" id="browseResource">资源浏览记录</a></li>
-                <li><a href="<%= basePath %>resource/forwardDownloadResourceUI.do" id="downloadResource">资源下载记录</a></li>
-                <li><a href="<%= basePath %>resource/forwardRecommendedResourceUI.do" id="recommendedResource">个性化推荐</a></li>
+                <li><a href="<%= basePath %>resource/forwardResourceBrowseRecordUI.do" id="resourceBrowseRecord">资源浏览记录</a></li>
+                <li><a href="<%= basePath %>downloadRecord/forwardResourceDownloadRecordUI.do" id="resourceDownloadRecord">资源下载记录</a></li>
+                <li><a href="<%= basePath %>browseRecord/forwardRecommendedResourceUI.do" id="recommendedResource">个性化推荐</a></li>
                 <li><a href="<%= basePath %>resource/forwardCommentResourceUI.do" id="commentResource">我的评论</a></li>
                 <c:if test="${ sessionScope.roleId =='DEDDPath7D0EDED9445083518A35EC5940AB'}">
                     <li><a href="<%= basePath %>resource/forwardVerifyResourceUI.do" id="verigyResource">资源审核</a></li>

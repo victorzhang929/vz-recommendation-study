@@ -63,7 +63,7 @@ public class ResourceController {
         return resourceService.getById(id);
     }
 
-    @RequestMapping(value = "/doDownloadResource.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/doDownloadResource.do",method = RequestMethod.GET)
     @ResponseBody
     public void doDownloadResource(HttpServletResponse response, String id) throws Exception {
         resourceService.doDownloadResource(response, request, id);

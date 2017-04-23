@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.victorzhang.cfs.mapper.DownloadRecordMapper">
+
+    <select id="count" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM resource_download rd
+        LEFT JOIN resource r
+        ON rd.resource_id = r.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND rd.user_id = #{userId}
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                AND r.resource_name = #{resourceName}
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                AND r.resource_type = #{resourceType}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND rd.download_time >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= rd.download_time
+            </if>
+        </where>
+    </select>
+
+    <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT r.resource_name, r.resource_description, r.resource_tag,
+        DATE_FORMAT(rd.download_time,'%Y-%m-%d %H:%h:%s') AS download_time
+        FROM resource_download rd
+        LEFT JOIN resource r
+        ON rd.resource_id = r.id
+        <where>
+            <if test="userId != null and userId != ''">
+                AND rd.user_id = #{userId}
+            </if>
+            <if test="resourceName != null and resourceName != ''">
+                AND r.resource_name = #{resourceName}
+            </if>
+            <if test="resourceType != null and resourceType != ''">
+                AND r.resource_type = #{resourceType}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND rd.download_time >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= rd.download_time
+            </if>
+        </where>
+        ORDER BY rd.download_time DESC LIMIT ${begin},${pageSize}
+    </select>
+</mapper>

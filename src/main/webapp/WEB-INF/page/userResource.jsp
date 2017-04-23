@@ -139,6 +139,18 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">资源下载数:</label>
+                <div class="controls">
+                    <input id="resourceDownloadCountDetail" type="text" name="resourceTagDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">资源浏览数:</label>
+                <div class="controls">
+                    <input id="resourceBrowseCountDetail" type="text" name="resourceTagDetail" disabled="disabled"/>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">资源类型:</label>
                 <div class="controls">
                     <input id="resourceTypeDetail" type="text" name="resourceTypeDetail" disabled="disabled"/>

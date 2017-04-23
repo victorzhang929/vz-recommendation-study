@@ -9,7 +9,7 @@
         <result column="resource_tag" property="resourceTag"/>
         <result column="resource_type" property="resourceType"/>
         <result column="resource_download_count" property="resourceDownloadCount"/>
-        <result column="resource_browse_count" property="resourceServerPath"/>
+        <result column="resource_browse_count" property="resourceBrowseCount"/>
         <result column="resource_server_path" property="resourceServerPath"/>
         <result column="verify_type" property="verifyType"/>
         <result column="gmt_create" property="gmtCreate"/>
@@ -56,14 +56,14 @@
                 AND r.gmt_create >= #{startDate}
             </if>
             <if test="endDate != null and endDate != ''">
-                AND #{endDate} >= r..gmt_create
+                AND #{endDate} >= r.gmt_create
             </if>
         </where>
     </select>
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT r.id, r.resource_name, r.resource_type, r.resource_download_count, r.resource_browse_count,
-        r.verify_type, DATE_FORMAT(r.gmt_create,'%Y-%m-%d %H:%h:%s') AS gmt_create,user.username
+        SELECT r.id, r.resource_name, r.resource_type, r.resource_download_count, r.resource_browse_count, r.verify_type,
+        DATE_FORMAT(r.gmt_create,'%Y-%m-%d %H:%h:%s') AS gmt_create,user.username
         FROM resource r
         LEFT JOIN user
         ON user.id = r.user_id
@@ -84,14 +84,14 @@
                 AND r.gmt_create >= #{startDate}
             </if>
             <if test="endDate != null and endDate != ''">
-                AND #{endDate} >= r..gmt_create
+                AND #{endDate} >= r.gmt_create
             </if>
         </where>
         ORDER BY r.gmt_create DESC LIMIT ${begin},${pageSize}
     </select>
 
     <select id="getById" resultMap="resource" parameterType="java.lang.String">
-        SELECT resource_name, resource_description, resource_tag, resource_type, verify_type,
+        SELECT id,resource_name, resource_description, resource_tag, resource_type, verify_type,
         resource_server_path, resource_download_count, resource_browse_count,
         DATE_FORMAT(gmt_create,'%Y-%m-%d %H:%h:%s') AS gmt_create,DATE_FORMAT(gmt_modify,'%Y-%m-%d %H:%h:%s') AS gmt_modify
         FROM resource

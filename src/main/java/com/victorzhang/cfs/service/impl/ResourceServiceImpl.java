@@ -84,11 +84,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         //insert record to table of resource_download
         saveResourceDownload(request, id);
         //update table of resource's resource_download_count column
-        Resource updateResourceDownloadCount = new Resource();
-        int resourceDownloadCount = Integer.parseInt(resource.getResourceDownloadCount()) + 1;
-        updateResourceDownloadCount.setResourceDownloadCount(String.valueOf(resourceDownloadCount));
-        updateResourceDownloadCount.setId(id);
-        update(updateResourceDownloadCount);
+        updateResourceDownload(resource);
     }
 
     private void saveResourceDownload(HttpServletRequest request, String resourceId) throws Exception {
@@ -100,5 +96,13 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         if (successCount <= 0) {
             throw new SQLException(INSERT_ERROR);
         }
+    }
+
+    private void updateResourceDownload(Resource resource) throws Exception{
+        Resource updateResourceDownloadCount = new Resource();
+        int resourceDownloadCount = Integer.parseInt(resource.getResourceDownloadCount()) + 1;
+        updateResourceDownloadCount.setResourceDownloadCount(String.valueOf(resourceDownloadCount));
+        updateResourceDownloadCount.setId(resource.getId());
+        update(updateResourceDownloadCount);
     }
 }

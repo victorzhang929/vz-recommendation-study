@@ -27,14 +27,12 @@ function load(pge) {
         success: function (res) {
             var mainTable = "<table class='table table-bordered table-striped' >"
                 + "<thead><tr>"
-                + "<th style='width:5%'>编号</th>"
-                + "<th style='width:20%'>名称</th>"
+                + "<th style='width:10%'>编号</th>"
+                + "<th style='width:20%'>资源名称</th>"
                 + "<th style='width:10%'>类型</th>"
-                + "<th style='width:10%'>下载量</th>"
-                + "<th style='width:10%'>阅读量</th>"
-                + "<th style='width:15%'>上传时间</th>"
-                + "<th style='width:15%'>上传人</th>"
-                + "<th style='width:15%'>操作</th>"
+                + "<th style='width:20%'>上传时间</th>"
+                + "<th style='width:20%'>上传人</th>"
+                + "<th style='width:20%'>操作</th>"
                 + "</tr></thead>" + "<tbody id='trs'>";
 
             var datas = res.data;
@@ -45,15 +43,13 @@ function load(pge) {
                         + "<td>" + index(res.page, res.pageSize, i) + "</td>"
                         + "<td title='" + data.resource_name + "'>" + data.resource_name + "</td>"
                         + "<td title='" + judgeResourceType(data.resource_type) + "'>" + judgeResourceType(data.resource_type) + "</td>"
-                        + "<td title='" + data.resource_download_count + "'>" + data.resource_download_count + "</td>"
-                        + "<td title='" + data.resource_browse_count + "'>" + data.resource_browse_count + "</td>"
                         + "<td title='" + data.gmt_create + "'>" + data.gmt_create + "</td>"
                         + "<td title='" + data.username + "'>" + data.username + "</td>"
                         + "<td>" + handle(data.id) + "</td>"
                         + "</tr>";
                 }
             } else {
-                mainTable += "<tr><td colspan='8'>暂无数据!</td></tr>";
+                mainTable += "<tr><td colspan='6'>暂无数据!</td></tr>";
             }
             mainTable += "</tbody></table>";
             p_countMsg(res.count);
@@ -77,6 +73,8 @@ function getResource(id) {
     $("#resourceNameDetail").val("");
     $("#resourceDescriptionDetail").val("");
     $("#resourceTagDetail").val("");
+    $("#resourceDownloadCountDetail").val("");
+    $("#resourceBrowseCountDetail").val("");
     $("#resourceTypeDetail").val("");
     $("#gmtCreateDetail").val("");
     $("#gmtModifyDetail").val("");
@@ -89,6 +87,8 @@ function getResource(id) {
             $("#resourceNameDetail").val(req.resourceName);
             $("#resourceDescriptionDetail").val(req.resourceDescription);
             $("#resourceTagDetail").val(req.resourceTag);
+            $("#resourceDownloadCountDetail").val(req.resourceDownloadCount);
+            $("#resourceBrowseCountDetail").val(req.resourceBrowseCount);
             $("#resourceTypeDetail").val(judgeResourceType(parseInt(req.resourceType)));
             $("#gmtCreateDetail").val(req.gmtCreate);
             $("#gmtModifyDetail").val(req.gmtModify);
