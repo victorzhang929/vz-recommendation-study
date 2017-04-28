@@ -19,7 +19,7 @@ function load(pge) {
     param.endDate = $("#queryEndDate").val();
 
     $.ajax({
-        url: path + "/resource/listPaging.do",
+        url: path + "/downloadRecord/listPaging.do",
         type: "POST",
         data: param,
         dataType: "json",

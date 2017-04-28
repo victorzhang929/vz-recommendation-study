@@ -31,4 +31,15 @@ public class Resource {
         this.userId = userId;
         this.gmtCreate = gmtCreate;
     }
+
+    public Resource(String resourceName, String resourceType, String verifyType){
+        this.resourceName = resourceName;
+        this.resourceType = resourceType;
+        this.verifyType = verifyType;
+    }
+
+    public Resource(String id, String verifyType){
+        this.id = id;
+        this.verifyType = verifyType;
+    }
 }

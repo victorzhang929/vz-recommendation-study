@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.victorzhang.cfs.util.Constants.*;
@@ -63,7 +64,7 @@ public class ResourceController {
         return resourceService.getById(id);
     }
 
-    @RequestMapping(value = "/doDownloadResource.do",method = RequestMethod.GET)
+    @RequestMapping(value = "/doDownloadResource.do", method = RequestMethod.GET)
     @ResponseBody
     public void doDownloadResource(HttpServletResponse response, String id) throws Exception {
         resourceService.doDownloadResource(response, request, id);
@@ -79,7 +80,7 @@ public class ResourceController {
             if (!resourceService.remove(id)) {
                 throw new SQLException(REMOVE_ERROR);
             }
-        }else{
+        } else {
             throw new FileNotFoundException(FILE_NOT_FOUND);
         }
     }
@@ -92,10 +93,53 @@ public class ResourceController {
     @RequestMapping("/listSystemResourcePaging.do")
     @ResponseBody
     public Map<String, Object> listSystemResourcePaging(String _page, String _pageSize, String resourceName, String resourceType, String startDate, String endDate) throws Exception {
-        Resource resource = new Resource();
-        resource.setResourceType(resourceType);
-        resource.setResourceName(resourceName);
-        resource.setVerifyType(RESOURCE_VERIFY_SUCCESS);
+        Resource resource = new Resource(resourceName, resourceType, RESOURCE_VERIFY_SUCCESS);
         return resourceService.listPaging(resource, _page, _pageSize, startDate, endDate, null);
+    }
+
+    @RequestMapping("/listNewestResource.do")
+    @ResponseBody
+    public Map<String, Object> listNewestResource() throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", resourceService.listNewestResource());
+        return map;
+    }
+
+    @RequestMapping("/listHotResource.do")
+    @ResponseBody
+    public Map<String, Object> listHotResource() throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", resourceService.listHotResource());
+        return map;
+    }
+
+    @RequestMapping("/forwardVerifyResourceUI.do")
+    public String forwardVerifyResourceUI() throws Exception {
+        return "verifyResource";
+    }
+
+    @RequestMapping("/listVerifyResource.do")
+    @ResponseBody
+    public Map<String, Object> listVerifyResource(String _page, String _pageSize, String resourceName, String resourceType, String startDate, String endDate) throws Exception {
+        //admin permission
+        if (StringUtils.equals(CommonUtils.sesAttr(request, ROLE_ID), ADMIN_ROLE_ID)) {
+            Resource resource = new Resource(resourceName, resourceType, RESOURCE_VERIFYING);
+            return resourceService.listPaging(resource, _page, _pageSize, startDate, endDate, null);
+        }
+        throw new IllegalAccessException(NO_ACCESS_PERMISSION);
+    }
+
+    @RequestMapping(value = "/doVerifyResource.do", produces = {"text/javascript;charset=UTF-8"})
+    @ResponseBody
+    public String doVerifyResource(String resourceId, String verifyType) throws Exception {
+        //admin permission
+        if (StringUtils.equals(CommonUtils.sesAttr(request, ROLE_ID), ADMIN_ROLE_ID)) {
+            Resource resource = new Resource(resourceId, verifyType);
+            if(!resourceService.update(resource)){
+                throw new SQLException(UPDATE_ERROR);
+            }
+            return UPDATE_SUCCESS;
+        }
+        throw new IllegalAccessException(NO_ACCESS_PERMISSION);
     }
 }

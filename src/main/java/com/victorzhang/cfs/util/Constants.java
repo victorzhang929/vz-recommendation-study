@@ -49,6 +49,9 @@ public final class Constants {
     public static final String LOG_INSERT_ERROR = "日志插入错误";
     public static final String INSERT_ERROR = "插入失败";
     public static final String REMOVE_ERROR = "删除失败";
+    public static final String REMOVE_SUCCESS = "删除成功";
+    public static final String UPDATE_ERROR = "更新失败";
+    public static final String UPDATE_SUCCESS = "更新成功";
 
     public static final String BEGIN = "begin";
     public static final String PAGE_SIZE = "pageSize";
@@ -62,7 +65,9 @@ public final class Constants {
     public static final String USER_TYPE = "用户类型";
 
     public static final String ARGS_ERROR = "参数错误";
+    public static final String NO_ACCESS_PERMISSION = "沒有访问权限";
 
+    public static final String RESOURCE_VERIFYING = "0";
     public static final String RESOURCE_VERIFY_SUCCESS = "1";
 
 }

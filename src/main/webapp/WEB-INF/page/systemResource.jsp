@@ -35,7 +35,7 @@
                                    onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'queryEndDate\')||\'2099-12-31\'}'})">
                             <input type="text" id="queryEndDate" class="span2 m-wrap" placeholder="结束日期"
                                    onfocus="WdatePicker({minDate:'#F{$dp.$D(\'queryStartDate\')}',maxDate:'2099-12-31'})">
-                            <button type="submit" id="query" class="span1 btn btn-success" onclick="load()"><i class="icon-search"></i> 查询</button>
+                            <button type="submit" id="query" class="span2 btn btn-success" onclick="load()"><i class="icon-search"></i> 查询</button>
                             </button>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">修改时间:</label>
+                <label class="control-label">最后修改时间:</label>
                 <div class="controls">
                     <input id="gmtModifyDetail" type="text" name="gmtModifyDetail" disabled="disabled"/>
                 </div>
