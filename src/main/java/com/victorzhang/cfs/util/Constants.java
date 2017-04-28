@@ -62,7 +62,9 @@ public final class Constants {
     public static final String USER_TYPE = "用户类型";
 
     public static final String ARGS_ERROR = "参数错误";
+    public static final String NO_ACCESS_PERMISSION = "沒有访问权限";
 
+    public static final String RESOURCE_VERIFYING = "0";
     public static final String RESOURCE_VERIFY_SUCCESS = "1";
 
 }

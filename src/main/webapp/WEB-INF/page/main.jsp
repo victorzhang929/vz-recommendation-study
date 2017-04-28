@@ -6,11 +6,7 @@
 <head>
     <%@ include file="common.jsp" %>
     <title>学习资源个性化推荐系统</title>
-    <script>
-        $(function () {
-            navicatActiveProccess('main');
-        })
-    </script>
+    <script src="<%=basePath%>js/page/main.js"></script>
 </head>
 
 <c:import url="head.jsp"/>
@@ -34,13 +30,13 @@
                         <ul class="quick-actions">
                             <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardUserResourceUI.do"> <i class="icon-bar-chart"></i> 用户资源 </a></li>
                             <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardSystemResourceUI.do"> <i class="icon-barcode"></i> 系统资源 </a></li>
-                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardResourceBrowseRecordUI.do"> <i class="icon-share"></i> 资源浏览记录 </a></li>
+                            <li class="bg_ls span3"><a href="<%=basePath%>browseRecord/forwardResourceBrowseRecordUI.do"> <i class="icon-share"></i> 资源浏览记录 </a></li>
                         </ul>
                     </div>
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
                             <li class="bg_ls span3"><a href="<%=basePath%>downloadRecord/forwardResourceDownloadRecordUI.do"> <i class="icon-download-alt"></i> 资源下载记录 </a></li>
-                            <li class="bg_ls span3"><a href="<%=basePath%>browseRecord/forwardRecommendedResourceUI.do"> <i class="icon-magic"></i> 个性化推荐 </a></li>
+                            <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardRecommendedResourceUI.do"> <i class="icon-magic"></i> 个性化推荐 </a></li>
                             <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardCommentResourceUI.do"> <i class="icon-comments"></i> 我的评论 </a></li>
                         </ul>
                     </div>
@@ -77,14 +73,7 @@
                             </div>
                         </div>
                         <div class="portlet-body" style="display: block;">
-                            <ol>
-                                <li>教育技术学导论</li>
-                                <li>计算机网络</li>
-                                <li>数据结构</li>
-                                <li>美国名校励志演讲</li>
-                                <li>2017年英语四级模拟真题</li>
-                                <li>2017年英语六级模拟真题</li>
-                                <li>考研政治肖秀荣四套题</li>
+                            <ol id = "newestResource">
                             </ol>
                         </div>
                     </div>
@@ -96,14 +85,7 @@
                             </div>
                         </div>
                         <div class="portlet-body" style="display: block;">
-                            <ol>
-                                <li>教育技术学导论</li>
-                                <li>2017年英语四级模拟真题</li>
-                                <li>2017年英语六级模拟真题</li>
-                                <li>考研政治肖秀荣四套题</li>
-                                <li>考研英语模拟真题</li>
-                                <li>C语言程序设计</li>
-                                <li>易中天中华史</li>
+                            <ol id = "hotResource">
                             </ol>
                         </div>
                     </div>

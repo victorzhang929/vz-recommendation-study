@@ -9,8 +9,6 @@ public class ResourceDownload {
     private String downloadTime;
     private String userId;
 
-    public ResourceDownload(){}
-
     public ResourceDownload(String id, String resourceId, String downloadTime, String userId){
         this.id = id;
         this.resourceId = resourceId;

@@ -1,9 +1,9 @@
 $(function () {
     $("#realname").html("<b>" + $.cookie('realname') + "</b>");
-    initUnreadMsg('myMsgUnread', 'unreadSum');
+    initUnreadMsg();
 });
 
-function initUnreadMsg(msgId, msgNum) {
+function initUnreadMsg() {
     $.ajax({
         type: "POST",
         url: path + "/message/listUnreadMsg.do",
@@ -19,8 +19,8 @@ function initUnreadMsg(msgId, msgNum) {
                 }
             }
             msg += "<li><a href= '" + path + "/message/forwardAllMsgUI.do' title='全部消息'><i class='icon-bell'></i> 全部消息 >></a></li>";
-            $("#" + msgId).html(msg);
-            $("#" + msgNum).html(re.count);
+            $("#myMsgUnread").html(msg);
+            $("#unreadSum").html(re.count);
         }
     });
 }

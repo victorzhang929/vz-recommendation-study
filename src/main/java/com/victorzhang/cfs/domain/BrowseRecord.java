@@ -8,4 +8,8 @@ public class BrowseRecord {
     private String resourceId;
     private String browseTime;
     private String userId;
+
+    public BrowseRecord(String userId){
+        this.userId = userId;
+    }
 }
