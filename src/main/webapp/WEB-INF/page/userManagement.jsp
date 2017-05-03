@@ -30,10 +30,10 @@
                                    onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'queryEndDate\')||\'2099-12-31\'}'})">
                             <input type="text" id="queryEndDate" class="span2 m-wrap" placeholder="结束日期"
                                    onfocus="WdatePicker({minDate:'#F{$dp.$D(\'queryStartDate\')}',maxDate:'2099-12-31'})">
-                            <button type="submit" id="query" class="span1 btn btn-success" onclick="load()"> <i class="icon-search"></i> 查询 </button>
-                            <button type="submit" id="add" class="span1 btn btn-info"> <i class="icon-plus"></i> 添加 </button>
-                            <button type="submit" id="addBatch" class="span1 btn btn-primary"> <i class="icon-plus-sign"></i> 批量添加 </button>
-                            <button type="submit" id="removeBatch" class="span1 btn btn-danger"> <i class="icon-remove-sign"></i> 批量删除 </button>
+                            <button type="submit" id="query" class="span2 btn btn-success" onclick="load()"> <i class="icon-search"></i> 查询 </button>
+                            <button type="submit" id="add" class="span2 btn btn-info"> <i class="icon-plus"></i> 添加 </button>
+                            <button type="submit" id="addBatch" class="span2 btn btn-primary"> <i class="icon-plus-sign"></i> 批量添加 </button>
+                            <button type="submit" id="removeBatch" class="span2 btn btn-danger"> <i class="icon-remove-sign"></i> 批量删除 </button>
                         </div>
                     </div>
                 </div>

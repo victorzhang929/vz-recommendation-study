@@ -6,6 +6,9 @@ import com.victorzhang.cfs.mapper.BaseMapper;
 import com.victorzhang.cfs.mapper.ResourceMapper;
 import com.victorzhang.cfs.service.ResourceService;
 import com.victorzhang.cfs.util.CommonUtils;
+import com.victorzhang.cfs.util.query.BuildQueryParam;
+import com.victorzhang.cfs.util.query.GenericQueryParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.victorzhang.cfs.util.Constants.*;
 
@@ -87,6 +93,16 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         updateResourceDownload(resource);
     }
 
+    @Override
+    public List<Map<String, Object>> listNewestResource() throws Exception {
+        return resourceMapper.listNewestResource();
+    }
+
+    @Override
+    public List<Map<String, Object>> listHotResource() throws Exception {
+        return resourceMapper.listHotResource();
+    }
+
     private void saveResourceDownload(HttpServletRequest request, String resourceId) throws Exception {
         String resourceDownloadId = CommonUtils.newUuid();
         String resourceDownloadResourceId = resourceId;
@@ -98,7 +114,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         }
     }
 
-    private void updateResourceDownload(Resource resource) throws Exception{
+    private void updateResourceDownload(Resource resource) throws Exception {
         Resource updateResourceDownloadCount = new Resource();
         int resourceDownloadCount = Integer.parseInt(resource.getResourceDownloadCount()) + 1;
         updateResourceDownloadCount.setResourceDownloadCount(String.valueOf(resourceDownloadCount));

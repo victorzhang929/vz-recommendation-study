@@ -2,7 +2,6 @@ package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.domain.Resource;
 import com.victorzhang.cfs.service.ResourceService;
-import com.victorzhang.cfs.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +14,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.victorzhang.cfs.util.Constants.USER_ID;
@@ -41,13 +41,24 @@ public class ResourceTest {
     }
 
     @Test
-    public void testListPaging() throws Exception{
+    public void testListPaging() throws Exception {
         Resource resource = new Resource();
         Map<String, Object> map = resourceService.listPaging(resource, "1", "1", "", "", null);
-        for(Map.Entry entry: map.entrySet()){
+        for (Map.Entry entry : map.entrySet()) {
             System.out.println(entry.getKey());
             System.out.println(entry.getValue());
         }
 
+    }
+
+    @Test
+    public void testListNewestResource() throws Exception {
+        List<Map<String, Object>> list = resourceService.listNewestResource();
+        for (Map<String, Object> map : list) {
+            for (Map.Entry entry : map.entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println(entry.getValue());
+            }
+        }
     }
 }
