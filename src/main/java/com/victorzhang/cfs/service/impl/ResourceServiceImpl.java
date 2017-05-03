@@ -6,6 +6,9 @@ import com.victorzhang.cfs.mapper.BaseMapper;
 import com.victorzhang.cfs.mapper.ResourceMapper;
 import com.victorzhang.cfs.service.ResourceService;
 import com.victorzhang.cfs.util.CommonUtils;
+import com.victorzhang.cfs.util.query.BuildQueryParam;
+import com.victorzhang.cfs.util.query.GenericQueryParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

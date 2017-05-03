@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.victorzhang.cfs.util.Constants.*;
@@ -109,7 +110,11 @@ public class ResourceController {
     @ResponseBody
     public Map<String, Object> listHotResource() throws Exception {
         Map<String, Object> map = new HashMap<>();
-        map.put("data", resourceService.listHotResource());
+        List<Map<String, Object>> list = resourceService.listHotResource();
+        if (list.get(0).get("id") == null || list.get(0).get("resource_name") == null) {
+            return null;
+        }
+        map.put("data", list);
         return map;
     }
 
@@ -135,7 +140,7 @@ public class ResourceController {
         //admin permission
         if (StringUtils.equals(CommonUtils.sesAttr(request, ROLE_ID), ADMIN_ROLE_ID)) {
             Resource resource = new Resource(resourceId, verifyType);
-            if(!resourceService.update(resource)){
+            if (!resourceService.update(resource)) {
                 throw new SQLException(UPDATE_ERROR);
             }
             return UPDATE_SUCCESS;
