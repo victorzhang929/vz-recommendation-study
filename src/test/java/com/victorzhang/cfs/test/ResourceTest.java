@@ -68,10 +68,4 @@ public class ResourceTest {
         }
     }
 
-    @Test
-    public void testSaveScoreRecord() throws Exception {
-        ScoreRecord scoreRecord = new ScoreRecord("C4CA4238A0B923820DCC509A6F75849B", "0C60B659CFCF41418A59D188B09F72F6", "5", "2017-05-09 18:09:59");
-        int count = scoreRecordMapper.save(scoreRecord);
-        System.out.println(count);
-    }
 }
