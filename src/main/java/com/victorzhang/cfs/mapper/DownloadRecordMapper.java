@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DownloadRecordMapper extends BaseMapper<DownloadRecord, String> {
+    int countByResourceDownload(DownloadRecord downloadRecord);
 }

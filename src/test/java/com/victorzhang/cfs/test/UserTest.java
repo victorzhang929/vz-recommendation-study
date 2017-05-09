@@ -3,6 +3,7 @@ package com.victorzhang.cfs.test;
 import com.victorzhang.cfs.domain.User;
 import com.victorzhang.cfs.service.UserService;
 import com.victorzhang.cfs.util.CommonUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,8 @@ public class UserTest {
 
     @Test
     public void testGetUserByUsernameAndPassword() throws Exception {
-        userService.doLoginByUsernameAndPassword("admin", "1", request);
+        User user = userService.doLoginByUsernameAndPassword("admin", "1", request);
+        Assert.assertEquals("管理员",user.getRealname());
     }
 
     @Test

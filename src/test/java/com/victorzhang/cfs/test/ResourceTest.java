@@ -1,6 +1,8 @@
 package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.domain.Resource;
+import com.victorzhang.cfs.domain.ScoreRecord;
+import com.victorzhang.cfs.mapper.ScoreRecordMapper;
 import com.victorzhang.cfs.service.ResourceService;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,10 @@ public class ResourceTest {
     @Autowired
     @Qualifier("resourceService")
     private ResourceService resourceService;
+
+    @Autowired
+    @Qualifier("scoreRecordMapper")
+    private ScoreRecordMapper scoreRecordMapper;
 
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -60,5 +66,12 @@ public class ResourceTest {
                 System.out.println(entry.getValue());
             }
         }
+    }
+
+    @Test
+    public void testSaveScoreRecord() throws Exception {
+        ScoreRecord scoreRecord = new ScoreRecord("C4CA4238A0B923820DCC509A6F75849B", "0C60B659CFCF41418A59D188B09F72F6", "5", "2017-05-09 18:09:59");
+        int count = scoreRecordMapper.save(scoreRecord);
+        System.out.println(count);
     }
 }

@@ -104,10 +104,6 @@
         DELETE FROM resource WHERE id = #{id}
     </delete>
 
-    <insert id="saveResourceDownload" parameterType="com.victorzhang.cfs.domain.ResourceDownload">
-        INSERT INTO resource_download (id, resource_id, download_time, user_id) VALUES (#{id}, #{resourceId}, #{downloadTime}, #{userId})
-    </insert>
-
     <update id="update" parameterType="com.victorzhang.cfs.domain.Resource">
         UPDATE resource
         <set>
@@ -133,7 +129,5 @@
         GROUP BY id
         ORDER BY SUM(resource_download_count+resource_browse_count) DESC
         LIMIT 8
-        WHERE verify_type = 1
     </select>
-
 </mapper>

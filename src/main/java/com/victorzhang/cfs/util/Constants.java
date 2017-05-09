@@ -70,4 +70,9 @@ public final class Constants {
     public static final String RESOURCE_VERIFYING = "0";
     public static final String RESOURCE_VERIFY_SUCCESS = "1";
 
+    public static final String SCORE_FLAG = "0";
+    public static final String DOWNLOAD_SCORE_FLAG = "1";
+    public static final String BROWSE_SCORE_FLAG = "2";
+    public static final String DOWNLOAD_BORWSE_SCORE_FLAG = "3";
+
 }

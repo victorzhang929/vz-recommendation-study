@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.victorzhang.cfs.mapper.ScoreRecordMapper">
+
+    <select id="count" parameterType="java.util.Map">
+        SELECT count(*)
+        FROM resource_score
+        WHERE resource_id = #{resourceId} AND user_id = #{userId}
+    </select>
+
+    <update id="update" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+        UPDATE resource_score
+        SET user_id = #{userId}, resource_id = {resourceId}, rating = #{rating}, rating_time = {ratingTime}, score_flag = #{scoreFlag}
+    </update>
+
+    <insert id="save" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+        INSERT INTO resource_score (user_id, resource_id, rating, rating_time, score_flag)
+        VALUES (#{userId}, #{resourceId}, #{rating}, #{ratingTime}, #{scoreFlag})
+    </insert>
+
+    <select id="get" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+        SELECT score_flag
+        FROM resource_score
+        WHERE resource_id = #{resourceId} AND user_id = #{userId}
+    </select>
+
+</mapper>
