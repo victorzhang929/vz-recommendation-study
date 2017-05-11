@@ -120,7 +120,7 @@ function judgeResourceType(resourceTypeNumber) {
     return resourceType;
 }
 
-function judgeResourceVerifyType(verifyTypeNumber){
+function judgeResourceVerifyType(verifyTypeNumber) {
     var verifyType;
     switch (verifyTypeNumber) {
         case 0:
@@ -137,4 +137,8 @@ function judgeResourceVerifyType(verifyTypeNumber){
             break
     }
     return verifyType;
+}
+
+function getResourceDetail(id) {
+    location.href = path + "/resource/getResourceDetailUI.do?id="+id;
 }

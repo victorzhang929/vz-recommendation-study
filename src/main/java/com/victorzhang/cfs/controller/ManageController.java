@@ -33,8 +33,8 @@ public class ManageController {
         return userService.listUserType();
     }
 
-    @RequestMapping("/forwardMessageManagementUI")
-    public String forwardMessageManagementUI() {
-        return "messageManagement";
+    @RequestMapping("/forwardResourceManagementUI")
+    public String forwardResourceManagementUI() {
+        return "resourceManagement";
     }
 }

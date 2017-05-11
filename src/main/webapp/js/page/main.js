@@ -43,7 +43,3 @@ function initHotResource(){
         }
     });
 }
-
-function getResourceDetail(resourceId){
-
-}

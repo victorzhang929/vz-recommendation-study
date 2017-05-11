@@ -1,7 +1,7 @@
 package com.victorzhang.cfs.controller;
 
-import com.victorzhang.cfs.domain.Resource;
-import com.victorzhang.cfs.service.ResourceService;
+import com.victorzhang.cfs.domain.*;
+import com.victorzhang.cfs.service.*;
 import com.victorzhang.cfs.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +83,7 @@ public class ResourceController {
             if (!resourceService.remove(id)) {
                 throw new SQLException(REMOVE_ERROR);
             }
+            resourceService.removeRecordAboutThisResource(id);
         } else {
             throw new FileNotFoundException(FILE_NOT_FOUND);
         }
@@ -102,7 +105,7 @@ public class ResourceController {
     @ResponseBody
     public Map<String, Object> listNewestResource() throws Exception {
         Map<String, Object> map = new HashMap<>();
-        map.put("data", resourceService.listNewestResource());
+        map.put("data", CommonUtils.dataNull(resourceService.listNewestResource()));
         return map;
     }
 
@@ -111,10 +114,7 @@ public class ResourceController {
     public Map<String, Object> listHotResource() throws Exception {
         Map<String, Object> map = new HashMap<>();
         List<Map<String, Object>> list = resourceService.listHotResource();
-        if (list.get(0).get("id") == null || list.get(0).get("resource_name") == null) {
-            return null;
-        }
-        map.put("data", list);
+        map.put("data", CommonUtils.dataNull(list));
         return map;
     }
 
@@ -146,5 +146,16 @@ public class ResourceController {
             return UPDATE_SUCCESS;
         }
         throw new IllegalAccessException(NO_ACCESS_PERMISSION);
+    }
+
+    @RequestMapping("/getResourceDetailUI.do")
+    public String getResourceDetailUI() throws Exception {
+        return "resourceDetail";
+    }
+
+    @RequestMapping("/getResourceDetail.do")
+    @ResponseBody
+    public Map<String, Object> getResourceDetail(String id) throws Exception {
+        return resourceService.getResourceDetail(id);
     }
 }

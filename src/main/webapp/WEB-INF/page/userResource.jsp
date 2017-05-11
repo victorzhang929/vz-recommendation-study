@@ -112,6 +112,7 @@
     </form>
 </div>
 
+<%--
 <div id="getModal" class="modal hide">
     <div class="modal-header">
         <button data-dismiss="modal" class="close" type="button">×</button>
@@ -178,4 +179,4 @@
     <div class="modal-footer">
         <a data-dismiss="modal" class="btn btn-success" href="javascript:void(0);"> 确认 </a>
     </div>
-</div>
+</div>--%>

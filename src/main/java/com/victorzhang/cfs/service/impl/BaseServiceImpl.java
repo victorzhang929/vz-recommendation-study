@@ -90,9 +90,18 @@ public abstract class BaseServiceImpl<T, ID extends Serializable> implements Bas
     }
 
     @Override
+    public List<T> list(String id) throws Exception {
+        List<T> data = getMapper().list(id);
+        if (data.isEmpty() || data.size() == 0) {
+            data = new ArrayList<>();
+        }
+        return data;
+    }
+
+    @Override
     public Map<String, Object> listPaging(T entity, String page, String pageSize, String startDate, String endDate, GenericQueryParam param) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        if(param == null){
+        if (param == null) {
             param = new GenericQueryParam();
         }
         BuildQueryParam.buildParam(entity, param);

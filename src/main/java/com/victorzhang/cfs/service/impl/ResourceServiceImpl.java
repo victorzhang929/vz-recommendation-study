@@ -8,7 +8,7 @@ import com.victorzhang.cfs.mapper.BaseMapper;
 import com.victorzhang.cfs.mapper.DownloadRecordMapper;
 import com.victorzhang.cfs.mapper.ResourceMapper;
 import com.victorzhang.cfs.mapper.ScoreRecordMapper;
-import com.victorzhang.cfs.service.ResourceService;
+import com.victorzhang.cfs.service.*;
 import com.victorzhang.cfs.util.CommonUtils;
 import com.victorzhang.cfs.util.query.GenericQueryParam;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,22 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
 
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
     private static final String CONTENT_LENGTH = "Content-Length";
+
+    @Autowired
+    @Qualifier("browseRecordService")
+    private BrowseRecordService browseRecordService;
+
+    @Autowired
+    @Qualifier("downloadRecordService")
+    private DownloadRecordService downloadRecordService;
+
+    @Autowired
+    @Qualifier("commentService")
+    private CommentService commentService;
+
+    @Autowired
+    @Qualifier("scoreRecordService")
+    private ScoreRecordService scoreRecordService;
 
     @Autowired
     @Qualifier("resourceMapper")
@@ -126,6 +143,32 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         return resourceMapper.listHotResource();
     }
 
+    @Override
+    public void removeRecordAboutThisResource(String resourceId) throws Exception {
+        downloadRecordService.remove(resourceId);
+        browseRecordService.remove(resourceId);
+        scoreRecordService.remove(resourceId);
+        commentService.removeByResourceId(resourceId);
+    }
+
+    @Override
+    public Map<String, Object> getResourceDetail(String id) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        Resource resource = getById(id);
+        map.put("resource", resource);
+        map.put("comments", CommonUtils.dataNull(commentService.listByResourceId(id)));
+        map.put("averageScore", getAverageScore(scoreRecordService.list(id)));
+        return map;
+    }
+
+    private double getAverageScore(List<ScoreRecord> scoreRecords) {
+        double sum = 0.0;
+        for (ScoreRecord scoreRecord : scoreRecords) {
+            sum += Double.parseDouble(scoreRecord.getRating());
+        }
+        return sum / scoreRecords.size();
+    }
+
     private void updateResourceDownloadCount(Resource resource) throws Exception {
         Resource updateResourceDownloadCount = new Resource();
         int resourceDownloadCount = Integer.parseInt(resource.getResourceDownloadCount()) + 1;
@@ -140,30 +183,30 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         String userId = CommonUtils.sesAttr(request, USER_ID);
         DownloadRecord downloadRecord = new DownloadRecord(resourceId, downloadTime, userId);
         int count = downloadRecordMapper.countByResourceDownload(downloadRecord);
-        if(count > 0){ //数据库中存在数据，更新操作
+        if (count > 0) { //数据库中存在数据，更新操作
             downloadRecordMapper.update(downloadRecord);
-        } else{//数据库中不存在该记录，插入操作
+        } else {//数据库中不存在该记录，插入操作
             downloadRecordMapper.save(downloadRecord);
             //评分表插入或更新操作
             saveOrUpdateScoreRecord(resourceId, userId);
         }
     }
 
-    private void saveOrUpdateScoreRecord(String resourceId, String userId) throws Exception{
+    private void saveOrUpdateScoreRecord(String resourceId, String userId) throws Exception {
         GenericQueryParam param = new GenericQueryParam();
         param.fill("resourceId", resourceId);
         param.fill("userId", userId);
         int scoreCount = scoreRecordMapper.count(param);
 
         ScoreRecord scoreRecord = new ScoreRecord(userId, resourceId, CommonUtils.getDateTime());
-        if(scoreCount <= 0){//数据库resource_score表中不存在该纪录，插入
+        if (scoreCount <= 0) {//数据库resource_score表中不存在该纪录，插入
             scoreRecord.setRating(Score.TWO.toString());
             scoreRecord.setScoreFlag(DOWNLOAD_SCORE_FLAG);
             scoreRecordMapper.save(scoreRecord);
-        }else{//数据库resource_score表中存在该记录，更新操作
+        } else {//数据库resource_score表中存在该记录，更新操作
             ScoreRecord scoreRecordByDB = scoreRecordMapper.get(scoreRecord);
             //score_flag为BROWSE_SCORE_FLAG，评分更新4，并将score_flag表示为DOWNLOAD_BORWSE_SCORE_FLAG
-            if(StringUtils.equals(scoreRecordByDB.getScoreFlag(),BROWSE_SCORE_FLAG)){
+            if (StringUtils.equals(scoreRecordByDB.getScoreFlag(), BROWSE_SCORE_FLAG)) {
                 scoreRecord.setRating(Score.FOUR.toString());
                 scoreRecord.setScoreFlag(DOWNLOAD_BORWSE_SCORE_FLAG);
             }

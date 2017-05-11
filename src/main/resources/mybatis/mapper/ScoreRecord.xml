@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.victorzhang.cfs.mapper.ScoreRecordMapper">
 
+    <resultMap id="score" type="com.victorzhang.cfs.domain.ScoreRecord">
+        <result column="user_id" property="userId"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="rating" property="rating"/>
+        <result column="rating_time" property="ratingTime"/>
+        <result column="score_flag" property="scoreFlag"/>
+    </resultMap>
+
     <select id="count" resultType="int" parameterType="java.util.Map">
         SELECT count(*)
         FROM resource_score
@@ -18,10 +26,20 @@
         VALUES (#{userId}, #{resourceId}, #{rating}, #{ratingTime}, #{scoreFlag})
     </insert>
 
-    <select id="get" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+    <select id="get" resultMap="score" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
         SELECT score_flag
         FROM resource_score
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
+    </select>
+
+    <delete id="remove" parameterType="java.lang.String">
+        DELETE FROM resource_score WHERE resource_id = #{id}
+    </delete>
+
+    <select id="list" resultMap="score" parameterType="java.lang.String">
+        SELECT rating
+        FROM resource_score
+        WHERE resource_id = #{resourceId}
     </select>
 
 </mapper>

@@ -51,4 +51,8 @@
         ORDER BY rb.browse_time DESC LIMIT ${begin},${pageSize}
     </select>
 
+    <delete id="remove" parameterType="java.lang.String">
+        DELETE FROM resource_browse WHERE resource_id = #{id}
+    </delete>
+
 </mapper>

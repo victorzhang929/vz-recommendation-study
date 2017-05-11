@@ -10,6 +10,8 @@ public class ScoreRecord {
     private String ratingTime;
     private String scoreFlag;
 
+    public ScoreRecord(){}
+
     public ScoreRecord(String userId, String resourceId, String rating, String ratingTime, String scoreFlag){
         this.userId = userId;
         this.resourceId = resourceId;

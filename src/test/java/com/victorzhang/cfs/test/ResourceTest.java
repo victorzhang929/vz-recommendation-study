@@ -1,9 +1,11 @@
 package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.domain.Resource;
+import com.victorzhang.cfs.domain.Score;
 import com.victorzhang.cfs.domain.ScoreRecord;
 import com.victorzhang.cfs.mapper.ScoreRecordMapper;
 import com.victorzhang.cfs.service.ResourceService;
+import com.victorzhang.cfs.util.CommonUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,6 +68,13 @@ public class ResourceTest {
                 System.out.println(entry.getValue());
             }
         }
+    }
+
+    @Test
+    public void testDownloadResource() throws Exception {
+        ScoreRecord scoreRecord = new ScoreRecord("C4CA4238A0B923820DCC509A6F75849B", "65FD3294A01B4304B983FEF0FB86FB09", CommonUtils.getDateTime());
+        ScoreRecord scoreRecordDB = scoreRecordMapper.get(scoreRecord);
+        System.out.println(scoreRecordDB);
     }
 
 }

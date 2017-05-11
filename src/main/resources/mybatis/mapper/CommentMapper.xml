@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.victorzhang.cfs.mapper.CommentMapper">
 
+    <resultMap id="comment" type="com.victorzhang.cfs.domain.Comment">
+        <id column="id" property="id"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="user_id" property="userId"/>
+        <result column="comment_content" property="commentContent"/>
+        <result column="comment_time" property="commentTime"/>
+    </resultMap>
+
     <select id="count" resultType="int" parameterType="java.util.Map">
         SELECT COUNT(*) FROM resource_comment rc
         LEFT JOIN resource r
@@ -60,5 +68,18 @@
     <delete id="remove" parameterType="java.lang.String">
         DELETE FROM resource_comment WHERE id = #{id}
     </delete>
+
+    <delete id="removeByResourceId" parameterType="java.lang.String">
+        DELETE FROM resource_comment WHERE resource_id = #{resourceId}
+    </delete>
+    
+    <select id="listByResourceId" resultType="java.util.Map" parameterType="java.lang.String">
+        SELECT c.comment_content,  DATE_FORMAT(c.comment_time,'%Y-%m-%d %H:%h:%s') AS comment_time, u.realname
+        FROM resource_comment c
+        LEFT JOIN user u
+        ON c.user_id = u.id
+        WHERE c.resource_id = #{resourceId}
+        ORDER BY c.comment_time DESC
+    </select>
 
 </mapper>

@@ -65,4 +65,8 @@
         INSERT INTO resource_download (resource_id, download_time, user_id)
         VALUES (#{resourceId}, #{downloadTime}, #{userId})
     </insert>
+
+    <delete id="remove" parameterType="java.lang.String">
+        DELETE FROM resource_download WHERE resource_id = #{id}
+    </delete>
 </mapper>

@@ -1,5 +1,5 @@
 $(function () {
-    navicatActiveProccess('userResource');
+    navicatActiveProccess('resourceManagement');
     tableDivPage();
     p_pageSelect();
     load();
@@ -18,9 +18,8 @@ function load(pge) {
     param.verifyType = $("#queryVerifyType option:selected").val();
     param.startDate = $("#queryStartDate").val();
     param.endDate = $("#queryEndDate").val();
-
     $.ajax({
-        url: path + "/resource/listPaging.do",
+        url: path + "/resource/listSystemResourcePaging.do",
         type: "POST",
         data: param,
         dataType: "json",
@@ -31,7 +30,7 @@ function load(pge) {
                 + "<th style='width:20%'>资源名称</th>"
                 + "<th style='width:10%'>类型</th>"
                 + "<th style='width:20%'>上传时间</th>"
-                + "<th style='width:20%'>审核状态</th>"
+                + "<th style='width:20%'>上传人</th>"
                 + "<th style='width:20%'>操作</th>"
                 + "</tr></thead>" + "<tbody id='trs'>";
 
@@ -44,7 +43,7 @@ function load(pge) {
                         + "<td title='" + data.resource_name + "'>" + data.resource_name + "</td>"
                         + "<td title='" + judgeResourceType(data.resource_type) + "'>" + judgeResourceType(data.resource_type) + "</td>"
                         + "<td title='" + data.gmt_create + "'>" + data.gmt_create + "</td>"
-                        + "<td title='" + judgeResourceVerifyType(data.verify_type) + "'>" + judgeResourceVerifyType(data.verify_type) + "</td>"
+                        + "<td title='" + data.username + "'>" + data.username + "</td>"
                         + "<td>" + handle(data.id) + "</td>"
                         + "</tr>";
                 }
@@ -65,20 +64,17 @@ function load(pge) {
 }
 
 function handle(id) {
-    return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResourceDetail('" + id + "');>详情</a>"
-        + "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>"
-        + "<a id='delete" + id + "' class='bt bt-xs bt-danger' onclick=deleteResource('" + id + "');>删除</a>";
+    return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResource('" + id + "');>详情</a>"
+        + "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>";
 }
 
-/*function getResource(id) {
-    location.href = path + "/resource/getResourceDetailUI.do?id=" + id;
+function getResource(id) {
     $("#resourceNameDetail").val("");
     $("#resourceDescriptionDetail").val("");
     $("#resourceTagDetail").val("");
     $("#resourceDownloadCountDetail").val("");
     $("#resourceBrowseCountDetail").val("");
     $("#resourceTypeDetail").val("");
-    $("#verifyTypeDetail").val("");
     $("#gmtCreateDetail").val("");
     $("#gmtModifyDetail").val("");
     $.ajax({
@@ -93,7 +89,6 @@ function handle(id) {
             $("#resourceDownloadCountDetail").val(req.resourceDownloadCount);
             $("#resourceBrowseCountDetail").val(req.resourceBrowseCount);
             $("#resourceTypeDetail").val(judgeResourceType(parseInt(req.resourceType)));
-            $("#verifyTypeDetail").val(judgeResourceVerifyType(parseInt(req.verifyType)));
             $("#gmtCreateDetail").val(req.gmtCreate);
             $("#gmtModifyDetail").val(req.gmtModify);
             $("#getModal").modal('show');
@@ -101,90 +96,8 @@ function handle(id) {
             tipDialog("读取失败");
         }
     });
-}*/
+}
 
 function downloadResource(id) {
     location.href = path + "/resource/doDownloadResource.do?id=" + id;
-    /*$.ajax({
-        url: path + "/resource/doDownloadResource.do?id=" + id,
-        type: "GET",
-        // data: {"id": id},
-        contentType: 'application/octet-stream',
-        processData: false,
-        success: function () {
-            tipDialog("删除成功");
-            load();
-        }, error: function () {
-            tipDialog("删除失败");
-        }
-    });*/
-}
-
-function deleteResource(id) {
-    var d = dialog({
-        title: '提示',
-        content: '确定删除该文件？',
-        okValue: '确定',
-        ok: function () {
-            $.ajax({
-                url: path + "/resource/removeResource.do",
-                type: "POST",
-                data: {"id": id},
-                dataType: "json",
-                success: function () {
-                    tipDialog("删除成功");
-                    load();
-                }, error: function () {
-                    tipDialog("删除失败");
-                }
-            });
-        },
-        cancelValue: '取消',
-        cancel: function () {
-        }
-    });
-    d.showModal();
-}
-
-function uploadResourceUI() {
-    $("#uploadMsg").html("");
-    $("#resourceFile").val("");
-    $("#resourceName").val("");
-    $("#resourceDescription").val("");
-    $("#resourceTag").val("");
-    $("#resourceType").val("");
-}
-
-function uploadResource() {
-    showDialogMsg("uploadMsg", "正在上传中...");
-    $('#uploadResourceForm').ajaxForm({
-        dataType: "text",
-        beforeSubmit: function () {
-            $("#btnUploadResource").attr("disabled", "disabled");
-            if ($("#resourceFile").val() === null || $("#resourceFile").val() === "") {
-                showDialogMsg('uploadMsg', '请选择文件');
-                return false;
-            }
-            if ($("#resourceName").val() === "") {
-                showDialogMsg('uploadMsg', '资源名称不能为空');
-                return false;
-            }
-            if ($("#resourceTag").val() === "") {
-                showDialogMsg('uploadMsg', '资源标签不能为空');
-                return false;
-            }
-            if ($("#resourceType option:selected").val() === "") {
-                showDialogMsg('uploadMsg', '请选择资源类型');
-                return false;
-            }
-        }, success: function () {
-            showDialogMsg('uploadMsg', "上传成功");
-            load();
-            uploadResourceUI();
-            $("#btnUploadResource").attr("disabled", false);
-        }, error: function () {
-            showDialogMsg('uploadMsg', '请选择正确的资源文件，重新操作');
-            $("#btnUploadResource").attr("disabled", false);
-        }
-    }).submit();
 }

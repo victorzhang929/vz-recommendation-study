@@ -18,7 +18,6 @@
     margin: 20px;
 }
 .portlet > .portlet-title > .caption > i {
-    float: left;
     margin-top: 4px;
     display: inline-block !important;
     font-size: 13px;
@@ -44,7 +43,14 @@
     list-style: none;
     padding: 5px 0;
     margin: 10px auto;
-    font-size: 12px;
+    font-size: 14px;
+}
+.chats .no-records{
+    list-style: none;
+    padding: 5px 0;
+    margin: 10px 0px 10px 20px;
+    font-size: 16px;
+    color:red;
 }
 .chats li.in .message {
     text-align: left;
@@ -88,15 +94,6 @@
 .chats li .message .body {
     display: block;
 }
-.chats li.out .message {
-    border-right: 2px solid #da4a38;
-    margin-right: 65px;
-    background: #fafafa;
-    text-align: right;
-}
-.chat-form .input-cont {
-    margin-right: 40px;
-}
 .chat-form .input-cont .form-control {
     width: 100% !important;
     margin-bottom: 0px;
@@ -110,10 +107,10 @@
     margin-top: 0;
 }
 .chat-form .btn-cont {
-    margin-top: -38px;
+    margin-top: -28px;
     position: relative;
     float: right;
-    width: 67px;
+    /*width: 67px;*/
 }
 .chat-form .btn-cont .btn {
     margin-top: 8px;

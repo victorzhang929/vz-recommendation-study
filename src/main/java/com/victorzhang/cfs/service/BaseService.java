@@ -23,6 +23,8 @@ public interface BaseService<T, ID extends Serializable> {
 
     List<T> list() throws Exception;
 
+    List<T> list(String id) throws Exception;
+
     Map<String, Object> listPaging(T entity, String page, String pageSize, String startDate, String endDate, GenericQueryParam param) throws Exception;
 
     int count(T entity) throws Exception;

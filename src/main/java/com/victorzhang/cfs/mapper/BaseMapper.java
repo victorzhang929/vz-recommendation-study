@@ -29,6 +29,8 @@ public interface BaseMapper<T, ID extends Serializable> {
 
     List<T> list() throws Exception;
 
+    List<T> list(String id) throws Exception;
+
     List<Map<String, Object>> listPaging(GenericQueryParam param) throws Exception;
 
     int count(GenericQueryParam param) throws Exception;
