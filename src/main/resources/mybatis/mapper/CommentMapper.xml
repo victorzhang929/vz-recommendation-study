@@ -72,7 +72,7 @@
     <delete id="removeByResourceId" parameterType="java.lang.String">
         DELETE FROM resource_comment WHERE resource_id = #{resourceId}
     </delete>
-    
+
     <select id="listByResourceId" resultType="java.util.Map" parameterType="java.lang.String">
         SELECT c.comment_content,  DATE_FORMAT(c.comment_time,'%Y-%m-%d %H:%h:%s') AS comment_time, u.realname
         FROM resource_comment c
@@ -81,5 +81,10 @@
         WHERE c.resource_id = #{resourceId}
         ORDER BY c.comment_time DESC
     </select>
+
+    <insert id="save" parameterType="com.victorzhang.cfs.domain.Comment">
+        INSERT INTO resource_comment (id, comment_content, user_id, resource_id, comment_time)
+        VALUES (#{id},#{commentContent},#{userId}, #{resourceId}, #{commentTime})
+    </insert>
 
 </mapper>

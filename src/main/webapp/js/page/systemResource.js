@@ -65,38 +65,8 @@ function load(pge) {
 }
 
 function handle(id) {
-    return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResource('" + id + "');>详情</a>"
+    return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResourceDetail('" + id + "');>详情</a>"
         + "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>";
-}
-
-function getResource(id) {
-    $("#resourceNameDetail").val("");
-    $("#resourceDescriptionDetail").val("");
-    $("#resourceTagDetail").val("");
-    $("#resourceDownloadCountDetail").val("");
-    $("#resourceBrowseCountDetail").val("");
-    $("#resourceTypeDetail").val("");
-    $("#gmtCreateDetail").val("");
-    $("#gmtModifyDetail").val("");
-    $.ajax({
-        url: path + "/resource/getById.do",
-        type: "POST",
-        data: {"id": id},
-        dataType: "json",
-        success: function (req) {
-            $("#resourceNameDetail").val(req.resourceName);
-            $("#resourceDescriptionDetail").val(req.resourceDescription);
-            $("#resourceTagDetail").val(req.resourceTag);
-            $("#resourceDownloadCountDetail").val(req.resourceDownloadCount);
-            $("#resourceBrowseCountDetail").val(req.resourceBrowseCount);
-            $("#resourceTypeDetail").val(judgeResourceType(parseInt(req.resourceType)));
-            $("#gmtCreateDetail").val(req.gmtCreate);
-            $("#gmtModifyDetail").val(req.gmtModify);
-            $("#getModal").modal('show');
-        }, error: function () {
-            tipDialog("读取失败");
-        }
-    });
 }
 
 function downloadResource(id) {

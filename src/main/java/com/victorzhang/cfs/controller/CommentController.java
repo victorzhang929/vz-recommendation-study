@@ -4,6 +4,7 @@ import com.victorzhang.cfs.domain.Comment;
 import com.victorzhang.cfs.service.CommentService;
 import com.victorzhang.cfs.util.CommonUtils;
 import com.victorzhang.cfs.util.query.GenericQueryParam;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class CommentController {
     @ResponseBody
     public String updateComment(String commentId, String commentContent) throws Exception {
         Comment comment = new Comment(commentId, commentContent);
-        if(!commentService.update(comment)){
+        if (!commentService.update(comment)) {
             throw new SQLException(UPDATE_ERROR);
         }
         return UPDATE_SUCCESS;
@@ -55,9 +56,21 @@ public class CommentController {
     @RequestMapping(value = "/deleteComment.do", produces = {"text/javascript;charset=UTF-8"})
     @ResponseBody
     public String deleteComment(String commentId) throws Exception {
-        if(!commentService.remove(commentId)){
+        if (!commentService.remove(commentId)) {
             throw new SQLException(REMOVE_ERROR);
         }
         return REMOVE_SUCCESS;
+    }
+
+    @RequestMapping("/saveComment.do")
+    @ResponseBody
+    public void saveComment(String resourceId, String commentContent) throws Exception {
+        String id = CommonUtils.newUuid();
+        String userId = CommonUtils.sesAttr(request, USER_ID);
+        String commentTime = CommonUtils.getDateTime();
+        Comment comment = new Comment(id, commentContent, userId, resourceId, commentTime);
+        if(!commentService.save(comment)){
+            throw new SQLException(INSERT_ERROR);
+        }
     }
 }

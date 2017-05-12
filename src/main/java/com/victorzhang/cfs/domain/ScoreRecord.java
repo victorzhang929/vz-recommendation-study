@@ -10,9 +10,10 @@ public class ScoreRecord {
     private String ratingTime;
     private String scoreFlag;
 
-    public ScoreRecord(){}
+    public ScoreRecord() {
+    }
 
-    public ScoreRecord(String userId, String resourceId, String rating, String ratingTime, String scoreFlag){
+    public ScoreRecord(String userId, String resourceId, String rating, String ratingTime, String scoreFlag) {
         this.userId = userId;
         this.resourceId = resourceId;
         this.rating = rating;
@@ -20,9 +21,14 @@ public class ScoreRecord {
         this.scoreFlag = scoreFlag;
     }
 
-    public ScoreRecord(String userId, String resourceId,String ratingTime){
+    public ScoreRecord(String userId, String resourceId, String ratingTime) {
         this.userId = userId;
         this.resourceId = resourceId;
         this.ratingTime = ratingTime;
+    }
+
+    public ScoreRecord(String resourceId, String userId) {
+        this.resourceId = resourceId;
+        this.userId = userId;
     }
 }

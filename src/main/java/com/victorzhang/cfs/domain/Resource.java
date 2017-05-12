@@ -42,4 +42,5 @@ public class Resource {
         this.id = id;
         this.verifyType = verifyType;
     }
+
 }

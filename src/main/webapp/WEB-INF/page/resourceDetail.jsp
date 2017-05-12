@@ -7,6 +7,8 @@
     <title>资源详情--学习资源个性化推荐系统</title>
     <link rel="stylesheet" href="<%=basePath%>css/resourceDetail.css"/>
     <script src="<%=basePath%>js/jquery.url.js"></script>
+    <link rel="stylesheet" href="../plugins/jquery-raty/jquery.raty.css">
+    <script src="../plugins/jquery-raty/jquery.raty.js"></script>
     <script src="<%=basePath%>js/page/resourceDetail.js"></script>
 </head>
 
@@ -35,27 +37,16 @@
                                 <div class="caption">浏览次数：<span id="resourceBrowseCount"></span></div>
                                 <div class="caption">下载次数：<span id="resourceDownloadCount"></span></div>
                                 <div class="caption">资源当前评分：<span id="resourceAverageScore"></span></div>
-                                <div class="caption">我的评分：<i class=" icon-star-empty"></i><i class="icon-star-empty"></i><i class=" icon-star-empty"></i><i class=" icon-star-empty"></i><i class=" icon-star-empty"></i></div>
+                                <div class="caption">我的评分：
+                                    <div id="rate" style="display: inline;"></div>
+                                </div>
                             </div>
                             <div class="portlet-body" id="chats">
-                                <div class="slimScrollDiv" id="commentTable">
-                                    <%--<div class="scroller">
-                                        <ul class="chats">
-                                            <li class="in">
-                                                <div class="message">
-                                                    <span class="arrow"></span>
-                                                    <a href="#" class="name"><span id="realname"></span></a>
-                                                    <span class="datetime" id="commentTime"></span>
-                                                    <span class="body" id="contentContent">
-                                                     </span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>--%>
-                                </div>
+                                <div class="slimScrollDiv" id="commentTable"></div>
                                 <div class="chat-form">
                                     <div class="input-cont">
-                                        <textarea class="form-control" type="text" placeholder="请输入您的评论..."></textarea>
+                                        <textarea id="commentContent" class="form-control" type="text" placeholder="请输入您的评论..."></textarea>
+                                        <input class="btn" type="submit" id="submitCommentContent" onclick="submitCommentContent()">
                                     </div>
                                 </div>
                             </div>

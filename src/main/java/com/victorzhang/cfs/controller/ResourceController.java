@@ -1,7 +1,7 @@
 package com.victorzhang.cfs.controller;
 
-import com.victorzhang.cfs.domain.*;
-import com.victorzhang.cfs.service.*;
+import com.victorzhang.cfs.domain.Resource;
+import com.victorzhang.cfs.service.ResourceService;
 import com.victorzhang.cfs.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,15 +135,7 @@ public class ResourceController {
     @RequestMapping(value = "/doVerifyResource.do", produces = {"text/javascript;charset=UTF-8"})
     @ResponseBody
     public String doVerifyResource(String resourceId, String verifyType) throws Exception {
-        //admin permission
-        if (StringUtils.equals(CommonUtils.sesAttr(request, ROLE_ID), ADMIN_ROLE_ID)) {
-            Resource resource = new Resource(resourceId, verifyType);
-            if (!resourceService.update(resource)) {
-                throw new SQLException(UPDATE_ERROR);
-            }
-            return UPDATE_SUCCESS;
-        }
-        throw new IllegalAccessException(NO_ACCESS_PERMISSION);
+        return resourceService.doVerifyResource(resourceId, verifyType, request);
     }
 
     @RequestMapping("/getResourceDetailUI.do")
@@ -157,5 +147,11 @@ public class ResourceController {
     @ResponseBody
     public Map<String, Object> getResourceDetail(String id) throws Exception {
         return resourceService.getResourceDetail(id);
+    }
+
+    @RequestMapping("/updateResourceBrowseCount.do")
+    @ResponseBody
+    public void updateResourceBrowseCount(String resourceId) throws Exception{
+        resourceService.updateResourceBrowseCount(resourceId, request);
     }
 }

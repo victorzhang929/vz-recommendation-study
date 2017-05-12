@@ -19,5 +19,9 @@ public interface ResourceService extends BaseService<Resource, String> {
 
     void removeRecordAboutThisResource(String id) throws Exception;
 
-    Map<String,Object> getResourceDetail(String id) throws Exception;
+    Map<String, Object> getResourceDetail(String id) throws Exception;
+
+    void updateResourceBrowseCount(String resourceId, HttpServletRequest request) throws Exception;
+
+    String doVerifyResource(String resourceId, String verifyType, HttpServletRequest request) throws Exception;
 }

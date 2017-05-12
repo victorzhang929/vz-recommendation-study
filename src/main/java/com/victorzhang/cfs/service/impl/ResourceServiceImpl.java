@@ -1,13 +1,7 @@
 package com.victorzhang.cfs.service.impl;
 
-import com.victorzhang.cfs.domain.DownloadRecord;
-import com.victorzhang.cfs.domain.Resource;
-import com.victorzhang.cfs.domain.Score;
-import com.victorzhang.cfs.domain.ScoreRecord;
-import com.victorzhang.cfs.mapper.BaseMapper;
-import com.victorzhang.cfs.mapper.DownloadRecordMapper;
-import com.victorzhang.cfs.mapper.ResourceMapper;
-import com.victorzhang.cfs.mapper.ScoreRecordMapper;
+import com.victorzhang.cfs.domain.*;
+import com.victorzhang.cfs.mapper.*;
 import com.victorzhang.cfs.service.*;
 import com.victorzhang.cfs.util.CommonUtils;
 import com.victorzhang.cfs.util.query.GenericQueryParam;
@@ -33,6 +27,8 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
 
     private static final String CONTENT_DISPOSITION = "Content-Disposition";
     private static final String CONTENT_LENGTH = "Content-Length";
+    private static final String DOWNLOAD_FLAG = "downloadFlag";
+    private static final String BROWSE_FLAG = "browseFlag";
 
     @Autowired
     @Qualifier("browseRecordService")
@@ -62,6 +58,10 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
     @Qualifier("downloadRecordMapper")
     private DownloadRecordMapper downloadRecordMapper;
 
+    @Autowired
+    @Qualifier("browseRecordMapper")
+    private BrowseRecordMapper browseRecordMapper;
+
     @Override
     protected BaseMapper<Resource, String> getMapper() {
         return resourceMapper;
@@ -80,8 +80,6 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         if (!super.save(resource)) {
             throw new SQLException(INSERT_ERROR);
         }
-        //save resource_score rating 5(上传成功该用户对资源的评分为5分)
-        saveScoreRecord(userId, resourceId, gmtCreate);
 
         try {
             File file = new File(fileServerPath);
@@ -128,7 +126,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
             }
         }
         //更新resource表中resource_download_count
-        updateResourceDownloadCount(resource);
+        updateResourceDownloadOrBrowseCount(id, DOWNLOAD_FLAG);
         //插入或者更新resource_download表格
         saveOrUpdateResourceDownload(request, id);
     }
@@ -161,6 +159,30 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         return map;
     }
 
+    @Override
+    public void updateResourceBrowseCount(String resourceId, HttpServletRequest request) throws Exception {
+        updateResourceDownloadOrBrowseCount(resourceId, BROWSE_FLAG);
+        saveOrUpdateResourceBrowse(resourceId, request);
+    }
+
+    @Override
+    public String doVerifyResource(String resourceId, String verifyType, HttpServletRequest request) throws Exception {
+        //admin permission
+        if (StringUtils.equals(CommonUtils.sesAttr(request, ROLE_ID), ADMIN_ROLE_ID)) {
+            if (StringUtils.equals(verifyType, RESOURCE_VERIFY_SUCCESS)) {
+                //审核通过评分为5
+                Resource resourceDB = getById(resourceId);
+                saveScoreRecord(resourceDB.getUserId(), resourceId, CommonUtils.getDateTime());
+            }
+            Resource resource = new Resource(resourceId, verifyType);
+            if (!update(resource)) {
+                throw new SQLException(UPDATE_ERROR);
+            }
+            return UPDATE_SUCCESS;
+        }
+        throw new IllegalAccessException(NO_ACCESS_PERMISSION);
+    }
+
     private double getAverageScore(List<ScoreRecord> scoreRecords) {
         double sum = 0.0;
         for (ScoreRecord scoreRecord : scoreRecords) {
@@ -169,12 +191,20 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         return sum / scoreRecords.size();
     }
 
-    private void updateResourceDownloadCount(Resource resource) throws Exception {
-        Resource updateResourceDownloadCount = new Resource();
-        int resourceDownloadCount = Integer.parseInt(resource.getResourceDownloadCount()) + 1;
-        updateResourceDownloadCount.setResourceDownloadCount(String.valueOf(resourceDownloadCount));
-        updateResourceDownloadCount.setId(resource.getId());
-        update(updateResourceDownloadCount);
+    private void updateResourceDownloadOrBrowseCount(String id, String flagAboutDownloadOrBrowse) throws Exception {
+        Resource resource = getById(id);
+        Resource updateResourceDownloadOrBrowseCount = new Resource();
+        if (StringUtils.equals(DOWNLOAD_FLAG, flagAboutDownloadOrBrowse)) {
+            int resourceDownloadCount = Integer.parseInt(resource.getResourceDownloadCount()) + 1;
+            updateResourceDownloadOrBrowseCount.setResourceDownloadCount(String.valueOf(resourceDownloadCount));
+        }
+        if (StringUtils.equals(BROWSE_FLAG, flagAboutDownloadOrBrowse)) {
+            int resourceBrowseCount = Integer.parseInt(resource.getResourceBrowseCount()) + 1;
+            updateResourceDownloadOrBrowseCount.setResourceBrowseCount(String.valueOf(resourceBrowseCount));
+        }
+
+        updateResourceDownloadOrBrowseCount.setId(id);
+        update(updateResourceDownloadOrBrowseCount);
     }
 
     private void saveOrUpdateResourceDownload(HttpServletRequest request, String id) throws Exception {
@@ -188,11 +218,25 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         } else {//数据库中不存在该记录，插入操作
             downloadRecordMapper.save(downloadRecord);
             //评分表插入或更新操作
-            saveOrUpdateScoreRecord(resourceId, userId);
+            saveOrUpdateScoreRecord(resourceId, userId, DOWNLOAD_FLAG);
         }
     }
 
-    private void saveOrUpdateScoreRecord(String resourceId, String userId) throws Exception {
+    private void saveOrUpdateResourceBrowse(String resourceId, HttpServletRequest request) throws Exception {
+        String browseTime = CommonUtils.getDateTime();
+        String userId = CommonUtils.sesAttr(request, USER_ID);
+        BrowseRecord browseRecord = new BrowseRecord(resourceId, browseTime, userId);
+        int count = browseRecordMapper.countByResourceBrowse(browseRecord);
+        if (count > 0) { //数据库中存在数据，更新操作
+            browseRecordMapper.update(browseRecord);
+        } else {//数据库中不存在该记录，插入操作
+            browseRecordMapper.save(browseRecord);
+            //评分表插入或更新操作
+            saveOrUpdateScoreRecord(resourceId, userId, BROWSE_FLAG);
+        }
+    }
+
+    private void saveOrUpdateScoreRecord(String resourceId, String userId, String flagAboutDownloadOrBrowse) throws Exception {
         GenericQueryParam param = new GenericQueryParam();
         param.fill("resourceId", resourceId);
         param.fill("userId", userId);
@@ -205,10 +249,19 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
             scoreRecordMapper.save(scoreRecord);
         } else {//数据库resource_score表中存在该记录，更新操作
             ScoreRecord scoreRecordByDB = scoreRecordMapper.get(scoreRecord);
-            //score_flag为BROWSE_SCORE_FLAG，评分更新4，并将score_flag表示为DOWNLOAD_BORWSE_SCORE_FLAG
-            if (StringUtils.equals(scoreRecordByDB.getScoreFlag(), BROWSE_SCORE_FLAG)) {
-                scoreRecord.setRating(Score.FOUR.toString());
-                scoreRecord.setScoreFlag(DOWNLOAD_BORWSE_SCORE_FLAG);
+            if (StringUtils.equals(flagAboutDownloadOrBrowse, DOWNLOAD_FLAG)) {
+                //score_flag为BROWSE_SCORE_FLAG，评分更新4，并将score_flag表示为DOWNLOAD_BORWSE_SCORE_FLAG
+                if (StringUtils.equals(scoreRecordByDB.getScoreFlag(), BROWSE_SCORE_FLAG)) {
+                    scoreRecord.setRating(Score.FOUR.toString());
+                    scoreRecord.setScoreFlag(DOWNLOAD_BORWSE_SCORE_FLAG);
+                }
+            }
+            if (StringUtils.equals(flagAboutDownloadOrBrowse, BROWSE_FLAG)) {
+                //score_flag为DOWNLOAD_SCORE_FLAG，评分更新4，并将score_flag表示为DOWNLOAD_BORWSE_SCORE_FLAG
+                if (StringUtils.equals(scoreRecordByDB.getScoreFlag(), DOWNLOAD_SCORE_FLAG)) {
+                    scoreRecord.setRating(Score.FOUR.toString());
+                    scoreRecord.setScoreFlag(DOWNLOAD_BORWSE_SCORE_FLAG);
+                }
             }
         }
     }

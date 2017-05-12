@@ -57,7 +57,8 @@
     </select>
 
     <update id="update" parameterType="com.victorzhang.cfs.domain.DownloadRecord">
-        UPDATE resource_download download_time = #{downloadTime}
+        UPDATE resource_download
+        SET download_time = #{downloadTime}
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </update>
 

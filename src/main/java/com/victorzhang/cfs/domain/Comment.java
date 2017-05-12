@@ -19,6 +19,11 @@ public class Comment {
         this.commentContent = commentContent;
     }
 
-    public Comment() {
+    public Comment(String id, String commentContent, String userId, String resourceId, String commentTime){
+        this.id = id;
+        this.commentContent = commentContent;
+        this.userId = userId;
+        this.resourceId = resourceId;
+        this.commentTime = commentTime;
     }
 }

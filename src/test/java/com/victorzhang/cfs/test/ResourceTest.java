@@ -6,6 +6,7 @@ import com.victorzhang.cfs.domain.ScoreRecord;
 import com.victorzhang.cfs.mapper.ScoreRecordMapper;
 import com.victorzhang.cfs.service.ResourceService;
 import com.victorzhang.cfs.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,6 +76,23 @@ public class ResourceTest {
         ScoreRecord scoreRecord = new ScoreRecord("C4CA4238A0B923820DCC509A6F75849B", "65FD3294A01B4304B983FEF0FB86FB09", CommonUtils.getDateTime());
         ScoreRecord scoreRecordDB = scoreRecordMapper.get(scoreRecord);
         System.out.println(scoreRecordDB);
+    }
+
+    @Test
+    public void testResourceBrowseCount() throws Exception {
+        Resource resource = resourceService.getById("968F2C132B9641AF8B8CBD73367AF2D9");
+        Resource updateResourceDownloadOrBrowseCount = new Resource();
+        int resourceBrowseCount = Integer.parseInt(resource.getResourceBrowseCount()) + 1;
+        updateResourceDownloadOrBrowseCount.setResourceDownloadCount(String.valueOf(resourceBrowseCount));
+
+        updateResourceDownloadOrBrowseCount.setId("968F2C132B9641AF8B8CBD73367AF2D9");
+        resourceService.update(updateResourceDownloadOrBrowseCount);
+    }
+
+    @Test
+    public void testListResource() throws Exception {
+        List<Resource> list = resourceService.list();
+        System.out.println(list.toString());
     }
 
 }

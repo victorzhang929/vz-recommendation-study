@@ -65,59 +65,13 @@ function load(pge) {
 }
 
 function handle(id) {
-    return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResourceDetail('" + id + "');>详情</a>"
-        + "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>"
+    return "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>"
         + "<a id='delete" + id + "' class='bt bt-xs bt-danger' onclick=deleteResource('" + id + "');>删除</a>";
 }
 
-/*function getResource(id) {
-    location.href = path + "/resource/getResourceDetailUI.do?id=" + id;
-    $("#resourceNameDetail").val("");
-    $("#resourceDescriptionDetail").val("");
-    $("#resourceTagDetail").val("");
-    $("#resourceDownloadCountDetail").val("");
-    $("#resourceBrowseCountDetail").val("");
-    $("#resourceTypeDetail").val("");
-    $("#verifyTypeDetail").val("");
-    $("#gmtCreateDetail").val("");
-    $("#gmtModifyDetail").val("");
-    $.ajax({
-        url: path + "/resource/getById.do",
-        type: "POST",
-        data: {"id": id},
-        dataType: "json",
-        success: function (req) {
-            $("#resourceNameDetail").val(req.resourceName);
-            $("#resourceDescriptionDetail").val(req.resourceDescription);
-            $("#resourceTagDetail").val(req.resourceTag);
-            $("#resourceDownloadCountDetail").val(req.resourceDownloadCount);
-            $("#resourceBrowseCountDetail").val(req.resourceBrowseCount);
-            $("#resourceTypeDetail").val(judgeResourceType(parseInt(req.resourceType)));
-            $("#verifyTypeDetail").val(judgeResourceVerifyType(parseInt(req.verifyType)));
-            $("#gmtCreateDetail").val(req.gmtCreate);
-            $("#gmtModifyDetail").val(req.gmtModify);
-            $("#getModal").modal('show');
-        }, error: function () {
-            tipDialog("读取失败");
-        }
-    });
-}*/
 
 function downloadResource(id) {
     location.href = path + "/resource/doDownloadResource.do?id=" + id;
-    /*$.ajax({
-        url: path + "/resource/doDownloadResource.do?id=" + id,
-        type: "GET",
-        // data: {"id": id},
-        contentType: 'application/octet-stream',
-        processData: false,
-        success: function () {
-            tipDialog("删除成功");
-            load();
-        }, error: function () {
-            tipDialog("删除失败");
-        }
-    });*/
 }
 
 function deleteResource(id) {

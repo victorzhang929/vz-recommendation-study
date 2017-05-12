@@ -27,7 +27,7 @@
     </insert>
 
     <select id="get" resultMap="score" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
-        SELECT score_flag
+        SELECT score_flag, rating
         FROM resource_score
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </select>
@@ -40,6 +40,16 @@
         SELECT rating
         FROM resource_score
         WHERE resource_id = #{resourceId}
+    </select>
+
+    <select id="listScoreRecord" resultMap="score" parameterType="java.lang.String">
+        SELECT DISTINCT(resource_id)
+        FROM resource_score
+        <where>
+            <if test="userId != null and userId != ''">
+               user_id = #{userId}
+            </if>
+        </where>
     </select>
 
 </mapper>
