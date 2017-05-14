@@ -68,7 +68,3 @@ function handle(id) {
     return "<a id='get" + id + "' class='bt bt-xs bt-success' onclick=getResourceDetail('" + id + "');>详情</a>"
         + "<a id='download" + id + "' class='bt bt-xs bt-info' onclick=downloadResource('" + id + "');>下载</a>";
 }
-
-function downloadResource(id) {
-    location.href = path + "/resource/doDownloadResource.do?id=" + id;
-}

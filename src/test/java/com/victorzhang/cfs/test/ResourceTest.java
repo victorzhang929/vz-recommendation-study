@@ -1,17 +1,28 @@
 package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.domain.Resource;
-import com.victorzhang.cfs.domain.Score;
 import com.victorzhang.cfs.domain.ScoreRecord;
 import com.victorzhang.cfs.mapper.ScoreRecordMapper;
+import com.victorzhang.cfs.service.RecommendationService;
 import com.victorzhang.cfs.service.ResourceService;
 import com.victorzhang.cfs.util.CommonUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
+import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.model.JDBCDataModel;
+import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,6 +30,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +45,10 @@ public class ResourceTest {
     @Autowired
     @Qualifier("resourceService")
     private ResourceService resourceService;
+
+    @Autowired
+    @Qualifier("recommendationService")
+    private RecommendationService recommendationService;
 
     @Autowired
     @Qualifier("scoreRecordMapper")
@@ -93,6 +109,44 @@ public class ResourceTest {
     public void testListResource() throws Exception {
         List<Resource> list = resourceService.list();
         System.out.println(list.toString());
+    }
+
+    @Test
+    public void testUserBaseRecommendation() throws TasteException {
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-common.xml");
+        DataSource dataSource = (DataSource) context.getBean("dataSource");
+        /*MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setServerName("localhost");
+        dataSource.setUser("root");
+        dataSource.setPassword("root");
+        dataSource.setDatabaseName("cfs");*/
+        JDBCDataModel model = new MySQLJDBCDataModel(dataSource, "resource_score", "user_id", "resource_id", "rating", "rating_time");
+
+        UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
+        UserNeighborhood neighborhood = new NearestNUserNeighborhood(4, similarity, model);
+        Recommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
+
+        List<RecommendedItem> recommendations = recommender.recommend(5844279643990646201l, 2);
+        for (RecommendedItem recommendation : recommendations) {
+            //输出推荐结果
+            System.out.println(recommendation);
+        }
+
+    }
+
+    @Test
+    public void testListVerifyResource() throws Exception {
+        Resource resource = new Resource();
+        System.out.println(resourceService.listPaging(resource, "0", "10", null, null, null));
+    }
+
+    @Test
+    public void testItemBasedRecommendation() throws Exception {
+        System.out.println(recommendationService.listItemBasedRecommendationResource(5844279643990646201L));
+    }
+
+    @Test
+    public void testListRecommendationResource() throws Exception {
     }
 
 }

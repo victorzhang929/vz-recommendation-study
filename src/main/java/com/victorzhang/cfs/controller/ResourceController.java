@@ -151,7 +151,20 @@ public class ResourceController {
 
     @RequestMapping("/updateResourceBrowseCount.do")
     @ResponseBody
-    public void updateResourceBrowseCount(String resourceId) throws Exception{
+    public void updateResourceBrowseCount(String resourceId) throws Exception {
         resourceService.updateResourceBrowseCount(resourceId, request);
+    }
+
+    @RequestMapping("/listRecommendationResource.do")
+    @ResponseBody
+    public Map<String, Object> listRecommendationResource(String _page, String _pageSize) throws Exception {
+        return resourceService.listRecommendationResource(_page, _pageSize, request);
+
+    }
+
+    @RequestMapping("/forwardRecommendedResourceUI.do")
+    public String forwardRecommendedResourceUI() throws Exception {
+        return "recommendedResource";
+
     }
 }

@@ -14,7 +14,7 @@ textarea {
     width: 100%
 }
 
-#queryType, #queryStartDate, #queryEndDate, #query, #add, #addBatch, #removeBatch, #upload, #download, #queryName, #queryVerifyType {
+#queryType, #queryStartDate, #queryEndDate, #query, #add, #addBatch, #removeBatch, #upload, #download, #queryName, #queryVerifyType, #listItemRecommendation, #listUserRecommendation {
     margin-left: 0px;
 }
 

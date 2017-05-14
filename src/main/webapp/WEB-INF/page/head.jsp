@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--admin roleId : DEDD7D0EDED9445083518A35EC5940AB --%>
+<%--admin roleId : 3791532340293158876 --%>
 <%@ include file="homeUrlParam.jsp" %>
 <body>
 <div id="header">
@@ -24,7 +24,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a href="#modalDiv" data-toggle='modal' onclick="changePasswordUI()"><i class="icon-pencil"></i>修改密码</a></li>
-                <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                <c:if test="${ sessionScope.roleId == '3791532340293158876'}">
                     <li class="divider"></li>
                     <li><a href="javascript:void(0);" onclick="publishNotice()"><i class="icon-bullhorn"></i>发布消息</a></li>
                 </c:if>
@@ -59,7 +59,7 @@
                 <li><a href="<%= basePath %>downloadRecord/forwardResourceDownloadRecordUI.do" id="resourceDownloadRecord">资源下载记录</a></li>
                 <li><a href="<%= basePath %>resource/forwardRecommendedResourceUI.do" id="recommendedResource">个性化推荐</a></li>
                 <li><a href="<%= basePath %>comment/forwardCommentResourceUI.do" id="commentResource">我的评论</a></li>
-                <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                <c:if test="${ sessionScope.roleId =='3791532340293158876'}">
                     <li><a href="<%= basePath %>resource/forwardVerifyResourceUI.do" id="verifyResource">资源审核</a></li>
                 </c:if>
             </ul>
@@ -68,12 +68,12 @@
             <a href="javascript:void(0);"><i class="icon-list"></i> <span>日志中心</span><i class="icon-chevron-right"></i></a>
             <ul id="ul3">
                 <li><a href="<%= basePath %>log/forwardUserLogUI.do" id="userLog">用户日志</a></li>
-                <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                <c:if test="${ sessionScope.roleId =='3791532340293158876'}">
                     <li><a href="<%= basePath %>log/forwardSystemLogUI.do" id="systemLog">系统日志</a></li>
                 </c:if>
             </ul>
         </li>
-        <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+        <c:if test="${ sessionScope.roleId =='3791532340293158876'}">
             <li class="submenu" id='ul4Parent'>
                 <a href="javascript:void(0);"><i class="icon-wrench"></i> <span>管理中心</span><i class="icon-chevron-right"></i></a>
                 <ul id="ul4">

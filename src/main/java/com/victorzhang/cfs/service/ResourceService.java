@@ -1,6 +1,7 @@
 package com.victorzhang.cfs.service;
 
 import com.victorzhang.cfs.domain.Resource;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,4 +25,6 @@ public interface ResourceService extends BaseService<Resource, String> {
     void updateResourceBrowseCount(String resourceId, HttpServletRequest request) throws Exception;
 
     String doVerifyResource(String resourceId, String verifyType, HttpServletRequest request) throws Exception;
+
+    Map<String, Object> listRecommendationResource(String page, String pageSize, HttpServletRequest request) throws Exception;
 }

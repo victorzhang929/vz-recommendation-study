@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--admin roleId : DEDD7D0EDED9445083518A35EC5940AB --%>
+<%--admin roleId : 3791532340293158876 --%>
 
 <html>
 <head>
@@ -40,7 +40,7 @@
                             <li class="bg_ls span3"><a href="<%=basePath%>comment/forwardCommentResourceUI.do"> <i class="icon-comments"></i> 我的评论 </a></li>
                         </ul>
                     </div>
-                    <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                    <c:if test="${ sessionScope.roleId =='3791532340293158876'}">
                         <div class="quick-actions_homepage">
                             <ul class="quick-actions">
                                 <li class="bg_ls span3"><a href="<%=basePath%>resource/forwardVerifyResourceUI.do"> <i class="icon-eye-open"></i> 资源审核 </a></li>
@@ -50,12 +50,12 @@
                     <div class="quick-actions_homepage">
                         <ul class="quick-actions">
                             <li class="bg_lo span3"><a href="<%=basePath%>log/forwardUserLogUI.do"> <i class="icon-bookmark"></i> 用户日志 </a></li>
-                            <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                            <c:if test="${ sessionScope.roleId =='3791532340293158876'}">
                                 <li class="bg_lo span3"><a href="<%=basePath%>log/forwardSystemLogUI.do"> <i class="icon-book"></i> 系统日志 </a></li>
                             </c:if>
                         </ul>
                     </div>
-                    <c:if test="${ sessionScope.roleId =='DEDD7D0EDED9445083518A35EC5940AB'}">
+                    <c:if test="${ sessionScope.roleId =='3791532340293158876'}">
                         <div class="quick-actions_homepage">
                             <ul class="quick-actions">
                                 <li class="bg_lg span3"><a href="<%=basePath%>manage/forwardUserManagementUI.do"> <i class="icon-group"></i> 用户管理 </a></li>

@@ -6,6 +6,7 @@ import com.victorzhang.cfs.service.*;
 import com.victorzhang.cfs.util.CommonUtils;
 import com.victorzhang.cfs.util.query.GenericQueryParam;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,9 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
     private static final String CONTENT_LENGTH = "Content-Length";
     private static final String DOWNLOAD_FLAG = "downloadFlag";
     private static final String BROWSE_FLAG = "browseFlag";
+
+    private static final String USER_FLAG = "0";
+    private static final String ITEM_FLAG = "1";
 
     @Autowired
     @Qualifier("browseRecordService")
@@ -45,6 +50,14 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
     @Autowired
     @Qualifier("scoreRecordService")
     private ScoreRecordService scoreRecordService;
+
+    @Autowired
+    @Qualifier("flagService")
+    private FlagService flagService;
+
+    @Autowired
+    @Qualifier("recommendationService")
+    private RecommendationService recommendationService;
 
     @Autowired
     @Qualifier("resourceMapper")
@@ -181,6 +194,47 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
             return UPDATE_SUCCESS;
         }
         throw new IllegalAccessException(NO_ACCESS_PERMISSION);
+    }
+
+    @Override
+    public Map<String, Object> listRecommendationResource(String page, String pageSize, HttpServletRequest request) throws Exception {
+        String flag = String.valueOf(flagService.getFlagValue().get("user_item_flag"));
+        long userId = Long.parseLong(CommonUtils.sesAttr(request, USER_ID));
+        List<RecommendedItem> items = getItems(flag, userId);
+        List<Map<String, Object>> resourceDetail = listRecommendedSourceDetail(items);
+
+        Map<String, Object> result = new HashMap<>();
+        int count = items.size();
+        result = CommonUtils.para4Page(result, CommonUtils.paraPage(page), CommonUtils.paraPageSize(pageSize), count);
+        if (count > 0) {
+            result.put(DATA, CommonUtils.dataNull(resourceDetail));
+        } else {
+            result.put(DATA, EMPTY_STRING);
+        }
+        return result;
+    }
+
+    private List<Map<String, Object>> listRecommendedSourceDetail(List<RecommendedItem> items) throws Exception {
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map = null;
+        for (RecommendedItem item : items) {
+            map.put("resource", getById(String.valueOf(item.getItemID())));
+            map.put("score", String.valueOf(item.getValue()));
+            list.add(map);
+            map.clear();
+        }
+        return list;
+    }
+
+    private List<RecommendedItem> getItems(String flag, long userId) throws Exception {
+        List<RecommendedItem> items = new ArrayList<>();
+        if (StringUtils.equals(flag, USER_FLAG)) {
+            items = recommendationService.listUserBasedRecommendationResource(userId);
+        }
+        if (StringUtils.equals(flag, ITEM_FLAG)) {
+            items = recommendationService.listItemBasedRecommendationResource(userId);
+        }
+        return items;
     }
 
     private double getAverageScore(List<ScoreRecord> scoreRecords) {

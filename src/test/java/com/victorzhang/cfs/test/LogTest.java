@@ -2,6 +2,7 @@ package com.victorzhang.cfs.test;
 
 import com.victorzhang.cfs.domain.Log;
 import com.victorzhang.cfs.service.LogService;
+import com.victorzhang.cfs.util.CommonUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,4 +81,5 @@ public class LogTest {
             System.out.println(entry.getValue());
         }
     }
+
 }

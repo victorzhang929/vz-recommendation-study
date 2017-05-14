@@ -142,3 +142,7 @@ function judgeResourceVerifyType(verifyTypeNumber) {
 function getResourceDetail(id) {
     location.href = path + "/resource/getResourceDetailUI.do?id="+id;
 }
+
+function downloadResource(id) {
+    location.href = path + "/resource/doDownloadResource.do?id=" + id;
+}

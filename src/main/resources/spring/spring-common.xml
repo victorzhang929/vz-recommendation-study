@@ -12,7 +12,16 @@
 
     <context:property-placeholder location="classpath:init.properties" />
 
-    <bean id="mainDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+    <bean id="recommendDataModel" class="org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+        <constructor-arg name="preferenceTable" value="${recommendation.preferenceTable}"/>
+        <constructor-arg name="userIDColumn" value="${recommendation.userIDColumn}"/>
+        <constructor-arg name="itemIDColumn" value="${recommendation.itemIDColumn}"/>
+        <constructor-arg name="preferenceColumn" value="${recommendation.preferenceColumn}"/>
+        <constructor-arg name="timestampColumn" value="${recommendation.timestampColumn}"/>
+    </bean>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClass} " />
         <property name="url" value="${jdbc.jdbcUrl}" />
         <property name="username" value="${jdbc.username}" />
@@ -30,10 +39,6 @@
         <property name="testOnReturn" value="false"/>
         <property name="poolPreparedStatements" value="false"/>
         <property name="filters" value="stat"/>
-    </bean>
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
-        <property name="targetDataSource" ref="mainDataSource" />
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

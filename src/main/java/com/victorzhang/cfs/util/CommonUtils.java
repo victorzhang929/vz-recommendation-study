@@ -9,7 +9,10 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.victorzhang.cfs.util.Constants.*;
 
@@ -66,7 +69,8 @@ public class CommonUtils {
     }
 
     public static String newUuid() {
-        return UUID.randomUUID().toString().toUpperCase().replace(SEPARATOR_STRING, EMPTY_STRING);
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        return String.valueOf(idWorker.nextId());
     }
 
     public static int paraPage(String _page) {
