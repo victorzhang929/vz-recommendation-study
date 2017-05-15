@@ -75,7 +75,7 @@ function saveUserInfo() {
         }, success: function (msg) {
             if (msg != null && msg === '用户信息更新成功') {
                 tipDialog(msg);
-                location.href = path+"/user/forwardUserInfoUI.do";
+                initUserInfo();
             }
         }
     });

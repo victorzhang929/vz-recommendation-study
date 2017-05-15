@@ -1,4 +1,5 @@
 $(function () {
+    navicatActiveProccess('systemResource');
     var resourceId = jQuery.url.param('id');
     enterProccess("submitCommentContent");
     initResourceDetail(resourceId);
@@ -11,7 +12,7 @@ function initResourceBrowseCount(resourceId) {
         url: basePath + "/resource/updateResourceBrowseCount.do",
         type: "POST",
         data: {"resourceId": resourceId},
-        dataType:"json",
+        dataType: "json",
         error: function () {
             tipDialog("提交失败，连接错误。请刷新页面重试。");
         }
@@ -38,8 +39,10 @@ function initRateOperation(resourceId) {
                             dataType: "json",
                             error: function () {
                                 tipDialog("提交失败，连接错误。请刷新页面重试。");
-                            }, success: function (result) {
-                                initRateOperation();
+                            }, success: function () {
+                                tipDialog("谢谢您提交的评分！");
+                                initResourceDetail(resourceId);
+                                $('#rate').raty({readOnly: true, score: score});
                             }
                         });
                     }

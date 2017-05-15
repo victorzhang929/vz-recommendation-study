@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="list" resultMap="message" parameterType="java.lang.String">
-        SELECT msg_content,id FROM message
+        SELECT msg_content,CAST(id as CHAR(19)) AS id FROM message
         WHERE receive_user_id = #{receiveUserId} AND is_read=#{isRead}
         ORDER BY send_time DESC LIMIT 0,5
     </select>
@@ -36,7 +36,7 @@
     </insert>
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT DATE_FORMAT(msg.send_time,'%Y-%m-%d %H:%h:%s') AS send_time,msg.msg_content,msg.send_user_ip,user.realname
+        SELECT DATE_FORMAT(msg.send_time,'%Y-%m-%d %H:%i:%s') AS send_time,msg.msg_content,msg.send_user_ip,user.realname
         FROM message msg
         LEFT JOIN user ON
         msg.receive_user_id = user.id

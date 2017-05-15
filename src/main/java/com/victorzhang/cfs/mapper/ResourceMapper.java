@@ -10,5 +10,5 @@ import java.util.Map;
 public interface ResourceMapper extends BaseMapper<Resource, String> {
     List<Map<String, Object>> listNewestResource() throws Exception;
 
-    List<Map<String, Object>> listHotResource() throws Exception;
+    List<Map<String, Object>> listHotResource(int count) throws Exception;
 }

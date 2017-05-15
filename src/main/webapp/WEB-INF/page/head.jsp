@@ -23,7 +23,7 @@
                 <i class="icon icon-user"></i> <span class="text" id='realname'></span><b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#modalDiv" data-toggle='modal' onclick="changePasswordUI()"><i class="icon-pencil"></i>修改密码</a></li>
+                <li><a href="#updatePasswordModel" data-toggle='modal' onclick="changePasswordUI()"><i class="icon-pencil"></i>修改密码</a></li>
                 <c:if test="${ sessionScope.roleId == '3791532340293158876'}">
                     <li class="divider"></li>
                     <li><a href="javascript:void(0);" onclick="publishNotice()"><i class="icon-bullhorn"></i>发布消息</a></li>
@@ -84,4 +84,38 @@
             </li>
         </c:if>
     </ul>
+</div>
+
+<div id="updatePasswordModel" class="modal hide">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button">×</button>
+        <h3>修改密码</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" method="post" name="basic_validate">
+            <div class="control-group">
+                <label class="control-label">原密码:</label>
+                <div class="controls">
+                    <input id="oldPassword" type="password" name="oldPassword" style="height:28px;"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">新密码:</label>
+                <div class="controls">
+                    <input id="password" type="password" name="password" style="height:28px;"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">重复密码:</label>
+                <div class="controls">
+                    <input id="rePassword" type="password" name="rePassword" style="height:28px;"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div id='msg'></div>
+        <a data-dismiss="modal" class="btn" href="javascript:void(0);"> <i class="icon-remove"></i>取消</a>
+        <a class="btn btn-success" href="javascript:void(0);" onclick="changePassword()"> <i class="icon-ok"></i>确定</a>
+    </div>
 </div>

@@ -37,7 +37,7 @@
     </select>
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT DATE_FORMAT(log.user_date,'%Y-%m-%d %H:%h:%s') AS user_date,log.log_type,log.log_content,log.user_ip,user.username,user.realname
+        SELECT DATE_FORMAT(log.user_date,'%Y-%m-%d %H:%i:%s') AS user_date,log.log_type,log.log_content,log.user_ip,user.username,user.realname
         FROM log
         LEFT JOIN user ON
         log.user_id = user.id

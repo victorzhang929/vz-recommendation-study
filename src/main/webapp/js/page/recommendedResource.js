@@ -18,12 +18,12 @@ function load(page) {
         success: function (res) {
             var mainTable = "<table class='table table-bordered table-striped' >"
                 + "<thead><tr>"
-                + "<th style='width:7%'>编号</th>"
-                + "<th style='width:16%'>资源名称</th>"
+                + "<th style='width:10%'>编号</th>"
+                + "<th style='width:15%'>资源名称</th>"
                 + "<th style='width:20%'>资源描述</th>"
                 + "<th style='width:15%'>标签</th>"
-                + "<th style='width:7%'>类型</th>"
-                + "<th style='width:15%'>评分</th>"
+                + "<th style='width:10%'>类型</th>"
+                + "<th style='width:15%'>推荐指数</th>"
                 + "<th style='width:15%'>操作</th>"
                 + "</tr></thead>" + "<tbody id='trs'>";
 
@@ -33,10 +33,10 @@ function load(page) {
                     var data = datas[i];
                     mainTable += "<tr>"
                         + "<td>" + index(res.page, res.pageSize, i) + "</td>"
-                        + "<td title='" + data.resource.resource_name + "'>" + data.resource.resource_name + "</td>"
-                        + "<td title='" + data.resource.resource_description + "'>" + data.resource.resource_description + "</td>"
-                        + "<td title='" + data.resource.resource_tag + "'>" + data.resource.resource_tag + "</td>"
-                        + "<td title='" + judgeResourceType(data.resource.resource_type) + "'>" + judgeResourceType(data.resource.resource_type) + "</td>"
+                        + "<td title='" + data.resource.resourceName + "'>" + data.resource.resourceName + "</td>"
+                        + "<td title='" + data.resource.resourceDescription + "'>" + data.resource.resourceDescription + "</td>"
+                        + "<td title='" + data.resource.resourceTag + "'>" + data.resource.resourceTag + "</td>"
+                        + "<td title='" + judgeResourceType(data.resource.resourceType) + "'>" + judgeResourceType(data.resource.resourceType) + "</td>"
                         + "<td title='" + data.score + "'>" + data.score + "</td>"
                         + "<td>" + handle(data.resource.id) + "</td>"
                         + "</tr>";

@@ -99,6 +99,7 @@ function showDialogMsg(id, content) {
 }
 
 function judgeResourceType(resourceTypeNumber) {
+    resourceTypeNumber = parseInt(resourceTypeNumber);
     var resourceType;
     switch (resourceTypeNumber) {
         case 0:

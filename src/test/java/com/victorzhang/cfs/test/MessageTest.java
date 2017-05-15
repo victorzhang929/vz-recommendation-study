@@ -72,7 +72,7 @@ public class MessageTest {
         List<Message> messages = new ArrayList<>();
         Message message = new Message();
         message.setMsgContent("消息内容");
-        message.setSendUserId(CommonUtils.sesAttr(request, USER_ID));
+        message.setSendUserId("5844279643990646205");
         message.setSendTime(CommonUtils.getDateTime());
         message.setSendUserIp("127.0.1");
         message.setIsRead("0");

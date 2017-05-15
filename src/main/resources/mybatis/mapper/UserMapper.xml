@@ -87,12 +87,11 @@
     </select>
 
     <select id="list" resultMap="user">
-        SELECT id FROM user
+        SELECT CAST(id as CHAR(19)) AS id FROM user
     </select>
 
     <select id="getUserInfo" resultType="java.util.Map" parameterType="java.lang.String">
-        SELECT
-        user.username,user.realname,user.user_idcard,user.user_mobile,user.user_email,role.rolename,user.gender,user.tag
+        SELECT user.username,user.realname,user.user_idcard,user.user_mobile,user.user_email,role.rolename,user.gender,user.tag
         FROM user
         LEFT JOIN role
         ON role.id = user.role_id
@@ -124,7 +123,7 @@
     </select>
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT user.id, user.username, user.realname, role.rolename, user.user_mobile
+        SELECT CAST(user.id as CHAR(19)) AS id, user.username, user.realname, role.rolename, user.user_mobile
         FROM user
         LEFT JOIN role
         ON role.id = user.role_id

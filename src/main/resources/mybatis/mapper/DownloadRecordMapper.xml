@@ -27,7 +27,7 @@
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
         SELECT r.resource_name, r.resource_description, r.resource_tag,
-        DATE_FORMAT(rd.download_time,'%Y-%m-%d %H:%h:%s') AS download_time
+        DATE_FORMAT(rd.download_time,'%Y-%m-%d %H:%i:%s') AS download_time
         FROM resource_download rd
         LEFT JOIN resource r
         ON rd.resource_id = r.id

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@Qualifier("flag")
+@RequestMapping("flag")
 public class FlagController {
 
     @Autowired

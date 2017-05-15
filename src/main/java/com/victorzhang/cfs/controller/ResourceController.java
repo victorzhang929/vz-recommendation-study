@@ -111,8 +111,7 @@ public class ResourceController {
     @ResponseBody
     public Map<String, Object> listHotResource() throws Exception {
         Map<String, Object> map = new HashMap<>();
-        List<Map<String, Object>> list = resourceService.listHotResource();
-        map.put("data", CommonUtils.dataNull(list));
+        map.put("data", CommonUtils.dataNull(resourceService.listHotResource(HOT_RESOURCE_SHOW_NUM)));
         return map;
     }
 

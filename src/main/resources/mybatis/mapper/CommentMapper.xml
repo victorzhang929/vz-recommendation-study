@@ -34,8 +34,8 @@
     </select>
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
-        SELECT r.resource_name, rc.comment_content, rc.id,
-        DATE_FORMAT(rc.comment_time,'%Y-%m-%d %H:%h:%s') AS comment_time
+        SELECT r.resource_name, rc.comment_content, CAST(rc.id as CHAR(19)) AS id,
+        DATE_FORMAT(rc.comment_time,'%Y-%m-%d %H:%i:%s') AS comment_time
         FROM resource_comment rc
         LEFT JOIN resource r
         ON rc.resource_id = r.id
@@ -74,7 +74,7 @@
     </delete>
 
     <select id="listByResourceId" resultType="java.util.Map" parameterType="java.lang.String">
-        SELECT c.comment_content,  DATE_FORMAT(c.comment_time,'%Y-%m-%d %H:%h:%s') AS comment_time, u.realname
+        SELECT c.comment_content,  DATE_FORMAT(c.comment_time,'%Y-%m-%d %H:%i:%s') AS comment_time, u.realname
         FROM resource_comment c
         LEFT JOIN user u
         ON c.user_id = u.id

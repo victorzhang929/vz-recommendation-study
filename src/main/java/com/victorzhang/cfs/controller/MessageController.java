@@ -5,6 +5,7 @@ import com.victorzhang.cfs.domain.User;
 import com.victorzhang.cfs.service.MessageService;
 import com.victorzhang.cfs.service.UserService;
 import com.victorzhang.cfs.util.CommonUtils;
+import com.victorzhang.cfs.util.SnowflakeIdWorker;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,14 +68,15 @@ public class MessageController {
         String sendUserId = CommonUtils.sesAttr(request, USER_ID);
         String sendTime = CommonUtils.getDateTime();
         String sendUserIp = CommonUtils.getIpAddr();
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1L,1L);
         for (User user : users) {
             Message message = new Message();
+            message.setId(String.valueOf(idWorker.nextId()));
             message.setMsgContent(msgContent);
             message.setSendUserId(sendUserId);
             message.setSendTime(sendTime);
             message.setSendUserIp(sendUserIp);
             message.setIsRead(UNREAD);
-            message.setId(CommonUtils.newUuid());
             message.setReceiveUserId(user.getId());
             messages.add(message);
         }
@@ -82,7 +84,7 @@ public class MessageController {
     }
 
     @RequestMapping("/forwardUserMessageUI.do")
-    public String forwardAllMsgUI() throws Exception{
+    public String forwardUserMessageUI() throws Exception{
         return "userMessage";
     }
 

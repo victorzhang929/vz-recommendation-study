@@ -150,8 +150,8 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
     }
 
     @Override
-    public List<Map<String, Object>> listHotResource() throws Exception {
-        return resourceMapper.listHotResource();
+    public List<Map<String, Object>> listHotResource(int count) throws Exception {
+        return resourceMapper.listHotResource(count);
     }
 
     @Override
@@ -204,24 +204,31 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         List<Map<String, Object>> resourceDetail = listRecommendedSourceDetail(items);
 
         Map<String, Object> result = new HashMap<>();
-        int count = items.size();
-        result = CommonUtils.para4Page(result, CommonUtils.paraPage(page), CommonUtils.paraPageSize(pageSize), count);
-        if (count > 0) {
-            result.put(DATA, CommonUtils.dataNull(resourceDetail));
-        } else {
-            result.put(DATA, EMPTY_STRING);
-        }
+        result = CommonUtils.para4Page(result, CommonUtils.paraPage(page), CommonUtils.paraPageSize(pageSize), resourceDetail.size());
+        result.put(DATA, CommonUtils.dataNull(CommonUtils.dataNull(resourceDetail)));
         return result;
     }
 
     private List<Map<String, Object>> listRecommendedSourceDetail(List<RecommendedItem> items) throws Exception {
         List<Map<String, Object>> list = new ArrayList<>();
-        Map<String, Object> map = null;
+        Map<String, Object> map;
         for (RecommendedItem item : items) {
+            map = new HashMap<>();
             map.put("resource", getById(String.valueOf(item.getItemID())));
             map.put("score", String.valueOf(item.getValue()));
             list.add(map);
-            map.clear();
+        }
+
+        int diff = HOT_RESOURCE_SHOW_NUM - items.size();
+        if (diff > 0) {
+            List<Map<String, Object>> listHotResource = listHotResource(diff);
+            Map<String, Object> hotResourceMap;
+            for (Map<String, Object> hotResource : listHotResource) {
+                hotResourceMap = new HashMap<>();
+                hotResourceMap.put("resource", getById((String) hotResource.get("id")));
+                hotResourceMap.put("score", HOT_RECOMMENDATION);
+                list.add(hotResourceMap);
+            }
         }
         return list;
     }
@@ -307,14 +314,14 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
                 //score_flag为BROWSE_SCORE_FLAG，评分更新4，并将score_flag表示为DOWNLOAD_BORWSE_SCORE_FLAG
                 if (StringUtils.equals(scoreRecordByDB.getScoreFlag(), BROWSE_SCORE_FLAG)) {
                     scoreRecord.setRating(Score.FOUR.toString());
-                    scoreRecord.setScoreFlag(DOWNLOAD_BORWSE_SCORE_FLAG);
+                    scoreRecord.setScoreFlag(DOWNLOAD_BROWSE_SCORE_FLAG);
                 }
             }
             if (StringUtils.equals(flagAboutDownloadOrBrowse, BROWSE_FLAG)) {
                 //score_flag为DOWNLOAD_SCORE_FLAG，评分更新4，并将score_flag表示为DOWNLOAD_BORWSE_SCORE_FLAG
                 if (StringUtils.equals(scoreRecordByDB.getScoreFlag(), DOWNLOAD_SCORE_FLAG)) {
                     scoreRecord.setRating(Score.FOUR.toString());
-                    scoreRecord.setScoreFlag(DOWNLOAD_BORWSE_SCORE_FLAG);
+                    scoreRecord.setScoreFlag(DOWNLOAD_BROWSE_SCORE_FLAG);
                 }
             }
         }

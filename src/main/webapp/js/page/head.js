@@ -18,7 +18,7 @@ function initUnreadMsg() {
                     msg += "<li><a href='javascript:void(0);' title='' onclick=showNews('" + datas[i].id + "','" + datas[i].msgContent + "') ><i class='icon-envelope-alt'></i>" + datas[i].msgContent + "</a></li>";
                 }
             }
-            msg += "<li><a href= '" + path + "/message/forwardAllMsgUI.do' title='全部消息'><i class='icon-bell'></i> 全部消息 >></a></li>";
+            msg += "<li><a href= '" + path + "/message/forwardUserMessageUI.do' title='全部消息'><i class='icon-bell'></i> 全部消息 >></a></li>";
             $("#myMsgUnread").html(msg);
             $("#unreadSum").html(re.count);
         }

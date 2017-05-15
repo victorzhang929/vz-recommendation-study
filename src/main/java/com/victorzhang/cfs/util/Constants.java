@@ -73,6 +73,10 @@ public final class Constants {
     public static final String SCORE_FLAG = "0";
     public static final String DOWNLOAD_SCORE_FLAG = "1";
     public static final String BROWSE_SCORE_FLAG = "2";
-    public static final String DOWNLOAD_BORWSE_SCORE_FLAG = "3";
+    public static final String DOWNLOAD_BROWSE_SCORE_FLAG = "3";
+
+    public static final int HOT_RESOURCE_SHOW_NUM = 8;
+
+    public static final  String HOT_RECOMMENDATION= "热门推荐";
 
 }

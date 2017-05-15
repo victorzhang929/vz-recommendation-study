@@ -5,6 +5,7 @@ import com.victorzhang.cfs.domain.ScoreRecord;
 import com.victorzhang.cfs.mapper.ScoreRecordMapper;
 import com.victorzhang.cfs.service.RecommendationService;
 import com.victorzhang.cfs.service.ResourceService;
+import com.victorzhang.cfs.service.ScoreRecordService;
 import com.victorzhang.cfs.util.CommonUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
@@ -49,6 +50,10 @@ public class ResourceTest {
     @Autowired
     @Qualifier("recommendationService")
     private RecommendationService recommendationService;
+
+    @Autowired
+    @Qualifier("scoreRecordService")
+    private ScoreRecordService scoreRecordService;
 
     @Autowired
     @Qualifier("scoreRecordMapper")
@@ -146,7 +151,21 @@ public class ResourceTest {
     }
 
     @Test
-    public void testListRecommendationResource() throws Exception {
+    public void testGetById() throws Exception {
+        Resource resource = resourceService.getById("4844279643990646204");
+        System.out.println(resource);
+    }
+
+    @Test
+    public void testSaveScoreRecord() throws Exception {
+        ScoreRecord scoreRecord = new ScoreRecord();
+        scoreRecord.setUserId("5844279643990646201");
+        scoreRecord.setResourceId("313414239140184064");
+        scoreRecord.setRatingTime("2017-05-15 16:40:04");
+        scoreRecord.setRating("3");
+        scoreRecord.setScoreFlag("0");
+        boolean flag = scoreRecordService.update(scoreRecord);
+        System.out.println(flag);
     }
 
 }

@@ -3,6 +3,7 @@ package com.victorzhang.cfs.controller;
 import com.victorzhang.cfs.domain.ScoreRecord;
 import com.victorzhang.cfs.service.ScoreRecordService;
 import com.victorzhang.cfs.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class ScoreRecordController {
     public ScoreRecord getRateScore(String resourceId) throws Exception {
         ScoreRecord scoreRecord = new ScoreRecord(resourceId, CommonUtils.sesAttr(request, USER_ID));
         ScoreRecord scoreRecordDB = scoreRecordService.get(scoreRecord);
-        if (scoreRecordDB != null && scoreRecord.getScoreFlag() != SCORE_FLAG) {
+        if (scoreRecordDB != null && StringUtils.equals(scoreRecordDB.getScoreFlag(),SCORE_FLAG)) {
             return scoreRecordDB;
         }
         return null;
@@ -45,7 +46,7 @@ public class ScoreRecordController {
         String userId = CommonUtils.sesAttr(request, USER_ID);
         String ratingTime = CommonUtils.getDateTime();
         ScoreRecord scoreRecord = new ScoreRecord(userId, resourceId, score, ratingTime, SCORE_FLAG);
-        if (!scoreRecordService.save(scoreRecord)) {
+        if (!scoreRecordService.update(scoreRecord)) {
             throw new SQLException(INSERT_ERROR);
         }
     }

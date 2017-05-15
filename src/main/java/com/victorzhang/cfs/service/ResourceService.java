@@ -16,7 +16,7 @@ public interface ResourceService extends BaseService<Resource, String> {
 
     List<Map<String, Object>> listNewestResource() throws Exception;
 
-    List<Map<String, Object>> listHotResource() throws Exception;
+    List<Map<String,Object>> listHotResource(int count) throws Exception;
 
     void removeRecordAboutThisResource(String id) throws Exception;
 

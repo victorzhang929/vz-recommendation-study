@@ -69,7 +69,7 @@ public class CommonUtils {
     }
 
     public static String newUuid() {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1L,1L);
         return String.valueOf(idWorker.nextId());
     }
 

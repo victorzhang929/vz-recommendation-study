@@ -27,7 +27,7 @@
 
     <select id="listPaging" resultType="java.util.Map" parameterType="java.util.Map">
         SELECT r.resource_name, r.resource_description, r.resource_tag,
-        DATE_FORMAT(rb.browse_time,'%Y-%m-%d %H:%h:%s') AS browse_time
+        DATE_FORMAT(rb.browse_time,'%Y-%m-%d %H:%i:%s') AS browse_time
         FROM resource_browse rb
         LEFT JOIN resource r
         ON rb.resource_id = r.id

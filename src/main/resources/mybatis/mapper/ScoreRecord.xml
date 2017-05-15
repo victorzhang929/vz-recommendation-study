@@ -18,7 +18,8 @@
 
     <update id="update" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
         UPDATE resource_score
-        SET user_id = #{userId}, resource_id = {resourceId}, rating = #{rating}, rating_time = {ratingTime}, score_flag = #{scoreFlag}
+        SET rating = #{rating}, rating_time = #{ratingTime}, score_flag = #{scoreFlag}
+        WHERE user_id = #{userId} AND resource_id = #{resourceId}
     </update>
 
     <insert id="save" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
