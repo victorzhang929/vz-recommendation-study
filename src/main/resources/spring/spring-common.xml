@@ -18,7 +18,7 @@
         <constructor-arg name="userIDColumn" value="${recommendation.userIDColumn}"/>
         <constructor-arg name="itemIDColumn" value="${recommendation.itemIDColumn}"/>
         <constructor-arg name="preferenceColumn" value="${recommendation.preferenceColumn}"/>
-        <constructor-arg name="timestampColumn" value="${recommendation.timestampColumn}"/>
+        <constructor-arg name="timestampColumn" value=""/>
     </bean>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">

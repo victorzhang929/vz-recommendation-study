@@ -10,12 +10,14 @@ import com.victorzhang.cfs.util.CommonUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.JDBCDataModel;
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.junit.Before;
 import org.junit.Test;
@@ -145,15 +147,37 @@ public class ResourceTest {
         System.out.println(resourceService.listPaging(resource, "0", "10", null, null, null));
     }
 
+
+    @javax.annotation.Resource
+    MySQLJDBCDataModel model;
     @Test
-    public void testItemBasedRecommendation() throws Exception {
-        System.out.println(recommendationService.listItemBasedRecommendationResource(5844279643990646201L));
+    public void testUserBasedRecommendation() throws Exception {
+        // 指定用户相似度计算方法，这里采用皮尔森相关度
+        UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
+        // 指定用户邻居数量，这里为2
+        UserNeighborhood neighborhood = new NearestNUserNeighborhood(2, similarity, model);
+        // 构建基于用户的推荐系统
+        Recommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
+        // 得到指定用户的推荐结果，这里是得到用户1的两个推荐
+        List<RecommendedItem> recommendations = recommender.recommend(5844279643990646201L, 2);
+        // 打印推荐结果
+        for (RecommendedItem recommendation : recommendations) {
+            System.out.println(recommendation);
+        }
     }
 
     @Test
-    public void testGetById() throws Exception {
-        Resource resource = resourceService.getById("4844279643990646204");
-        System.out.println(resource);
+    public void testItemBasedRecommendation() throws Exception {
+        // 指定用户相似度计算方法，这里采用皮尔森相关度
+        ItemSimilarity similarity = new PearsonCorrelationSimilarity(model);
+        // 构建基于用户的推荐系统
+        Recommender recommender = new GenericItemBasedRecommender(model, similarity);
+        // 得到指定用户的推荐结果，这里是得到用户1的两个推荐
+        List<RecommendedItem> recommendations = recommender.recommend(5844279643990646201L, 2);
+        // 打印推荐结果
+        for (RecommendedItem recommendation : recommendations) {
+            System.out.println(recommendation);
+        }
     }
 
     @Test
