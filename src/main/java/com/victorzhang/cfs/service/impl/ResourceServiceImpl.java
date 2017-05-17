@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -215,7 +216,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         for (RecommendedItem item : items) {
             map = new HashMap<>();
             map.put("resource", getById(String.valueOf(item.getItemID())));
-            map.put("score", String.valueOf(item.getValue()));
+            map.put("score", String.format("%.2f",item.getValue()));
             list.add(map);
         }
 
@@ -249,7 +250,9 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
         for (ScoreRecord scoreRecord : scoreRecords) {
             sum += Double.parseDouble(scoreRecord.getRating());
         }
-        return sum / scoreRecords.size();
+        double average = sum / scoreRecords.size();
+        BigDecimal decimal = new BigDecimal(average);
+        return decimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     private void updateResourceDownloadOrBrowseCount(String id, String flagAboutDownloadOrBrowse) throws Exception {
