@@ -134,4 +134,12 @@
         LIMIT #{count}
     </select>
 
+    <select id="list" resultMap="resource" parameterType="com.victorzhang.cfs.domain.Resource">
+        SELECT CAST(id as CHAR(19)) AS id, resource_name, resource_description, resource_tag, resource_type
+        FROM resource
+        WHERE verify_type = '1' AND resource_tag = #{resourceTag}
+        GROUP BY id
+        ORDER BY SUM(resource_download_count+resource_browse_count) DESC
+    </select>
+
 </mapper>

@@ -35,7 +35,7 @@
 
 
     <select id="getById" resultMap="user" parameterType="java.lang.String">
-        SELECT username
+        SELECT username, tag
         FROM user
         WHERE id = #{id}
     </select>

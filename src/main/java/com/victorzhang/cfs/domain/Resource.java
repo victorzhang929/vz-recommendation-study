@@ -43,4 +43,8 @@ public class Resource {
         this.verifyType = verifyType;
     }
 
+    public Resource(String resourceTag){
+        this.resourceTag = resourceTag;
+    }
+
 }

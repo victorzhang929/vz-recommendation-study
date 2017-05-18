@@ -77,6 +77,6 @@ public final class Constants {
 
     public static final int HOT_RESOURCE_SHOW_NUM = 8;
 
-    public static final  String HOT_RECOMMENDATION= "热门推荐";
+    public static final  String TAG_MATCHING= "标签匹配";
 
 }

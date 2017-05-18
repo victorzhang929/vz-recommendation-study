@@ -61,6 +61,10 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
     private RecommendationService recommendationService;
 
     @Autowired
+    @Qualifier("userService")
+    private UserService userService;
+
+    @Autowired
     @Qualifier("resourceMapper")
     private ResourceMapper resourceMapper;
 
@@ -200,17 +204,21 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
     @Override
     public Map<String, Object> listRecommendationResource(String page, String pageSize, HttpServletRequest request) throws Exception {
         String flag = String.valueOf(flagService.getFlagValue().get("user_item_flag"));
-        long userId = Long.parseLong(CommonUtils.sesAttr(request, USER_ID));
-        List<RecommendedItem> items = getItems(flag, userId);
-        List<Map<String, Object>> resourceDetail = listRecommendedSourceDetail(items);
+        String userId = CommonUtils.sesAttr(request, USER_ID);
+        List<RecommendedItem> items = getItems(flag, Long.parseLong(userId));
+        List<Map<String, Object>> resourceDetail = listRecommendedSourceDetail(items, userId);
 
         Map<String, Object> result = new HashMap<>();
         result = CommonUtils.para4Page(result, CommonUtils.paraPage(page), CommonUtils.paraPageSize(pageSize), resourceDetail.size());
-        result.put(DATA, CommonUtils.dataNull(CommonUtils.dataNull(resourceDetail)));
+        if (resourceDetail.size() > 0) {
+            result.put(DATA, CommonUtils.dataNull(resourceDetail));
+        } else {
+            result.put(DATA, EMPTY_STRING);
+        }
         return result;
     }
 
-    private List<Map<String, Object>> listRecommendedSourceDetail(List<RecommendedItem> items) throws Exception {
+    private List<Map<String, Object>> listRecommendedSourceDetail(List<RecommendedItem> items, String userId) throws Exception {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
         for (RecommendedItem item : items) {
@@ -220,18 +228,24 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, String> imple
             list.add(map);
         }
 
-        int diff = HOT_RESOURCE_SHOW_NUM - items.size();
-        if (diff > 0) {
-            List<Map<String, Object>> listHotResource = listHotResource(diff);
-            Map<String, Object> hotResourceMap;
-            for (Map<String, Object> hotResource : listHotResource) {
-                hotResourceMap = new HashMap<>();
-                hotResourceMap.put("resource", getById((String) hotResource.get("id")));
-                hotResourceMap.put("score", HOT_RECOMMENDATION);
-                list.add(hotResourceMap);
-            }
+        List<Resource> tagMatchingResourceList = getTagMatchingResource(userId);
+        Map<String, Object> tagMatchingResourceMap;
+        for (Resource tagMatchingResource : tagMatchingResourceList) {
+            tagMatchingResourceMap = new HashMap<>();
+            tagMatchingResourceMap.put("resource", tagMatchingResource);
+            tagMatchingResourceMap.put("score", TAG_MATCHING);
+            list.add(tagMatchingResourceMap);
         }
-        return list;
+        if (list.size() > 10) {
+            list = list.subList(0, 10);
+        }
+        return CommonUtils.dataNull(list);
+    }
+
+    private List<Resource> getTagMatchingResource(String userId) throws Exception {
+        String tag = userService.getById(userId).getTag();
+        Resource resource = new Resource(tag);
+        return list(resource);
     }
 
     private List<RecommendedItem> getItems(String flag, long userId) throws Exception {
