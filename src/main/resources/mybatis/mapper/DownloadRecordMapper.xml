@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.DownloadRecordMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.DownloadRecordMapper">
 
     <select id="count" resultType="int" parameterType="java.util.Map">
         SELECT COUNT(*) FROM resource_download rd
@@ -51,18 +51,18 @@
         ORDER BY rd.download_time DESC LIMIT ${begin},${pageSize}
     </select>
 
-    <select id="countByResourceDownload" resultType="int" parameterType="com.victorzhang.cfs.domain.DownloadRecord">
+    <select id="countByResourceDownload" resultType="int" parameterType="com.victorzhang.recommendation.domain.DownloadRecord">
         SELECT COUNT(*) FROM resource_download
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </select>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.DownloadRecord">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.DownloadRecord">
         UPDATE resource_download
         SET download_time = #{downloadTime}
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </update>
 
-    <insert id="save" parameterType="com.victorzhang.cfs.domain.DownloadRecord">
+    <insert id="save" parameterType="com.victorzhang.recommendation.domain.DownloadRecord">
         INSERT INTO resource_download (resource_id, download_time, user_id)
         VALUES (#{resourceId}, #{downloadTime}, #{userId})
     </insert>

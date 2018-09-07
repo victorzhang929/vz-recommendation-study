@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.ResourceMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.ResourceMapper">
 
-    <resultMap id="resource" type="com.victorzhang.cfs.domain.Resource">
+    <resultMap id="resource" type="com.victorzhang.recommendation.domain.Resource">
         <id column="id" property="id"/>
         <result column="resource_name" property="resourceName"/>
         <result column="resource_description" property="resourceDescription"/>
@@ -17,7 +17,7 @@
         <result column="gmt_modify" property="gmtModify"/>
     </resultMap>
 
-    <insert id="save" parameterType="com.victorzhang.cfs.domain.Resource">
+    <insert id="save" parameterType="com.victorzhang.recommendation.domain.Resource">
         INSERT INTO resource (id, resource_name,
         <if test="resourceDescription != null and resourceDescription != ''">
             resource_description,
@@ -103,7 +103,7 @@
         DELETE FROM resource WHERE id = #{id}
     </delete>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.Resource">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.Resource">
         UPDATE resource
         <set>
             <if test="resourceDownloadCount != null and resourceDownloadCount != ''">
@@ -134,7 +134,7 @@
         LIMIT #{count}
     </select>
 
-    <select id="list" resultMap="resource" parameterType="com.victorzhang.cfs.domain.Resource">
+    <select id="list" resultMap="resource" parameterType="com.victorzhang.recommendation.domain.Resource">
         SELECT CAST(id as CHAR(19)) AS id, resource_name, resource_description, resource_tag, resource_type
         FROM resource
         WHERE verify_type = '1' AND resource_tag = #{resourceTag}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.BrowseRecordMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.BrowseRecordMapper">
 
     <select id="count" resultType="int" parameterType="java.util.Map">
         SELECT COUNT(*) FROM resource_browse rb
@@ -55,18 +55,18 @@
         DELETE FROM resource_browse WHERE resource_id = #{id}
     </delete>
 
-    <select id="countByResourceBrowse" resultType="int" parameterType="com.victorzhang.cfs.domain.BrowseRecord">
+    <select id="countByResourceBrowse" resultType="int" parameterType="com.victorzhang.recommendation.domain.BrowseRecord">
         SELECT COUNT(*) FROM resource_browse
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </select>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.BrowseRecord">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.BrowseRecord">
         UPDATE resource_browse
         SET browse_time = #{browseTime}
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </update>
 
-    <insert id="save" parameterType="com.victorzhang.cfs.domain.BrowseRecord">
+    <insert id="save" parameterType="com.victorzhang.recommendation.domain.BrowseRecord">
         INSERT INTO resource_browse (resource_id, browse_time, user_id)
         VALUES (#{resourceId}, #{browseTime}, #{userId})
     </insert>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.UserMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.UserMapper">
 
-    <resultMap id="user" type="com.victorzhang.cfs.domain.User">
+    <resultMap id="user" type="com.victorzhang.recommendation.domain.User">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="username" property="username"/>
@@ -18,7 +18,7 @@
         <result column="gmt_modify" property="gmtModify"/>
     </resultMap>
 
-    <select id="get" resultMap="user" parameterType="com.victorzhang.cfs.domain.User">
+    <select id="get" resultMap="user" parameterType="com.victorzhang.recommendation.domain.User">
         SELECT id, role_id, username, realname, user_email, random_code FROM user
         <where>
             <if test="username != null and username != ''">
@@ -40,7 +40,7 @@
         WHERE id = #{id}
     </select>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.User">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.User">
         UPDATE user SET
         <trim suffixOverrides=",">
             <if test="roleId != null and roleId != ''">

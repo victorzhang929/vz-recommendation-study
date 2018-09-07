@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cfs</groupId>
-    <artifactId>cfs</artifactId>
+    <groupId>com.vz</groupId>
+    <artifactId>vz-recommendation-study</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>cfs Maven Webapp</name>
+    <name>vz-recommendation-study</name>
     <url>http://maven.apache.org</url>
     <description>基于协同过滤算法的学习资源个性化推荐系统设计与实现</description>
 
@@ -263,6 +263,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>cfs</finalName>
+        <finalName>vz-recommendation-study</finalName>
     </build>
 </project>

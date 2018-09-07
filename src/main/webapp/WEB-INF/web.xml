@@ -75,7 +75,7 @@
     </session-config>
     <filter>
         <filter-name>UserFilter</filter-name>
-        <filter-class>com.victorzhang.cfs.util.UserFilter</filter-class>
+        <filter-class>com.victorzhang.recommendation.util.UserFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>UserFilter</filter-name>

@@ -48,7 +48,7 @@
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.victorzhang.cfs.mapper" />
+        <property name="basePackage" value="com.victorzhang.recommendation.mapper" />
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -68,11 +68,11 @@
     </tx:advice>
 
     <aop:config expose-proxy="true">
-        <aop:pointcut id="txPointcut" expression="execution(* com.victorzhang.cfs.service..*.*(..))" />
+        <aop:pointcut id="txPointcut" expression="execution(* com.victorzhang.recommendation.service..*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
     </aop:config>
 
-    <context:component-scan base-package="com.victorzhang.cfs">
+    <context:component-scan base-package="com.victorzhang.recommendation">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.ScoreRecordMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.ScoreRecordMapper">
 
-    <resultMap id="score" type="com.victorzhang.cfs.domain.ScoreRecord">
+    <resultMap id="score" type="com.victorzhang.recommendation.domain.ScoreRecord">
         <result column="user_id" property="userId"/>
         <result column="resource_id" property="resourceId"/>
         <result column="rating" property="rating"/>
@@ -16,18 +16,18 @@
         WHERE resource_id = #{resourceId} AND user_id = #{userId}
     </select>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.ScoreRecord">
         UPDATE resource_score
         SET rating = #{rating}, rating_time = #{ratingTime}, score_flag = #{scoreFlag}
         WHERE user_id = #{userId} AND resource_id = #{resourceId}
     </update>
 
-    <insert id="save" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+    <insert id="save" parameterType="com.victorzhang.recommendation.domain.ScoreRecord">
         INSERT INTO resource_score (user_id, resource_id, rating, rating_time, score_flag)
         VALUES (#{userId}, #{resourceId}, #{rating}, #{ratingTime}, #{scoreFlag})
     </insert>
 
-    <select id="get" resultMap="score" parameterType="com.victorzhang.cfs.domain.ScoreRecord">
+    <select id="get" resultMap="score" parameterType="com.victorzhang.recommendation.domain.ScoreRecord">
         SELECT score_flag, rating
         FROM resource_score
         WHERE resource_id = #{resourceId} AND user_id = #{userId}

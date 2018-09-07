@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.MessageMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.MessageMapper">
 
-    <resultMap id="message" type="com.victorzhang.cfs.domain.Message">
+    <resultMap id="message" type="com.victorzhang.recommendation.domain.Message">
         <id column="id" property="id"/>
         <result column="msg_content" property="msgContent"/>
         <result column="receive_user_id" property="receiveUserId"/>
@@ -20,7 +20,7 @@
         ORDER BY send_time DESC LIMIT 0,5
     </select>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.Message">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.Message">
         UPDATE message SET
         is_read = #{isRead}, read_time=#{readTime},read_ip=#{readIp}
         WHERE id = #{id}

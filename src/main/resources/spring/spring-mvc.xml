@@ -21,7 +21,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <context:component-scan base-package="com.victorzhang.cfs.controller">
+    <context:component-scan base-package="com.victorzhang.recommendation.controller">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 

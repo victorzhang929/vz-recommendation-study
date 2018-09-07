@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.LogMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.LogMapper">
 
-    <insert id="save" parameterType="com.victorzhang.cfs.domain.Log">
+    <insert id="save" parameterType="com.victorzhang.recommendation.domain.Log">
         INSERT INTO log (id, log_type, log_content, user_id, user_date, user_ip)
         VALUES (#{id},#{logType},#{logContent},#{userId},#{userDate},#{userIp})
     </insert>

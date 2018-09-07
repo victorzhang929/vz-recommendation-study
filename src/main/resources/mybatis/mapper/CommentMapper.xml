@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.victorzhang.cfs.mapper.CommentMapper">
+<mapper namespace="com.victorzhang.recommendation.mapper.CommentMapper">
 
-    <resultMap id="comment" type="com.victorzhang.cfs.domain.Comment">
+    <resultMap id="comment" type="com.victorzhang.recommendation.domain.Comment">
         <id column="id" property="id"/>
         <result column="resource_id" property="resourceId"/>
         <result column="user_id" property="userId"/>
@@ -59,7 +59,7 @@
         ORDER BY rc.comment_time DESC LIMIT ${begin},${pageSize}
     </select>
 
-    <update id="update" parameterType="com.victorzhang.cfs.domain.Comment">
+    <update id="update" parameterType="com.victorzhang.recommendation.domain.Comment">
         UPDATE resource_comment SET
         comment_content = #{commentContent}
         WHERE id = #{id}
@@ -82,7 +82,7 @@
         ORDER BY c.comment_time DESC
     </select>
 
-    <insert id="save" parameterType="com.victorzhang.cfs.domain.Comment">
+    <insert id="save" parameterType="com.victorzhang.recommendation.domain.Comment">
         INSERT INTO resource_comment (id, comment_content, user_id, resource_id, comment_time)
         VALUES (#{id},#{commentContent},#{userId}, #{resourceId}, #{commentTime})
     </insert>
